@@ -1,0 +1,28 @@
+   
+   Options -Multiviews
+   RewriteEngine On
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteRule ^ index.php [QSA,L]
+
+
+# <IfModule mod_rewrite.c>
+#     <IfModule mod_negotiation.c>
+#     Options -MultiViews -Indexes
+#     </IfModule>
+
+#    RewriteEngine On
+
+#    #  Encabezado de autorización de manejo
+#    RewriteCond %{HTTP:Authorization} .
+#    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+#    #  Redirigir barras diagonales finales si no es una carpeta...
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteCond %{REQUEST_URI} (.+)/$
+#    RewriteRule ^ %1 [L,R=301]
+
+#    #  Enviar solicitudes al controlador frontal...
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteCond %{REQUEST_FILENAME} !-f
+#    RewriteRule ^ index.php [QSA,L]
+# </IfModule>
