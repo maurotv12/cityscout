@@ -10,10 +10,6 @@ class AuthController extends Controller{
         return $this->view('auth.login');
     }
 
-    public function register(){
-        return $this->view('auth/register');
-    }
-
     public function loginPost()
     {
         session_start();
@@ -41,6 +37,55 @@ class AuthController extends Controller{
         session_destroy();
         header('Location: /login');
         exit;
+    }
+
+    public function register()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fullname = $_POST['fullname'] ?? '';
+            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $birth_date = $_POST['birth_date'] ?? '';
+        
+            // Validación básica
+            if (!$fullname || !$username || !$email || !$password || !$birth_date) {
+                $_SESSION['error'] = 'Todos los campos obligatorios deben ser completados.';
+                return header('Location: /register');
+            }
+        
+            // Encriptar la contraseña
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        
+            // Procesar imagen como BLOB
+            $profile_photo = null;
+            if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
+                $profile_photo = file_get_contents($_FILES['profile_photo']['tmp_name']);
+            }
+        
+            $userModel = new User();
+        
+            $created_at = date('Y-m-d H:i:s');
+            $updated_at = $created_at;
+        
+            $user = $userModel->create([
+                'fullname' => $fullname,
+                'username' => $username,
+                'email' => $email,
+                'password' => $hashedPassword,
+                'birth_date' => $birth_date,
+                'profile_photo' => $profile_photo,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ]);
+        
+            // Crear sesión y redirigir
+            $_SESSION['user'] = $user;
+            header('Location: /');
+            exit;
+        }
+
+        return $this->view('auth.register');
     }
     
 }

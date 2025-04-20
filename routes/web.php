@@ -3,27 +3,25 @@
 use App\Controllers\AuthController;
 use App\Controllers\ChatController;
 use Lib\Route;
-use App\Controllers\PostConstroller;
+use App\Controllers\PostController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
 use App\Models\User;
 
-// Route::get('/', function () {
-//     AuthMiddleware::handle();
-//     (new PostConstroller)->index();
-// });
-Route::get('/', [PostConstroller::class, 'index']);
+Route::get('/', [PostController::class, 'index'])
+    ->middleware([AuthMiddleware::class]);
 
 //Auth
 Route::get('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'loginPost']);
 Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register']);
 
 //posts
 Route::get('/post/create', function () {
     AuthMiddleware::handle();
-    (new PostConstroller)->create();
+    (new PostController)->create();
 });
 // Route::get('/post/:id', function () {
 //     AuthMiddleware::handle();

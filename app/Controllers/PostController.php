@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Post;
 use App\Models\User;
 
-class PostConstroller extends Controller{
+class PostController extends Controller{
 
 
     public function index(){

@@ -4,9 +4,6 @@
     unset($_SESSION['error']);
 ?>
 
-
-
-
 <form action="/login" method="POST">
     <div class="row mb-3">
         <label for="inputUser" class="col-sm-2 col-form-label">Usuario</label>
@@ -36,9 +33,7 @@
 <?php endif; ?>
 
 <?php
-// Guardar el contenido generado en $content
 $content = ob_get_clean();
 
-// Incluir el layout principal
 include __DIR__ . '/../layout/main.php';
 ?>
