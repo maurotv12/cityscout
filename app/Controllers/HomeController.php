@@ -25,8 +25,8 @@ class HomeController extends Controller
         //     ['fullname' => 'Mauricio 24', 
         //     'email' => 'Mauricio@gmail.com']);
 
-        $userModel->delete(6);
-        return "eliminado";
+        // $userModel->delete(6);
+        // return "eliminado";
         
         // return $userModel->where("fullname", "Mauricio' OR 'a' = 'a")->get();
 
@@ -36,7 +36,6 @@ class HomeController extends Controller
             'description' => 'Esta es la pagina home'
         ]);
     }
-
 
 
 

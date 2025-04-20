@@ -1,14 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hola desde la página home</h1>
+<?php
+ob_start();
+$messages = [];
+?>
 
-    <p> Hola ti <?=$title?></p>
-    <p>Hola des<?=$description?></p>
-</body>
-</html>
+<h1>Listado de mensajes</h1>
+
+<ul>
+    <?php foreach($messages as $message): ?>
+        <li>
+            <a href="/chats/<?= $message['id'] ?>">
+                <?= htmlspecialchars($message['message']) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
+<?php
+// Guardar el contenido generado en $content
+$content = ob_get_clean();
+
+// Incluir el layout principal
+include __DIR__ . '/../layout/main.php';
+?>
