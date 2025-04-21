@@ -18,7 +18,7 @@
         <a class="nav-link" href="#">💬 Chats</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">➕ Crear Post</a>
+        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal">➕ Crear Post</a>
       </li>
     </ul>
   </div>

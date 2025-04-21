@@ -13,7 +13,9 @@
 </head>
 
 <body>
-    <?php  if (isset($_SESSION['user'])) include_once __DIR__ . '/sidePanel.php'; ?>
+    <?php  if (isset($_SESSION['user'])) include_once __DIR__ . '/sidePanel.php'; 
+    include __DIR__ . '/../post/create.php';
+    ?>
 
     <main class="container mt-4"> 
         <?= $content ?? '' ?> 

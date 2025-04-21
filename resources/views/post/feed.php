@@ -18,8 +18,8 @@ $messages = [];
     <?php endfor; ?>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true">
+<!-- Modal Comments -->
+<div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -95,6 +95,9 @@ $messages = [];
         </div>
     </div>
 </div>
+
+
+
 
 <?php
 // Guardar el contenido generado en $content
