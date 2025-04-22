@@ -10,9 +10,10 @@ $messages = [];
             <div class="card-body">
                 <h5 class="card-title">Mauricio</h5>
                 <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-                <a href="#" class="btn btn-primary">Me gusta</a>
-                <a href="#" class="btn btn-success">Te gusta</a>
-                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentsModal">Comentarios</a>
+                <a href="#" class="btn btn-primary" >Me gusta <i class="bi bi-hand-thumbs-up"></i></a>
+                <a href="#" class="btn btn-success" >Te gusta <i class="bi bi-hand-thumbs-up"></i></a>
+                
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentsModal">Comentarios <i class="bi bi-chat-heart-fill"></i></a>
             </div>
         </div>
     <?php endfor; ?>

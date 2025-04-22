@@ -22,7 +22,12 @@
         <a href="#">¿Olvidaste tu contraseña?</a>
     </div>
 
-  <button type="submit" class="btn btn-primary">Ingresar</button>
+  <button type="submit" class="btn btn-outline-primary">Ingresar</button>
+  <a href="register" class="btn btn-outline-dark">Regístrate</a>
+    
+   
+
+
   
 </form>
 
