@@ -30,8 +30,7 @@
             <span class="ms-2"><?= htmlspecialchars($_SESSION['user']['username']) ?></span>
           </a>
 
-          <!-- Botón de logout -->
-          <a href="/logout" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+          
         </div>
       <?php endif; ?>
     </div>

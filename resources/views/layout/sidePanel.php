@@ -22,6 +22,18 @@
       <li class="nav-item">
         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal">➕ Crear Post</a>
       </li>
+
+      <li class="nav-item">
+        <!-- Botón de logout -->
+        <a href="/logout" class="btn btn-outline-danger btn-sm ms-3 mt-5">Cerrar sesión</a>
+      </li> 
     </ul>
   </div>
 </div>
+
+Proyecto propio pbt
+prototipo funcional - aplicación web, 
+9 de mayo pitch 
+nombre, equipo de trabajo poner la person descripción, justificación, imagesn, objetivos, innovación, impacto
+del proyecto.
+ 
