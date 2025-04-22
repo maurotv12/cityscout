@@ -10,7 +10,8 @@ class ProfileController extends Controller
     public function profile(){
         return $this->view('user.profile');
     }
-    public function show()
+    
+    public function show($id)
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -21,7 +22,7 @@ class ProfileController extends Controller
         $userModel = new User();
         $user = $userModel->find($_SESSION['user_id']);
 
-        return $this->view('perfil.show', ['user' => $user]);
+        return $this->view('user.profile', ['user' => $user]);
     }
 
     public function edit()

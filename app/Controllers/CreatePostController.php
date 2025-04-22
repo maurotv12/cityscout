@@ -11,7 +11,4 @@ class CreatePostController extends Controller{
 public function create(){
         return $this->view('post.post/create');
     }
-
-
-
 }

@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
 
-                                        <div class="card" id="chat3" style="border-radius: 15px;">
+                                        <!-- <div class="card" id="chat3" style="border-radius: 15px;"> -->
                                             <div class="card-body">
 
                                                 <div class="row">
@@ -282,7 +282,7 @@
                                                 </div>
 
                                             </div>
-                                        </div>
+                                       <!--  </div> -->
 
                                     </div>
                                 </div>

@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Focuz</a>
+    <a class="navbar-brand" href="/"><i class="bi bi-house-door-fill"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse me-auto" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse me-auto w-auto" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       </ul>
 
       <?php if (isset($_SESSION['user'])): ?>
-        <a class="nav-link me-3" href="#">Notificaciones</a>
+        <a class="nav-link me-3" href="#"><i class="bi bi-bell"></i></a>
 
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
+        <form class="d-flex mx-auto position-relative" role="search">
+          <input class="form-control text-center" type="search" placeholder="Buscar" aria-label="Search">
+          <button class="btn btn-link position-absolute" type="submit"><i class="bi bi-search"></i></button>
         </form>
 
         <div class="d-flex align-items-center ms-3">
