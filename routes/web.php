@@ -30,8 +30,7 @@ Route::get('/post/create', function () {
 
 //user
 Route::get('/profile/:id', [UserController::class, 'show'])
-    ->middleware(middlewareList: [AuthMiddleware::class]);
-
+    ->middleware([AuthMiddleware::class]);
 Route::get('/profile/:id/edit', [UserController::class, 'edit']);
 
 //chat

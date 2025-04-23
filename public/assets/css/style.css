@@ -35,20 +35,24 @@
     border-bottom: 1px solid #ddd;
   }
 
+  .fixed-height-modal {
+    height: 490px; /* Ajusta según lo que necesites */
+    overflow: hidden;
+  }
+  
+  .scrollable-col {
+    height: 100%;
+    overflow-y: auto;
+    height: 470px;
+    padding-right: 10px; /* Para evitar superposición del scroll */
+  }
+  .scrollable-row {
+    height: 100%;
+    overflow-y: auto;
+    height: 330px;
+    padding-right: 10px; /* Para evitar superposición del scroll */
+  }
 
-  #chat3 .form-control {
-    border-color: transparent;
-    }
-    
-    #chat3 .form-control:focus {
-    border-color: transparent;
-    box-shadow: inset 0px 0px 0px 1px transparent;
-    }
-    
-    .badge-dot {
-    border-radius: 50%;
-    height: 10px;
-    width: 10px;
-    margin-left: 2.9rem;
-    margin-top: -.75rem;
-    }
+  .chat-list {
+    height: 97% !important;
+  }
