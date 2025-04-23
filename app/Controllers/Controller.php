@@ -21,6 +21,22 @@ class Controller {
         }
     }
 
+    public function redirect($route, $data = []) {
+        if (isset($data['flash'])) {
+            session_start();
+            $_SESSION['flash'] = $data['flash'];
+        }
+        header("Location: /{$route}");
+        exit;
+    }
+    
+    public function json($data, $code = 200) {
+        http_response_code($code);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+
 
 }
 

@@ -11,13 +11,14 @@ class PostController extends Controller{
     public function index(){
         
         $userModel = new User;
-        $messages = [];
+       
         $postModel = new Post;
         $posts = $postModel->all();
 
+        // The $users variable is being assigned here but is not used anywhere in the method.
         $users = $userModel->all();
 
-        return $this->view('post.feed', ['posts' => $posts]);
+        return $this->view('post.feed', ['posts' => $posts, 'users' => $users]);
     }
 
     public function create(){

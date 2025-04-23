@@ -1,14 +1,16 @@
 <div class="row">
-    <?php foreach($posts as $post) { ?>
+    <?php foreach($posts as $post) {?>
         <div class="card mb-3 mr-3 col-lg-4 p-3 col-sm-12 col-md-6">
             <img src="data:image/jpeg;base64,<?= base64_encode($post['image']) ?>" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title"><?= $user['fullname'] ?></h5> 
+         
+
+            <h5 class="card-title"><?= $post['fullname'] ?></h5>
+
                 <!-- TODO no debe ser el $user si no el post user -->
                 <p class="card-text"><?= $post['caption'] ?></p>
                 <a href="#" class="btn btn-primary" ><i class="bi bi-hand-thumbs-up"></i></a>
                 <a href="#" class="btn btn-success" ><i class="bi bi-hand-thumbs-up"></i></a>
-                
                 <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentsModal"><i class="bi bi-chat-heart-fill"></i></a>
             </div>
         </div>

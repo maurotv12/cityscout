@@ -104,7 +104,24 @@ class Model {
 
     //Update
 
-    public function update($id, $data){
+    public function update($id, $data)
+    {
+        $set = [];
+        foreach ($data as $column => $value) {
+            $set[] = "{$column} = ?";
+        }
+        $set = implode(', ', $set);
+    
+        $sql = "UPDATE {$this->table} SET {$set} WHERE id = ?";
+        $params = array_values($data);
+        $params[] = $id;
+    
+        return $this->query($sql, $params);
+    }
+
+
+
+   /*  public function update($id, $data){
         //UPDATE users SET fullname = 'Mauricio', email = 'Mauricio@gmail.com' WHERE id = 1
         
         $fields =[];
@@ -123,7 +140,7 @@ class Model {
         $this->query($sql, $values);
 
         return $this->find($id);
-    }
+    } */
     
     //Delete
 

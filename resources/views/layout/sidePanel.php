@@ -31,9 +31,5 @@
   </div>
 </div>
 
-Proyecto propio pbt
-prototipo funcional - aplicación web, 
-9 de mayo pitch 
-nombre, equipo de trabajo poner la person descripción, justificación, imagesn, objetivos, innovación, impacto
-del proyecto.
+
  

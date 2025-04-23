@@ -31,35 +31,15 @@ Route::get('/post/create', function () {
 //user
 Route::get('/profile/:id', [UserController::class, 'show'])
     ->middleware([AuthMiddleware::class]);
-Route::get('/profile/:id/edit', [UserController::class, 'edit']);
+Route::get('/profile/:id/edit', [UserController::class, 'edit'])
+    ->middleware([AuthMiddleware::class]);
+Route::post('/user/update-bio/{id}', [UserController::class, 'updateBio'])
+    ->middleware([AuthMiddleware::class]);
 
 //chat
-Route::get('/chats', [ChatController::class, 'index']);
-Route::get('/conversation/:id', [ChatController::class, 'conversation']);
+Route::get('/chats', [ChatController::class, 'index'])
+    ->middleware([AuthMiddleware::class]);
+Route::get('/conversation/:id', [ChatController::class, 'conversation'])
+    ->middleware([AuthMiddleware::class]);
 
 Lib\Route::dispatch();
-
-
-// <?php
-
-// use Lib\Route;
-// use App\Controllers\HomeController;
-
-// Route::get('/', function (){
-//     echo 'hola desde la pagina principal';
-// });
-
-// Route::get('/feed', function () {
-//     echo 'hola desde el feed';
-// });
-
-// Route::get('/perfil', function () {
-//     echo 'hola desde perfil';
-// });
-
-// Route::get('/courses/:slug', function ($slug) {
-//     echo 'Hola es: ' . $slug;
-    
-// });
-
-// Route::dispatch();
