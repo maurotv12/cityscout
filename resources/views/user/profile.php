@@ -12,7 +12,7 @@ $messages = [];
       </div>
       <div class="col-md-8">
         <div class="d-flex align-items-center mb-3">
-          <span class="username me-3">elmundook</span>
+          <span class="username me-3"><?php echo $user['username'] ?></span>
           <button class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
           <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-gear"></i></button>
         </div>
@@ -33,6 +33,7 @@ $messages = [];
     </div>
   </div>
 
+  <?php include __DIR__ . '/../post/list.php'; ?>
 <?php
 // Guardar el contenido generado en $content
 $content = ob_get_clean();

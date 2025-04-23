@@ -12,10 +12,12 @@ class PostController extends Controller{
         
         $userModel = new User;
         $messages = [];
+        $postModel = new Post;
+        $posts = $postModel->all();
 
         $users = $userModel->all();
 
-        return $this->view('post.feed');
+        return $this->view('post.feed', ['posts' => $posts]);
     }
 
     public function create(){
