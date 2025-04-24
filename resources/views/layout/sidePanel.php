@@ -1,7 +1,4 @@
-<!-- Botón para abrir el panel -->
-<button class="btn btn-primary m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-  ☰ Menú
-</button>
+
 
 <!-- Side Panel -->
 <div class="offcanvas offcanvas-start sidebar-custom" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">

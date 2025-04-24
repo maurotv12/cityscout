@@ -56,3 +56,7 @@
   .chat-list {
     height: 97% !important;
   }
+
+  .body {
+    padding-top: 800px; /* Ajusta este valor según la altura de tu navbar */
+  }

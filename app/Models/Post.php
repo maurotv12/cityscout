@@ -64,6 +64,11 @@ public function getFollowedUsersPosts($user_id) {
         $post['comment_count'] = count($post['comments']);
         $post['user'] = $userModel->getUser($post['user_id']);
         $post['likes'] = $likeModel->getLikes($post['id']);
+        $post['like_count'] = count($post['likes']);
+        $post['profile_photo'] = $post['user']['profile_photo'] ?? '/assets/images/user-default.png';
+        $post['username'] = $post['user']['username'] ?? 'Usuario no encontrado';
+        unset($post['user']); // Eliminar el campo 'user' para evitar duplicación
+        
         return $post;
     }, $posts);
     return $posts;

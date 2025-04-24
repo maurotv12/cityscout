@@ -9,7 +9,7 @@
             <div class="card-body">
                 <h5 class="card-title">
                     <img src="<?= $post['profile_photo'] ?? '/assets/images/user-default.png' ?>" alt="avatar" width="30" height="30" class="rounded-circle">
-                    <?= htmlspecialchars($post['id']) ?>
+                    <?= htmlspecialchars($post['username']) ?>
                 </h5>
                 <p class="card-text"><?= htmlspecialchars($post['caption']) ?></p>
                 <p class="card-text"><strong><?= $post['comment_count'] ?></strong> comentarios</p>
