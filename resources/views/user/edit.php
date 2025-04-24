@@ -21,14 +21,7 @@ $messages = [];
           <span class="ms-4"><strong>9,572</strong> seguidores</span>
           <span class="ms-4"><strong>719</strong> seguidos</span>
         </div>
-        <div class="bio">
-          <strong>BO SALDAÑA</strong><br>
-          Iquiteño, Peruano, y Viajero 🌍<br>
-          Freelance Travel Writer (ES/EN)<br>
-          Gastronomía en <a href="#">@bosaldana</a> 🍴<br>
-          <strong>Ahora:</strong> En breve 🇮🇳<br>
-          <a href="https://elmundook.com/que-es-priority-pass-viajar-sin-estres" target="_blank">elmundook.com/que-es-priority-pass-viajar-sin-estres</a>
-        </div>
+     
         <div class="div">
             <button type="submit" class="btn btn-outline-primary btn-sm me-2">Actualizar Perfil</button>
         </div>

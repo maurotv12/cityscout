@@ -14,7 +14,6 @@ class UserController extends Controller
 
         $userModel = new User();
         $postModel = new Post();
-        $commentModel = new Comment();
 
         $user = $userModel->find($id);
         $posts = $postModel->getPostsByUser($id);

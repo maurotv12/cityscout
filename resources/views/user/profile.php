@@ -42,4 +42,7 @@ $content = ob_get_clean();
 include __DIR__ . '/../layout/main.php';
 ?>
 
-<script src="/assets/js/profile.js"></script>
+<script src="/assets/js/edit-profile.js"></script>
+<script src="/assets/js/bio.js"></script>
+<script src="/assets/js/post.js"></script>
+<script src="/assets/js/likes.js"></script>

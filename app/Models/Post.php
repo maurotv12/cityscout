@@ -5,24 +5,50 @@ use App\Models\Model;
 use App\Models\Comment;
 use App\Models\User;
 use App\Models\Like;
-
+use App\Models\Follower;
 
 class Post extends Model
 {
   protected $table = 'posts';
 
 public function getFollowedUsersPosts($user_id) {
-    $postModel = new Post();
-    $userModel = new User();
+    $followerModel = new Follower();
     $commentModel = new Comment();
     $likeModel = new Like();
-    $followerModel = new Follower(); // Asegúrate de tener un modelo para los seguidores
 
-  
-    // Llamar al modelo followers para ver los ids de los usuarios qiue siogue el usuario logueado 
+    // Obtener los IDs de los usuarios seguidos por el usuario actual
     $followedUsers = $followerModel->where('user_follower_id', $user_id)->get();
 
-    // consultar los posts relacionados a los ids de los usuarios seguidos followedUsers
+    // Extraer los IDs de los usuarios seguidos
+    $followedUserIds = array_map(function ($follower) {
+        return $follower['user_followed_id'];
+    }, $followedUsers);
+
+    if (empty($followedUserIds)) {
+        return []; // Si no sigue a nadie, devolver un array vacío
+    }
+
+    // Obtener los posts de los usuarios seguidos
+    $placeholders = implode(',', array_fill(0, count($followedUserIds), '?'));
+    $sql = "
+        SELECT posts.*, users.username, users.profile_photo
+        FROM posts
+        JOIN users ON posts.user_id = users.id
+        WHERE posts.user_id IN ($placeholders)
+        ORDER BY posts.created_at DESC
+    ";
+
+    $posts = $this->query($sql, $followedUserIds)->get();
+
+    // Agregar información adicional a cada post
+    $posts = array_map(function ($post) use ($commentModel, $likeModel) {
+        $post['comments'] = $commentModel->getComments($post['id']);
+        $post['comment_count'] = count($post['comments']);
+        $post['likes'] = $likeModel->getLikes($post['id']);
+        return $post;
+    }, $posts);
+
+    return $posts;
 }
 
   public function getPostsByUser($user_id) {
@@ -32,8 +58,10 @@ public function getFollowedUsersPosts($user_id) {
     $likeModel = new Like();
 
     $posts = $postModel->where('user_id', $user_id)->get();
+
     $posts = array_map(function ($post) use ($userModel, $commentModel, $likeModel) {
         $post['comments'] = $commentModel->getComments($post['id']);
+        $post['comment_count'] = count($post['comments']);
         $post['user'] = $userModel->getUser($post['user_id']);
         $post['likes'] = $likeModel->getLikes($post['id']);
         return $post;

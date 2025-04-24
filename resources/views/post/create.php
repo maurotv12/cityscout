@@ -25,7 +25,7 @@
                             <div class="card-footer border-0 col-12" style="background-color: #f8f9fa;">
                                 <div class="d-flex flex-start w-100">
                                     <img class="rounded-circle shadow-1-strong me-3"
-                                        src="<?= $_SESSION['user']['profile_photo'] ?? '/assets/images/user-default.png' ?>" alt="avatar" width="40"
+                                        src="<?= $_SESSION['id']['profile_photo'] ?? '/assets/images/user-default.png' ?>" alt="avatar" width="40"
                                         height="40" />
                                     <div class="form-outline w-100">
                                         <textarea class="form-control" rows="2" style="background: #fff;"></textarea>
