@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 
 class PostController extends Controller{
 
@@ -13,7 +14,7 @@ class PostController extends Controller{
         $userModel = new User;
        
         $postModel = new Post;
-        $posts = $postModel->all();
+        $posts = $postModel->getFollowedUsersPosts($_SESSION['user']['id']);
 
         // The $users variable is being assigned here but is not used anywhere in the method.
         $users = $userModel->all();
@@ -32,6 +33,14 @@ class PostController extends Controller{
 
     public function post($id){
         return "aqui se mostrará el feed  ";
+    }
+
+    public function getComments($postId)
+    {
+        $commentModel = new Comment();
+        $comments = $commentModel->getComments($postId); 
+
+        return ['success' => true, 'comments' => $comments];
     }
 
 }

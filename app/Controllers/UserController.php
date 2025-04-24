@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Comment;
 
 class UserController extends Controller
 {
@@ -13,9 +14,10 @@ class UserController extends Controller
 
         $userModel = new User();
         $postModel = new Post();
+        $commentModel = new Comment();
 
         $user = $userModel->find($id);
-        $posts = $postModel->all();
+        $posts = $postModel->getPostsByUser($id);
 
         return $this->view('user.profile', ['user' => $user, 'posts' => $posts]);
     }
