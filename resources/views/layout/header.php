@@ -2,9 +2,11 @@
   <div class="container-fluid">
 
     <!-- Boton del side Panel -->
-    <button class="btn btn-primary me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+    <?php if (isset($_SESSION['user'])): ?>
+      <button class="btn btn-primary me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
       ☰ Menú
     </button>
+    <?php endif; ?>
 
     <a class="navbar-brand" href="/"><i class="bi bi-house-door-fill"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

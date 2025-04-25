@@ -41,13 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     modalBody.innerHTML = commentsHtml;
                 } else {
-                    modalBody.innerHTML = '<p>No se pudieron cargar los comentarios1.</p>';
+                    modalBody.innerHTML = '<p>' + data.message + '</p>';
                 }
             })
             .catch(error => {
                 console.error('Error al cargar los comentarios:', error);
-                modalBody.innerHTML = '<p>Error al cargar los comentarios2.</p>';
+                modalBody.innerHTML = '<p>Error al cargar los comentarios.</p>';
             });
-    
-        });
+    });
 });

@@ -4,16 +4,21 @@ $messages = [];
 ?>
 
 
-<div class="container py-5">
+<div class="container pb-5">
     <div class="row align-items-center">
         <div class="col-md-4 text-center">
-            <img src="ruta/a/tu-imagen.jpg" alt="Foto de perfil" class="profile-img mb-3">
+            <img
+                src="<?= $user['profile_photo'] ? 'data:image/jpeg;base64,'.base64_encode($user['profile_photo']) : '/assets/images/user-default.png' ?>"
+                alt="Perfil"
+                class="rounded-circle"
+                style="width: 200px; height: 200px; object-fit: cover;">
         </div>
         <div class="col-md-8">
             <div class="d-flex align-items-center mb-3">
                 <span class="username me-3"><?php echo $user['username'] ?></span>
-                <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
-                <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-gear"></i></button>
+                <?php if ($_SESSION['user']['id'] == $user['id']): ?>
+                    <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
+                <?php endif; ?>
             </div>
             <div class="mb-3">
                 <span><strong>1,012</strong> publicaciones</span>
@@ -43,6 +48,5 @@ include __DIR__ . '/../layout/main.php';
 ?>
 
 <script src="/assets/js/edit-profile.js"></script>
-<script src="/assets/js/bio.js"></script>
 <script src="/assets/js/post.js"></script>
 <script src="/assets/js/likes.js"></script>

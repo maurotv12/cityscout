@@ -20,6 +20,7 @@ class Comment extends Model
         $comment['user'] = $userModel->getUser($comment['user_id']);
         return $comment;
     }, $comments);
+
     return $comments;
   }
 

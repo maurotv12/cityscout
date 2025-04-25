@@ -13,7 +13,6 @@ class PostController extends Controller
 
     public function index()
     {
-
         $postModel = new Post;
         $posts = $postModel->getFollowedUsersPosts($_SESSION['user']['id']);
 
@@ -31,14 +30,19 @@ class PostController extends Controller
     }
 
     public function post($id){
-        return "aqui se mostrará el feed  ";
+        return "aqui se mostrará el feed";
     }
 
-    public function getComments($postId){
+    public function getComments($postId)
+    {
         $commentModel = new Comment();
         $comments = $commentModel->getComments($postId);
 
-        return ['success' => true, 'comments' => $comments];
+        if (!$comments) {
+            return ['success' => false, 'message' => 'No se encontraron comentarios.'];
+        }
+
+        return ['success' => true, 'message' => 'funciono', 'comments' => $comments];
     }
 
     public function toggleLike($postId){

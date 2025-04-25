@@ -55,7 +55,7 @@ ob_start();
                     class="img-fluid rounded-circle mb-3"
                     style="width: 150px; height: 150px; object-fit: cover;">
             <?php else: ?>
-                <img src="/public/img/default-user.jpg"
+                <img src="/public/img/user-default.png"
                     alt="Foto de perfil por defecto"
                     class="img-fluid rounded-circle mb-3"
                     style="width: 150px; height: 150px; object-fit: cover;">

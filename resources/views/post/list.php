@@ -1,14 +1,10 @@
-
-
-
-
 <div class="row">
     <?php foreach ($posts as $post) { ?>
         <div class="card mb-3 mr-3 col-lg-4 p-3 col-sm-12 col-md-6">
             <img src="data:image/jpeg;base64,<?= base64_encode($post['image']) ?>" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">
-                    <img src="<?= $post['profile_photo'] ?? '/assets/images/user-default.png' ?>" alt="avatar" width="30" height="30" class="rounded-circle">
+                    <img src="<?= $post['profile_photo'] ? 'data:image/jpeg;base64,'.base64_encode($post['profile_photo']) : '/assets/images/user-default.png' ?>" alt="avatar" width="30" height="30" class="rounded-circle">
                     <?= htmlspecialchars($post['username']) ?>
                 </h5>
                 <p class="card-text"><?= htmlspecialchars($post['caption']) ?></p>
