@@ -4,21 +4,29 @@
             <img src="data:image/jpeg;base64,<?= base64_encode($post['image']) ?>" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">
-                    <img src="<?= $post['profile_photo'] ? 'data:image/jpeg;base64,'.base64_encode($post['profile_photo']) : '/assets/images/user-default.png' ?>" alt="avatar" width="30" height="30" class="rounded-circle">
-                    <?= htmlspecialchars($post['username']) ?>
+                    <img
+                        src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $post['user']['id'] . '.' . $post['user']['profile_photo_type'])
+                                    ? '/assets/images/profiles/' . $post['user']['id'] . '.' . $post['user']['profile_photo_type']
+                                    : '/assets/images/user-default.png' ?>"
+                        alt="avatar"
+                        width="30"
+                        height="30"
+                        class="rounded-circle">
+                    <?= htmlspecialchars($post['user']['username']) ?>
                 </h5>
                 <p class="card-text"><?= htmlspecialchars($post['caption']) ?></p>
                 <p class="card-text"><strong><?= $post['comment_count'] ?></strong> comentarios</p>
                 <p class="card-text"><strong><?= count($post['likes']) ?></strong> likes</p>
-                <a href="#" class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i></a>
-                <a href="#" class="btn btn-success"><i class="bi bi-hand-thumbs-up"></i></a>
-            <!-- Botón para abrir el modal con el ID del post -->
-                <a href="#" 
-                   class="btn btn-primary" 
-                   data-bs-toggle="modal" 
-                   data-bs-target="#commentsModal" 
-                   data-post-id="<?= $post['id'] ?>">
-                   <i class="bi bi-chat-heart-fill"></i>
+                <button class="btn btn-primary like-btn" data-post-id="<?= $post['id'] ?>">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                </button>
+                <!-- Botón para abrir el modal con el ID del post -->
+                <a href="#"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#commentsModal"
+                    data-post-id="<?= $post['id'] ?>">
+                    <i class="bi bi-chat-heart-fill"></i>
                 </a>
             </div>
         </div>
@@ -53,7 +61,11 @@
                                 <div class="card-footer border-0 col-12" style="background-color: #f8f9fa;">
                                     <div class="d-flex flex-start w-100">
                                         <img class="rounded-circle shadow-1-strong me-3"
-                                            src="<?= $_SESSION['user']['profile_photo'] ?? '/assets/images/user-default.png' ?>" alt="avatar" width="40"
+                                            src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
+                                                        ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']
+                                                        : '/assets/images/user-default.png' ?>"
+
+                                            alt="avatar" width="40"
                                             height="40" />
                                         <div class="form-outline w-100">
                                             <textarea class="form-control" rows="2" style="background: #fff;"></textarea>
@@ -79,3 +91,4 @@
 </div>
 
 <script src="/assets/js/post.js"></script>
+<script src="/assets/js/likes.js"></script>

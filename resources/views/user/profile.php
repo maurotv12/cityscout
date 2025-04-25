@@ -8,7 +8,9 @@ $messages = [];
     <div class="row align-items-center">
         <div class="col-md-4 text-center">
             <img
-                src="<?= $user['profile_photo'] ? 'data:image/jpeg;base64,'.base64_encode($user['profile_photo']) : '/assets/images/user-default.png' ?>"
+                src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']) 
+                    ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'] 
+                    : '/assets/images/user-default.png' ?>"
                 alt="Perfil"
                 class="rounded-circle"
                 style="width: 200px; height: 200px; object-fit: cover;">

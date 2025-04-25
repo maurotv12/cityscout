@@ -15,6 +15,7 @@ public function getFollowedUsersPosts($user_id) {
     $followerModel = new Follower();
     $commentModel = new Comment();
     $likeModel = new Like();
+    $userModel = new User();
 
     // Obtener los IDs de los usuarios seguidos por el usuario actual
     $followedUsers = $followerModel->where('user_follower_id', $user_id)->get();
@@ -31,7 +32,7 @@ public function getFollowedUsersPosts($user_id) {
     // Obtener los posts de los usuarios seguidos
     $placeholders = implode(',', array_fill(0, count($followedUserIds), '?'));
     $sql = "
-        SELECT posts.*, users.username, users.profile_photo
+        SELECT posts.*
         FROM posts
         JOIN users ON posts.user_id = users.id
         WHERE posts.user_id IN ($placeholders)
@@ -41,10 +42,12 @@ public function getFollowedUsersPosts($user_id) {
     $posts = $this->query($sql, $followedUserIds)->get();
 
     // Agregar información adicional a cada post
-    $posts = array_map(function ($post) use ($commentModel, $likeModel) {
+    $posts = array_map(function ($post) use ($commentModel, $likeModel, $userModel) {
         $post['comments'] = $commentModel->getComments($post['id']);
         $post['comment_count'] = count($post['comments']);
         $post['likes'] = $likeModel->getLikes($post['id']);
+        $post['like_count'] = count($post['likes']);
+        $post['user'] = $userModel->getUser($post['user_id']);
         return $post;
     }, $posts);
 
@@ -62,12 +65,9 @@ public function getFollowedUsersPosts($user_id) {
     $posts = array_map(function ($post) use ($userModel, $commentModel, $likeModel) {
         $post['comments'] = $commentModel->getComments($post['id']);
         $post['comment_count'] = count($post['comments']);
-        $post['user'] = $userModel->getUser($post['user_id']);
         $post['likes'] = $likeModel->getLikes($post['id']);
         $post['like_count'] = count($post['likes']);
-        $post['profile_photo'] = $post['user']['profile_photo'];
-        $post['username'] = $post['user']['username'] ?? 'Usuario no encontrado';
-        unset($post['user']); // Eliminar el campo 'user' para evitar duplicación
+        $post['user'] = $userModel->getUser($post['user_id']);
         
         return $post;
     }, $posts);

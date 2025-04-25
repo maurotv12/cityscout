@@ -58,7 +58,7 @@ class PostController extends Controller
             return $this->json(['success' => true, 'liked' => false]);
         } else {
             // Dar like
-            $likeModel->create(['post_id' => $postId, 'user_id' => $userId]);
+            $likeModel->create(['post_id' => $postId, 'user_id' => $userId, 'created_at' => date('Y-m-d H:i:s')]);
             return $this->json(['success' => true, 'liked' => true]);
         }
     }

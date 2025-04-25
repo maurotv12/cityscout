@@ -31,7 +31,9 @@
         <div class="d-flex align-items-center ms-3">
           <a class="nav-link p-0 d-flex align-items-center me-3" href="/profile/<?= $_SESSION['user']['id'] ?>">
             <img
-              src="<?= $_SESSION['id']['profile_photo'] ?? '/assets/images/user-default.png' ?>"
+              src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']) 
+                    ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'] 
+                    : '/assets/images/user-default.png' ?>"
               alt="Perfil"
               class="rounded-circle"
               style="width: 40px; height: 40px; object-fit: cover;">
