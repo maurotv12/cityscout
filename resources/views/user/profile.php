@@ -29,7 +29,7 @@ $messages = [];
             </div>
             <div class="bio">
                 <form id="bio-form" method="POST" action="/user/update-bio/<?php echo $user['id']; ?>">
-                    <strong>BO SALDAÑA</strong><br>
+                    
                     <span id="bio-text"><?php echo nl2br(htmlspecialchars($user['bio'] ?? '')); ?></span>
                     <textarea id="bio-textarea" name="bio" class="form-control d-none" rows="5"></textarea>
                     <button id="save-bio-btn" type="submit" class="btn btn-primary btn-sm d-none mt-2">Guardar</button>

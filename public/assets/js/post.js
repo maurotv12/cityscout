@@ -5,6 +5,19 @@ document.addEventListener('DOMContentLoaded', function () {
     commentsModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget; // Botón que activó el modal
         const postId = button.getAttribute('data-post-id'); // Obtener el ID del post
+        const postUsername = button.getAttribute('data-post-username'); // Obtener el username del post
+        const postUserId = button.getAttribute('data-post-userId'); // Obtener el username del post
+        const postRoute = button.getAttribute('data-post-route'); // Obtener la ruta del post
+        const postCaption = button.getAttribute('data-post-caption'); // Obtener la caption del post
+
+        const modalPostUsername = commentsModal.querySelector('.modal-post-username');
+        const modalPostCaption = commentsModal.querySelector('.modal-post-caption');
+        const modalPostImage = commentsModal.querySelector('.modal-post-image');
+
+
+        modalPostUsername.innerHTML = `<a href="/profile/${postUserId}">${postUsername}</a>`;
+        modalPostCaption.innerHTML = postCaption; 
+        modalPostImage.setAttribute('src', postRoute);
 
         // Limpiar el contenido del modal
         modalBody.innerHTML = '<p>Cargando comentarios...</p>';

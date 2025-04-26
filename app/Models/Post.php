@@ -71,6 +71,11 @@ public function getFollowedUsersPosts($user_id) {
         
         return $post;
     }, $posts);
+
+    usort($posts, function ($a, $b) {
+      return strtotime($b['created_at']) - strtotime($a['created_at']);
+    });
+    
     return $posts;
   }
 

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     likeButtons.forEach(button => {
         button.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevenir comportamiento predeterminado
+            event.preventDefault(); // Prevenir comportamiento predeterminado de recargar la pagina
 
             const postId = this.getAttribute('data-post-id'); // Obtener el ID del post del botón clicado
             const isLiked = this.classList.contains('btn-success'); // Verificar si ya está "liked"

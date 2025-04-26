@@ -1,62 +1,70 @@
 
 
-  .avatar-img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border: 2px solid #ddd; /* Opcional: como un marco suave */
-  }
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid #ddd; /* Opcional: como un marco suave */
+}
 
-  .sidebar-custom {
-    width: 240px;
-    background-color: #f8f9fa;
-    border-right: 1px solid #dee2e6;
-  }
+.sidebar-custom {
+  width: 240px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+}
 
-  .sidebar-custom .nav-link {
-    padding: 15px 20px;
-    font-weight: 500;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s ease;
-  }
+.sidebar-custom .nav-link {
+  padding: 15px 20px;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
 
-  .sidebar-custom .nav-link:hover {
-    background-color: #e9ecef;
-    color: #000;
-  }
+.sidebar-custom .nav-link:hover {
+  background-color: #e9ecef;
+  color: #000;
+}
 
-  .sidebar-custom .nav-link.active {
-    background-color: #dee2e6;
-    font-weight: bold;
-  }
+.sidebar-custom .nav-link.active {
+  background-color: #dee2e6;
+  font-weight: bold;
+}
 
-  .offcanvas-header {
-    border-bottom: 1px solid #ddd;
-  }
+.offcanvas-header {
+  border-bottom: 1px solid #ddd;
+}
 
-  .fixed-height-modal {
-    height: 490px; /* Ajusta según lo que necesites */
-    overflow: hidden;
-  }
-  
-  .scrollable-col {
-    height: 100%;
-    overflow-y: auto;
-    height: 470px;
-    padding-right: 10px; /* Para evitar superposición del scroll */
-  }
-  .scrollable-row {
-    height: 100%;
-    overflow-y: auto;
-    height: 330px;
-    padding-right: 10px; /* Para evitar superposición del scroll */
-  }
+.fixed-height-modal {
+  height: 490px; /* Ajusta según lo que necesites */
+  overflow: hidden;
+}
 
-  .chat-list {
-    height: 97% !important;
-  }
+.scrollable-col {
+  height: 100%;
+  overflow-y: auto;
+  height: 470px;
+  padding-right: 10px; /* Para evitar superposición del scroll */
+}
+.scrollable-row {
+  height: 100%;
+  overflow-y: auto;
+  height: 330px;
+  padding-right: 10px; /* Para evitar superposición del scroll */
+}
 
-  .body {
-    padding-top: 80px; /* Ajusta este valor según la altura de tu navbar */
-  }
+.chat-list {
+  height: 97% !important;
+}
+
+.body {
+  padding-top: 80px; /* Ajusta este valor según la altura de tu navbar */
+}
+
+.post-image {
+  width: 100%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+  height: 300px; /* Establece una altura fija para todas las imágenes */
+  object-fit: cover; /* Ajusta la imagen para que llene el contenedor sin deformarse */
+  object-position: center; /* Centra la imagen si el ancho es menor que el contenedor */
+  display: block; /* Elimina el espacio extra debajo de las imágenes */
+}

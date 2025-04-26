@@ -1,7 +1,10 @@
 <div class="row">
     <?php foreach ($posts as $post) { ?>
         <div class="card mb-3 mr-3 col-lg-4 p-3 col-sm-12 col-md-6">
-            <img src="data:image/jpeg;base64,<?= base64_encode($post['image']) ?>" class="card-img-top" alt="...">
+            <img 
+                src="/assets/images/posts/<?=$post['file_name'].'.'.$post['type'] ?>" 
+                class="card-img-top post-image" 
+                alt="...">
             <div class="card-body">
                 <h5 class="card-title">
                     <img
@@ -17,7 +20,9 @@
                 <p class="card-text"><?= htmlspecialchars($post['caption']) ?></p>
                 <p class="card-text"><strong><?= $post['comment_count'] ?></strong> comentarios</p>
                 <p class="card-text"><strong><?= count($post['likes']) ?></strong> likes</p>
-                <button class="btn btn-primary like-btn" data-post-id="<?= $post['id'] ?>">
+                <button 
+                    class="btn btn-primary like-btn" 
+                    data-post-id="<?= $post['id'] ?>">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </button>
                 <!-- Botón para abrir el modal con el ID del post -->
@@ -25,7 +30,11 @@
                     class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#commentsModal"
-                    data-post-id="<?= $post['id'] ?>">
+                    data-post-id="<?= $post['id'] ?>"
+                    data-post-username="<?= htmlspecialchars($post['user']['username']) ?>"
+                    data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
+                    data-post-route="/assets/images/posts/<?= $post['file_name'].'.'.$post['type'] ?>"
+                    data-post-caption="<?= htmlspecialchars($post['caption']) ?>">
                     <i class="bi bi-chat-heart-fill"></i>
                 </a>
             </div>
@@ -38,7 +47,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="commentsModalLabel">Mauricio</h1>
+                <h1 class="modal-title fs-5 modal-post-username" id="commentsModalLabel"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -47,9 +56,9 @@
                         <!-- Imagen y descripción -->
                         <div class="col-lg-6 col-md-12">
                             <div class="card col-12 mb-3">
-                                <img src="https://png.pngtree.com/background/20250124/original/pngtree-beautiful-natural-scenery-picture-image_15750499.jpg" class="card-img-top" alt="...">
+                                <img class="card-img-top modal-post-image" alt="...">
                                 <div class="card-body">
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+                                    <p class="card-text modal-post-caption"></p>
                                 </div>
                             </div>
                         </div>

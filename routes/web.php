@@ -28,6 +28,9 @@ Route::get('/post/:id/comments', [PostController::class, 'getComments'])
 
 Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
     ->middleware([AuthMiddleware::class]);
+
+Route::post('/post/store', [PostController::class, 'store'])
+    ->middleware([AuthMiddleware::class]);
     
 // Route::get('/post/:id', function () {
 //     AuthMiddleware::handle();
