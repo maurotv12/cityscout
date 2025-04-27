@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
     const likeButtons = document.querySelectorAll('.like-btn');
+    validateLikes();
+
+    function validateLikes() {
+        likeButtons.forEach(button => {
+            const isLiked = button.getAttribute('data-post-liked-by-logged') === 'true';
+            
+            if (isLiked) {
+                button.classList.add('btn-success');
+                button.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+            }
+        });
+    }
 
     likeButtons.forEach(button => {
         button.addEventListener('click', function (event) {

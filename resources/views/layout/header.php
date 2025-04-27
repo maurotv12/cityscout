@@ -8,7 +8,10 @@
     </button>
     <?php endif; ?>
 
-    <a class="navbar-brand" href="/"><i class="bi bi-house-door-fill"></i></a>
+    <a class="navbar-brand" href="/">
+      <img src="/assets/images/logo.png" alt="Logo" style="height: 40px;">
+    </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
       data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">

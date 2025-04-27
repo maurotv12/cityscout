@@ -22,7 +22,8 @@
                 <p class="card-text"><strong><?= count($post['likes']) ?></strong> likes</p>
                 <button 
                     class="btn btn-primary like-btn" 
-                    data-post-id="<?= $post['id'] ?>">
+                    data-post-id="<?= $post['id'] ?>"
+                    data-post-liked-by-logged="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'true' : 'false' ?>">
                     <i class="bi bi-hand-thumbs-up"></i>
                 </button>
                 <!-- Botón para abrir el modal con el ID del post -->
@@ -35,7 +36,7 @@
                     data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
                     data-post-route="/assets/images/posts/<?= $post['file_name'].'.'.$post['type'] ?>"
                     data-post-caption="<?= htmlspecialchars($post['caption']) ?>">
-                    <i class="bi bi-chat-heart-fill"></i>
+                    <i class="bi bi-chat-heart-fill"> Abrir y ver comentarios</i>
                 </a>
             </div>
         </div>
