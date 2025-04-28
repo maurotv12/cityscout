@@ -122,6 +122,25 @@ class PostController extends Controller
       
         return ['success' => true, 'message' => 'Publicación creada con éxito.'];
     }
+    
+    public function updateCaption($id)
+    {
+        $postModel = new Post();
+        $caption = json_decode(file_get_contents('php://input'), true)['caption'] ?? '';
+    
+        if (empty($caption)) {
+            return $this->json(['success' => false, 'message' => 'La descripción no puede estar vacía.'], 400);
+        }
+    
+        $updated = $postModel->update($id, ['caption' => $caption]);
+    
+        if ($updated) {
+            return $this->json(['success' => true, 'message' => 'Descripción actualizada correctamente.']);
+        } else {
+            return $this->json(['success' => false, 'message' => 'Error al actualizar la descripción.'], 500);
+        }
+    }
+
 
 
 }
