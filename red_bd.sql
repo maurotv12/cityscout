@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2025 a las 05:10:00
+-- Tiempo de generación: 28-04-2025 a las 03:24:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -68,6 +68,13 @@ CREATE TABLE `likes` (
   `post_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `likes`
+--
+
+INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
+(78, 1, 18, '2025-04-28 00:42:11');
 
 -- --------------------------------------------------------
 
@@ -150,7 +157,13 @@ INSERT INTO `posts` (`id`, `user_id`, `image`, `file_name`, `type`, `caption`, `
 (12, 1, '', '1745631632_680c3990bbcad', 'jpg', 'drsggsd', '2025-04-26 03:40:32'),
 (13, 1, '', '1745631691_680c39cb52ff8', 'jpg', 'aaa', '2025-04-26 03:41:31'),
 (14, 7, '', '1745636274_680c4bb27529c', 'jpg', 'Folleto 1', '2025-04-26 04:57:54'),
-(15, 7, '', '1745636290_680c4bc2d375c', 'jpg', 'Verbos de objetivos', '2025-04-26 04:58:10');
+(15, 7, '', '1745636290_680c4bc2d375c', 'jpg', 'Verbos de objetivos', '2025-04-26 04:58:10'),
+(16, 1, '', '1745791647_680eaa9faa510', 'jpg', 'abc', '2025-04-28 00:07:27'),
+(17, 1, '', '1745791686_680eaac6711bf', 'jpg', '123', '2025-04-28 00:08:06'),
+(18, 1, '', '1745791732_680eaaf43b22c', 'jpg', '123', '2025-04-28 00:08:52'),
+(19, 1, '', '1745791744_680eab0049285', 'png', '123', '2025-04-28 00:09:04'),
+(20, 1, '', '1745791767_680eab173b701', 'jpg', '2132', '2025-04-28 00:09:27'),
+(21, 1, '', '1745795724_680eba8c0147f', 'jpg', 'Falda', '2025-04-28 01:15:24');
 
 -- --------------------------------------------------------
 
@@ -164,7 +177,6 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `profile_photo` blob DEFAULT NULL,
   `profile_photo_type` varchar(255) NOT NULL,
   `bio` varchar(255) DEFAULT NULL,
   `birth_date` date NOT NULL,
@@ -176,12 +188,15 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `password`, `profile_photo`, `profile_photo_type`, `bio`, `birth_date`, `created_at`, `updated_at`) VALUES
-(1, 'Maurici Muñoz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', NULL, 'jpg', 'Hola', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
-(2, 'Carlos Sanchez', 'carlitos2', 'carlitos@gmail.com', '66847374', '', '', 'hi', '2015-04-07', '2025-04-15 23:58:48', '2025-04-15 23:58:48'),
-(3, 'Mauricio 24', '', 'Mauricio@gmail.com', '', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 'Mauricio', '', 'Mauricio@gmail.com', '', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(7, 'Juan Camilo', 'camilocai', 'camilo@mail.com', '$2y$10$sGDUSO35XetkR6UoBKPoW.TVI6U1q69rBuJdLCRWGGQ7xutlv8lwy', NULL, 'jpeg', NULL, '2025-04-01', '2025-04-20 18:12:27', '2025-04-20 18:12:27');
+INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `password`, `profile_photo_type`, `bio`, `birth_date`, `created_at`, `updated_at`) VALUES
+(1, 'Maurici Muñoz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola Cami2', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
+(2, 'Carlos Sanchez', 'carlitos2', 'carlitos@gmail.com', '66847374', '', 'hi', '2015-04-07', '2025-04-15 23:58:48', '2025-04-15 23:58:48'),
+(3, 'Mauricio 24', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'Mauricio', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'Juan Camilo', 'camilocai', 'camilo@mail.com', '$2y$10$sGDUSO35XetkR6UoBKPoW.TVI6U1q69rBuJdLCRWGGQ7xutlv8lwy', 'jpeg', NULL, '2025-04-01', '2025-04-20 18:12:27', '2025-04-20 18:12:27'),
+(8, 'Andres Lopez', 'Andreslop', 'andres@gmail.com', '$2y$10$DmE9P5oXwV.iLV6tYr6B..Zbsw0rf.7wwrUfR72INuVp7QbrsY3e6', '', NULL, '1999-05-12', '2025-04-27 22:40:06', '2025-04-27 22:40:06'),
+(9, 'Pepito', 'pepito1', 'pepito@mail.com', '$2y$10$k8j.h6KH/Hm1eiXwZYSPk.5oks7OQlQiRo1Ka5DVxfhIoEaNr9CX6', '', NULL, '1221-12-12', '2025-04-27 23:57:56', '2025-04-27 23:57:56'),
+(10, '1', '1', 'mauricio.andres.munoz@correounivalle.edu.co', '$2y$10$eK3P7Ic698K1eMW3MP5bbeYDzyo6aSPMAOBmBQWteLSbZg8JAeAi.', '', NULL, '1111-11-11', '2025-04-28 00:18:12', '2025-04-28 00:18:12');
 
 --
 -- Índices para tablas volcadas
@@ -267,7 +282,7 @@ ALTER TABLE `followers`
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
@@ -291,13 +306,13 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT de la tabla `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
