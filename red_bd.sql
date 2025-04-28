@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2025 a las 03:24:10
+-- Tiempo de generación: 28-04-2025 a las 23:12:12
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -74,7 +74,7 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
-(78, 1, 18, '2025-04-28 00:42:11');
+(84, 1, 22, '2025-04-28 21:40:52');
 
 -- --------------------------------------------------------
 
@@ -109,8 +109,8 @@ CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `sender_id` int(11) NOT NULL,
-  `type` enum('like','comment','follow','message') NOT NULL,
-  `reference_id` int(11) NOT NULL,
+  `type` enum('like','comment','follower','message') NOT NULL,
+  `reference_id` int(11) DEFAULT NULL,
   `content` text NOT NULL,
   `is_read` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL
@@ -163,7 +163,8 @@ INSERT INTO `posts` (`id`, `user_id`, `image`, `file_name`, `type`, `caption`, `
 (18, 1, '', '1745791732_680eaaf43b22c', 'jpg', '123', '2025-04-28 00:08:52'),
 (19, 1, '', '1745791744_680eab0049285', 'png', '123', '2025-04-28 00:09:04'),
 (20, 1, '', '1745791767_680eab173b701', 'jpg', '2132', '2025-04-28 00:09:27'),
-(21, 1, '', '1745795724_680eba8c0147f', 'jpg', 'Falda', '2025-04-28 01:15:24');
+(21, 1, '', '1745795724_680eba8c0147f', 'jpg', 'Falda', '2025-04-28 01:15:24'),
+(22, 1, '', '1745849855_680f8dffe3748', 'mp4', 'Mi video de vacaciones en Velero por el mar caribe tomando el sol', '2025-04-28 16:17:35');
 
 -- --------------------------------------------------------
 
@@ -189,7 +190,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `password`, `profile_photo_type`, `bio`, `birth_date`, `created_at`, `updated_at`) VALUES
-(1, 'Maurici Muñoz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola Cami2', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
+(1, 'Maurici Muñoz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola\r\nEste es mi perfil de Focuz que utilizo para subir y reproducir videos', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
 (2, 'Carlos Sanchez', 'carlitos2', 'carlitos@gmail.com', '66847374', '', 'hi', '2015-04-07', '2025-04-15 23:58:48', '2025-04-15 23:58:48'),
 (3, 'Mauricio 24', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Mauricio', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -282,7 +283,7 @@ ALTER TABLE `followers`
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
@@ -306,7 +307,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT de la tabla `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
