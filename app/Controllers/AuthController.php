@@ -70,8 +70,8 @@ class AuthController extends Controller{
         
             $user = $userModel->create([
                 'fullname' => $fullname,
-                'username' => $username,
-                'email' => $email,
+                'username' => strtolower($username),
+                'email' => strtolower($email),
                 'password' => $hashedPassword,
                 'birth_date' => $birth_date,
                 'profile_photo' => $profile_photo,

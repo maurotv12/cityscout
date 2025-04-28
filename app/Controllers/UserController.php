@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Follower;
+
 use App\Models\Comment;
 
 class UserController extends Controller
@@ -14,39 +16,99 @@ class UserController extends Controller
 
         $userModel = new User();
         $postModel = new Post();
+        $followerModel = new Follower();
 
         $user = $userModel->find($id);
         $posts = $postModel->getPostsByUser($id);
 
-        return $this->view('user.profile', ['user' => $user, 'posts' => $posts]);
-    }
-
-    public function edit($id)
-    {
-        $userModel = new User();
-        $user = $userModel->find($id);
-
         if (!$user) {
             http_response_code(404);
             return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
         }
 
-        return $this->view('user.edit', ['user' => $user]);
+        // Contar publicaciones
+        $postCount = $postModel->where('user_id', $id)->get();
+        $postCount = count($postCount);
+
+        // Contar seguidores
+        $followersCount = $followerModel->where('user_followed_id', $id)->get();
+        $followersCount = count($followersCount);
+
+        // Contar seguidos
+        $followingCount = $followerModel->where('user_follower_id', $id)->get();
+        $followingCount = count($followingCount);
+
+        return $this->view('user.profile', [
+            'posts' => $posts,
+            'user' => $user,
+            'postCount' => $postCount,
+            'followersCount' => $followersCount,
+            'followingCount' => $followingCount,
+        ]);
     }
 
-    
+
+
     public function update($id)
     {
-       
         $userModel = new User();
         $user = $userModel->find($id);
-
+    
         if (!$user) {
-            http_response_code(404);
-            return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
+            return $this->json(['error' => 'Usuario no encontrado'], 404);
         }
+    
+        $data = [];
+    
+        // Actualizar biografía
+        if (isset($_POST['bio'])) {
+            $data['bio'] = $_POST['bio'];
+            $_SESSION['user']['bio'] = $data['bio'] ?? $user['bio']; // Actualizar la sesión con la nueva biografía
+        }
+    
+        // Actualizar foto de perfil
+        if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            $extension = strtolower(pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION));
+    
+            if (!in_array($extension, $allowedExtensions)) {
+                return $this->json(['error' => 'Formato de archivo no permitido'], 400);
+            }
+    
+            $fileName = $id . '.' . $extension;
+            $filePath = __DIR__ . '/../../public/assets/images/profiles/' . $fileName;
+    
+            if (move_uploaded_file($_FILES['profile_photo']['tmp_name'], $filePath)) {
+                $data['profile_photo_type'] = $extension;
 
-        return $this->view('user.edit', ['user' => $user]);
+                //eliminar foto de perfil anterior del local
+                if (file_exists(__DIR__ . '/../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']) && $user['profile_photo_type'] !== $extension) {
+                    unlink(__DIR__ . '/../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']);
+                }
+
+                $_SESSION['user']['profile_photo_type'] = $extension; // Actualizar la sesión con el nuevo tipo de foto de perfil
+                
+            } else {
+                return $this->json(['error' => 'Error al guardar la foto de perfil'], 500);
+            }
+        }
+    
+        // Guardar cambios en la base de datos
+        $updated = $userModel->update($id, $data);
+    
+        if ($updated) {
+            return $this->json([
+                'success' => true, 
+                'message' => 'Perfil actualizado con éxito',
+                'bio' => $data['bio'] ?? $user['bio'],
+                'user_id' => $user['id'],
+                'profile_photo_updated' => isset($data['profile_photo_type']),
+                'profile_photo_type' => $data['profile_photo_type'] ?? $user['profile_photo_type'],
+            ]);
+            
+        } else {
+            return $this->json(['error' => 'No se pudo actualizar el perfil'], 500);
+        }
     }
 
 
@@ -63,15 +125,14 @@ class UserController extends Controller
         $bio = $_POST['bio'] ?? '';
 
         // Actualizar la biografía en la base de datos
-    $updated = $userModel->update($id, ['bio' => $bio]);
+        $updated = $userModel->update($id, ['bio' => $bio]);
 
-    if ($updated) {
-        // Devolver una respuesta JSON con éxito
-        return $this->json(['success' => true, 'bio' => $bio]);
-    } else {
-        // Devolver un error si la actualización falla
-        return $this->json(['error' => 'No se pudo actualizar la biografía'], 500);
+        if ($updated) {
+            // Devolver una respuesta JSON con éxito
+            return $this->json(['success' => true, 'bio' => $bio]);
+        } else {
+            // Devolver un error si la actualización falla
+            return $this->json(['error' => 'No se pudo actualizar la biografía'], 500);
+        }
     }
-    }
- 
 }

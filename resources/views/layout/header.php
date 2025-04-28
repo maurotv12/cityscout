@@ -38,8 +38,9 @@
                     ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'] 
                     : '/assets/images/user-default.png' ?>"
               alt="Perfil"
-              class="rounded-circle"
-              style="width: 40px; height: 40px; object-fit: cover;">
+              class="rounded-circle profile-photo"
+              style="width: 40px; height: 40px; object-fit: cover;"
+              >
             <span class="ms-2"><?= htmlspecialchars($_SESSION['user']['username']) ?></span>
           </a>
 

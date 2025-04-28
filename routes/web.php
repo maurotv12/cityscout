@@ -42,7 +42,7 @@ Route::get('/profile/:id', [UserController::class, 'show'])
     ->middleware([AuthMiddleware::class]);
 Route::get('/profile/:id/edit', [UserController::class, 'edit'])
     ->middleware([AuthMiddleware::class]);
-Route::post('/user/update-bio/{id}', [UserController::class, 'updateBio'])
+Route::post('/user/update-profile/:id', [UserController::class, 'update'])
     ->middleware([AuthMiddleware::class]);
 
 //chat

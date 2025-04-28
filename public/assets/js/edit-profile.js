@@ -1,45 +1,49 @@
 const editButton = document.getElementById('edit-profile-btn');
-const saveButton = document.getElementById('save-bio-btn');
+const editProfileForm = document.getElementById('edit-profile-form');
+const profilePhotos = document.querySelectorAll('.profile-photo');
 const bioText = document.getElementById('bio-text');
-const bioTextarea = document.getElementById('bio-textarea');
-const bioForm = document.getElementById('bio-form');
+
 
 editButton.addEventListener('click', () => {
-    // Mostrar el textarea y ocultar el texto
-    bioTextarea.value = bioText.innerHTML.replace(/<br>/g, '\n'); // Convertir <br> a saltos de línea
-    bioText.classList.add('d-none');
-    bioTextarea.classList.remove('d-none');
-    saveButton.classList.remove('d-none');
+
+    if (editProfileForm.classList.contains('d-none')){
+        editProfileForm.classList.remove('d-none');
+    } else {
+        editProfileForm.classList.add('d-none');
+    }
 });
 
-saveButton.addEventListener('click', (e) => {
-    e.preventDefault(); // Evitar el envío del formulario
+editProfileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-    // Obtener el valor del textarea
-    const bio = bioTextarea.value;
+    const formData = new FormData(editProfileForm);
 
-    // Enviar la biografía al servidor mediante fetch
-    fetch(bioForm.action, {
+    fetch(editProfileForm.action, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({ bio }),
+        body: formData,
     })
         .then((response) => response.json())
         .then((data) => {
             if (data.success) {
-                // Actualizar el texto de la biografía
-                bioText.innerHTML = bio.replace(/\n/g, '<br>'); // Convertir saltos de línea a <br>
-                bioTextarea.classList.add('d-none');
-                bioText.classList.remove('d-none');
-                saveButton.classList.add('d-none');
+                alert(data.message);
+                editProfileForm.classList.add('d-none');
+                 
+                location.reload();
+
+                // Actualizar el contenido del perfil con los nuevos datos sin recargar la página
+                // bioText.textContent = formData.get('bio') || bioText.textContent;
+                // if (data.profile_photo_updated) {
+                //     profilePhotos.forEach((photo) => {
+                //         photo.src = '/../../../public/assets/images/profiles/' + data.user_id + '.' + data.profile_photo_type || photo.src;
+                //     });
+                // }
+                
             } else {
-                alert('Error al actualizar la biografía i');
+                alert(data.error || 'Error al actualizar el perfil');
             }
         })
         .catch((error) => {
             console.error('Error:', error);
-            alert('Error al actualizar la biografía');
+            alert('Error al actualizar el perfil');
         });
 });

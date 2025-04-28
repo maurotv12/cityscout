@@ -14,7 +14,7 @@
                         alt="avatar"
                         width="30"
                         height="30"
-                        class="rounded-circle">
+                        class="rounded-circle profile-photo">
                     <?= htmlspecialchars($post['user']['username']) ?>
                 </h5>
                 <p class="card-text"><?= htmlspecialchars($post['caption']) ?></p>
@@ -70,7 +70,7 @@
                             <div class="modal-footer">
                                 <div class="card-footer border-0 col-12" style="background-color: #f8f9fa;">
                                     <div class="d-flex flex-start w-100">
-                                        <img class="rounded-circle shadow-1-strong me-3"
+                                        <img class="rounded-circle shadow-1-strong me-3 profile-photo"
                                             src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
                                                         ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']
                                                         : '/assets/images/user-default.png' ?>"
