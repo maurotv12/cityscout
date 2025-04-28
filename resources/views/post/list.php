@@ -79,7 +79,7 @@
                                     <!-- Botón para editar el caption -->
                                     <button id="edit-caption-btn" class="btn btn-sm btn-outline-primary mt-2">Editar descripción</button>
                                     <!-- Formulario para editar el caption -->
-                                    <form id="edit-caption-form" class="d-none mt-2 data-post-id" method="POST" action="/post/update-caption">
+                                    <form id="edit-caption-form" class="d-none mt-2" method="POST" action="/post/update-caption">
                                         <textarea class="form-control" id="new-caption" rows="2"></textarea>
                                         <button type="submit" class="btn btn-primary btn-sm mt-2">Guardar</button>
                                         <button type="button" id="cancel-edit-caption" class="btn btn-secondary btn-sm mt-2">Cancelar</button>

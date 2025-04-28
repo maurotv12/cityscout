@@ -6,6 +6,7 @@ use Lib\Route;
 use App\Controllers\PostController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
+use App\Controllers\NotificationController;
 use App\Models\User;
 
 Route::get('/', [PostController::class, 'index'])
@@ -49,9 +50,32 @@ Route::post('/user/update-profile/:id', [UserController::class, 'update'])
     ->middleware([AuthMiddleware::class]);
 
 //chat
-Route::get('/chats', [ChatController::class, 'index'])
+
+// Obtener lista de chats
+Route::get('/chats', [ChatController::class, 'getChats'])->middleware([AuthMiddleware::class]);
+
+// Obtener mensajes de un chat
+Route::get('/chats/:chatWithId/messages', [ChatController::class, 'getMessages'])->middleware([AuthMiddleware::class]);
+
+// Enviar un mensaje
+Route::post('/chats/:chatWithId/send', [ChatController::class, 'sendMessage'])->middleware([AuthMiddleware::class]);
+
+// Marcar mensajes como leídos
+Route::post('/chats/:chatWithId/read', [ChatController::class, 'markMessagesAsRead'])->middleware([AuthMiddleware::class]);
+
+
+
+// Route::get('/chats', [ChatController::class, 'index'])
+//     ->middleware([AuthMiddleware::class]);
+// Route::get('/conversation/:id', [ChatController::class, 'conversation'])
+//     ->middleware([AuthMiddleware::class]);
+
+//Notifications
+Route::get('/notifications', [NotificationController::class, 'getNotifications'])
     ->middleware([AuthMiddleware::class]);
-Route::get('/conversation/:id', [ChatController::class, 'conversation'])
+
+// Marcar notificación como leída
+Route::post('/notifications/read', [NotificationController::class, 'markAsRead'])
     ->middleware([AuthMiddleware::class]);
 
 Lib\Route::dispatch();

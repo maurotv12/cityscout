@@ -5,11 +5,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const editCaptionForm = document.getElementById('edit-caption-form');
     const newCaptionInput = document.getElementById('new-caption');
     const cancelEditCaptionBtn = document.getElementById('cancel-edit-caption');
+    const modalPostCaption = commentsModal.querySelector('.modal-post-caption'); 
 
 
     commentsModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget; // Botón que activó el modal
         const postId = button.getAttribute('data-post-id'); // Obtener el ID del post
+    
         const postCaption = button.getAttribute('data-post-caption'); // Obtener la caption del post
 
         const postUsername = button.getAttribute('data-post-username'); // Obtener el username del post
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const modalMedia = commentsModal.querySelector('.modal-media'); // Obtener el contenedor de la media del modal
         const modalPostUsername = commentsModal.querySelector('.modal-post-username');// Obtener el contenedor del username del modal
-        const modalPostCaption = commentsModal.querySelector('.modal-post-caption'); 
+        
 
         // const modalPostImage = commentsModal.querySelector('.modal-post-image');
 
@@ -29,12 +31,14 @@ document.addEventListener('DOMContentLoaded', function () {
         // modalPostImage.setAttribute('src', postRoute);
         modalMedia.innerHTML = '';
 
+        editCaptionBtn.setAttribute('data-post-id', postId); // Establecer la caption del post en el botón de editar caption
+
         // Renderizar dinámicamente imagen o video
         if (postType === 'mp4') {
             // Renderizar video
             const video = document.createElement('video');
             video.setAttribute('controls', '');
-            video.setAttribute('style', 'width: 100%; max-height: 400px; object-fit: cover;');
+            video.setAttribute('style', 'width: 100%; object-fit: cover;');
             const source = document.createElement('source');
             source.setAttribute('src', postRoute);
             source.setAttribute('type', 'video/mp4');
@@ -45,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const img = document.createElement('img');
             img.setAttribute('src', postRoute);
             img.setAttribute('alt', 'Post Media');
-            img.setAttribute('style', 'width: 100%; max-height: 400px; object-fit: cover;');
+            img.setAttribute('style', 'width: 100%; object-fit: cover;');
             modalMedia.appendChild(img);
         }
 
@@ -119,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
     editCaptionForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const postId = commentsModal.querySelector('[data-post-id]').getAttribute('data-post-id');
+        const postId = editCaptionBtn.getAttribute('data-post-id');
         const newCaption = newCaptionInput.value;
 
         fetch(`/post/${postId}/update-caption`, {
