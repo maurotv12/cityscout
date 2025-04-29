@@ -3,18 +3,18 @@
         <div class="card mb-3 mr-3 col-lg-4 p-3 col-sm-12 col-md-6">
             <?php if ($post['type'] === 'mp4'): ?>
                 <!-- Renderizar video si el archivo es un video -->
-                <video 
-                    class="card-img-top post-video" 
-                    controls 
+                <video
+                    class="card-img-top post-video"
+                    controls
                     style="max-height: 300px; object-fit: cover;">
                     <source src="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>" type="video/mp4">
                     Tu navegador no soporta la reproducción de videos.
                 </video>
             <?php else: ?>
                 <!-- Renderizar imagen si el archivo no es un video -->
-                <img 
-                    src="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>" 
-                    class="card-img-top post-image" 
+                <img
+                    src="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>"
+                    class="card-img-top post-image"
                     alt="...">
             <?php endif; ?>
             <div class="card-body">
@@ -32,8 +32,8 @@
                 <p class="card-text"><?= htmlspecialchars($post['caption']) ?></p>
                 <p class="card-text"><strong><?= $post['comment_count'] ?></strong> comentarios</p>
                 <p class="card-text"><strong><?= count($post['likes']) ?></strong> likes</p>
-                <button 
-                    class="btn btn-primary like-btn" 
+                <button
+                    class="btn btn-primary like-btn"
                     data-post-id="<?= $post['id'] ?>"
                     data-post-liked-by-logged="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'true' : 'false' ?>">
                     <i class="bi bi-hand-thumbs-up"></i>
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Modal Comments -->
-<div class="modal fade data-post-id" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade data-post-id" data-post-id id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -91,24 +91,26 @@
                         <!-- Comentarios con scroll -->
                         <div class="col-lg-6 col-md-12">
                             <!-- Campo para nuevo comentario -->
-                            <div class="modal-footer">
-                                <div class="card-footer border-0 col-12" style="background-color: #f8f9fa;">
-                                    <div class="d-flex flex-start w-100">
-                                        <img class="rounded-circle shadow-1-strong me-3 profile-photo"
-                                            src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
-                                                        ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']
-                                                        : '/assets/images/user-default.png' ?>"
-                                            alt="avatar" width="40"
-                                            height="40" />
-                                        <div class="form-outline w-100">
-                                            <textarea class="form-control" rows="2" style="background: #fff;"></textarea>
+                            <div class="modal-body">
+                                <form class="row g-3" id="add-comment-form">
+                                    <div class="card-footer border-0 col-12" style="background-color: #f8f9fa;">
+                                        <div class="d-flex flex-start w-100">
+                                            <img class="rounded-circle shadow-1-strong me-3 profile-photo"
+                                                src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
+                                                            ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']
+                                                            : '/assets/images/user-default.png' ?>"
+                                                alt="avatar" width="40"
+                                                height="40" />
+                                            <div class="form-outline w-100">
+                                                <textarea class="form-control w-100" id="comment-textarea"  rows="2" style="background: #fff;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="float-end mt-2 pt-1">
+                                            <button type="submit" class="btn btn-primary btn-sm">Agregar comentario</button>
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Cerrar</button>
                                         </div>
                                     </div>
-                                    <div class="float-end mt-2 pt-1">
-                                        <button type="button" class="btn btn-primary btn-sm">Agregar comentario</button>
-                                        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
 
                             <!-- Contenedor scrolleable de comentarios -->

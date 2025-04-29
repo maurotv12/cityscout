@@ -41,7 +41,7 @@ class PostController extends Controller
 
         if (!$comments) {
             return ['success' => false, 'message' => 'No se encontraron comentarios.'];
-        }
+        } 
 
         return ['success' => true, 'message' => 'funciono', 'comments' => $comments];
     }
@@ -147,6 +147,46 @@ class PostController extends Controller
         }
     }
 
+    public function addComment($postId)
+    {
+        $commentModel = new Comment();
+        $userId = $_SESSION['user']['id'];
+        $data = json_decode(file_get_contents('php://input'), true);
+     
+        $commentText = $data['comment'] ?? '';
+        
+        
 
+        if (empty($commentText)) {
+            return $this->json(['success' => false, 'message' => 'El comentario no puede estar vacío.'], 400);
+        }
+    
+        $comment = $commentModel->create([
+            'post_id' => $postId,
+            'user_id' => $userId,
+            'comment' => htmlspecialchars($commentText, ENT_QUOTES, 'UTF-8'),
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
+    
+        // Obtener información del usuario para devolverla en la respuesta
+        $userModel = new User();
+        $user = $userModel->find($userId);
+    
+        return $this->json([
+            'success' => true,
+            'comment' => [
+                'id' => $comment['id'],
+                'comment' => $comment['comment'],
+                'created_at' => $comment['created_at'],
+                'user' => [
+                    'id' => $user['id'],
+                    'fullname' => $user['fullname'],
+                    'profile_photo' => file_exists(__DIR__ . '/../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'])
+                        ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']
+                        : '/assets/images/user-default.png',
+                ],
+            ],
+        ]);
+    }
 
 }

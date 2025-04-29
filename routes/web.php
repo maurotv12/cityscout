@@ -26,6 +26,8 @@ Route::get('/post/create', function () {
 });
 Route::get('/post/:id/comments', [PostController::class, 'getComments'])
     ->middleware([AuthMiddleware::class]);
+Route::post('/post/:id/comments', [PostController::class, 'addComment'])
+    ->middleware([AuthMiddleware::class]);
 
 Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
     ->middleware([AuthMiddleware::class]);

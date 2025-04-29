@@ -6,11 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const newCaptionInput = document.getElementById('new-caption');
     const cancelEditCaptionBtn = document.getElementById('cancel-edit-caption');
     const modalPostCaption = commentsModal.querySelector('.modal-post-caption'); 
+    const addCommentForm = commentsModal.querySelector('#add-comment-form');
+    const commentTextarea = addCommentForm.querySelector('#comment-textarea');
+    
 
 
     commentsModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget; // Botón que activó el modal
         const postId = button.getAttribute('data-post-id'); // Obtener el ID del post
+        commentsModal.setAttribute('data-post-id', postId);
+        console.log(postId);
     
         const postCaption = button.getAttribute('data-post-caption'); // Obtener la caption del post
 
@@ -58,11 +63,11 @@ document.addEventListener('DOMContentLoaded', function () {
         modalPostCaption.textContent = postCaption;
         newCaptionInput.value = postCaption;
 
-        // Mostrar el botón de editar y ocultar el formulario
+        // Mostrar el botón de editar caption y ocultar el formulario
         editCaptionBtn.classList.remove('d-none');
         editCaptionForm.classList.add('d-none');
 
-        // Limpiar el contenido del modal de comentarios
+        // Limpiar el contenido del modal de caption
         modalBody.innerHTML = '<p>Cargando comentarios...</p>';
 
         // Hacer una solicitud AJAX para obtener los comentarios
@@ -79,8 +84,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="d-flex flex-start align-items-center">
-                                                <img class="rounded-circle shadow-1-strong me-3"
-                                                    src="${comment.user.profile_photo ?? '/assets/images/user-default.png'}" alt="avatar" width="40" height="40" />
+                                                
+                                            <img class="rounded-circle shadow-1-strong me-3"
+                                                    src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
+                                                    onerror="this.src='/assets/images/user-default.png';" 
+                                                    alt="avatar" width="40" height="40" />
                                                 <div>
                                                     <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
                                                     <p class="text-muted small mb-0">
@@ -149,6 +157,66 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error('Error al actualizar la descripción:', error);
                 alert('Error al actualizar la descripción.');
+            });
+    });
+
+    // Manejar el envío del formulario para agregar un comentario
+    addCommentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const postId = commentsModal.getAttribute('data-post-id'); // Obtener el ID del post desde el modal
+        const comment = commentTextarea.value.trim();
+
+        if (!comment) {
+            alert('El comentario no puede estar vacío.');
+            return;
+        }
+
+        // Enviar el comentario al backend
+        fetch(`/post/${postId}/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                comment: comment
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta del backend:', data);
+                if (data.success) {
+                    // Agregar el nuevo comentario al inicio de la lista
+                    const newCommentHtml = `
+                        <div class="row d-flex justify-content-center mb-2">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-start align-items-center">
+                                            <img class="rounded-circle shadow-1-strong me-3"
+                                                src="${data.comment.user.profile_photo ?? '/assets/images/user-default.png'}" alt="avatar" width="40" height="40" />
+                                            <div>
+                                                <h6 class="fw-bold text-primary mb-1">${data.comment.user.fullname}</h6>
+                                                <p class="text-muted small mb-0">
+                                                    ${data.comment.created_at}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p class="mt-3">${data.comment.comment}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    modalBody.insertAdjacentHTML('afterbegin', newCommentHtml);
+                    commentTextarea.value = ''; // Limpiar el textarea
+                } else {
+                    alert('Error al agregar el comentario 1.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al agregar el comentario2:', error);
+                alert('Error al agregar el comentario2.');
             });
     });
 });
