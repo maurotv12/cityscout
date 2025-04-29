@@ -13,33 +13,53 @@ class NotificationController extends Controller
         $userId = $_SESSION['user']['id'];
         $notificationModel = new Notification();
 
-        // Obtener notificaciones del usuario autenticado
-        $notifications = $notificationModel->where('user_id', $userId);
+        // Obtener notificaciones del usuario autenticado con query
+        $sql = "
+        SELECT * FROM `notifications` 
+        WHERE `user_id` = $userId 
+        AND `sender_id` != $userId
+        ORDER BY `created_at` DESC
+    ";
+
+        $notifications = $notificationModel->query($sql, $userId)->get();
+
+
 
         return $this->json(['success' => true, 'notifications' => $notifications]);
     }
-    
+
     public function markAsRead()
     {
-        $notificationId = json_decode(file_get_contents('php://input'), true)['notification_id'] ?? null;
-
-        if (!$notificationId) {
-            return $this->json(['success' => false, 'message' => 'ID de notificación no proporcionado'], 400);
-        }
-
+        $userId = $_SESSION['user']['id'];
         $notificationModel = new Notification();
-        $updated = $notificationModel->update($notificationId, ['is_read' => 1]);
 
-        if ($updated) {
-            return $this->json(['success' => true, 'message' => 'Notificación marcada como leída']);
-        } else {
-            return $this->json(['success' => false, 'message' => 'Error al marcar la notificación como leída'], 500);
+        $notifications = $notificationModel->where('user_id', $userId);
+
+        foreach ($notifications as $notification) {
+            if ($notification['is_read'] == 0) {
+                $notificationModel->update($notification['id'], ['is_read' => 1]);
+            }
         }
     }
 
-    public function createNotification($type, $senderId, $receiverId, $referenceId, $content)
+    public function createNotification($type, $senderId, $receiverId, $referenceId)
     {
         $notificationModel = new Notification();
+        $content = null;
+        switch ($type) {
+            case 'like':
+                $content = 'Le dio like a tu publicación.';
+                break;
+            case 'comment':
+                $content = 'Comentó tu publicación.';
+                break;
+            case 'follower':
+                $content = 'Te ha seguido.';
+                break;
+            case 'message':
+                $content = 'Te ha enviado un mensaje.';
+                break;
+        }
 
         $notification = $notificationModel->create([
             'user_id' => $receiverId,
@@ -53,5 +73,4 @@ class NotificationController extends Controller
 
         return $notification;
     }
-
 }

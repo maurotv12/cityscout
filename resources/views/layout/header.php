@@ -4,8 +4,8 @@
     <!-- Boton del side Panel -->
     <?php if (isset($_SESSION['user'])): ?>
       <button class="btn btn-primary me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-      ☰ Menú
-    </button>
+        ☰ Menú
+      </button>
     <?php endif; ?>
 
     <a class="navbar-brand" href="/">
@@ -29,18 +29,30 @@
           <button class="btn btn-link position-absolute" type="submit"><i class="bi bi-search"></i></button>
         </form>
 
-        <a class="nav-link me-3" href="#"><i class="bi bi-bell"></i></a>
+        <!--dropdown de notificaciones-->
+        <div class="dropdown">
+          <button class="btn btn-secondary position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationCount">
+              0
+            </span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="max-height: 300px; overflow-y: auto;">
+            <li class="dropdown-item text-center text-muted" id="noNotifications">No hay notificaciones</li>
+          </ul>
+        </div>
+
+
 
         <div class="d-flex align-items-center ms-3">
           <a class="nav-link p-0 d-flex align-items-center me-3" href="/profile/<?= $_SESSION['user']['id'] ?>">
             <img
-              src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']) 
-                    ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'] 
-                    : '/assets/images/user-default.png' ?>"
+              src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
+                      ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']
+                      : '/assets/images/user-default.png' ?>"
               alt="Perfil"
               class="rounded-circle profile-photo"
-              style="width: 40px; height: 40px; object-fit: cover;"
-              >
+              style="width: 40px; height: 40px; object-fit: cover;">
             <span class="ms-2"><?= htmlspecialchars($_SESSION['user']['username']) ?></span>
           </a>
 

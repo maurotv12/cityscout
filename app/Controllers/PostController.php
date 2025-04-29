@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Controllers\NotificationController;
 
 class PostController extends Controller
 {
@@ -47,7 +48,10 @@ class PostController extends Controller
 
     public function toggleLike($postId){
         $likeModel = new Like();
+        $postModel = new Post();
+        $post = $postModel->find($postId);
         $userId = $_SESSION['user']['id'];
+
 
         // Verificar si el usuario ya dio like
         $existingLike = $likeModel->where('post_id', $postId)->where('user_id', $userId)->first();
@@ -59,6 +63,8 @@ class PostController extends Controller
         } else {
             // Dar like
             $likeModel->create(['post_id' => $postId, 'user_id' => $userId, 'created_at' => date('Y-m-d H:i:s')]);
+            $notificationController = new NotificationController();
+            $notificationController->createNotification('like', $userId, $post['user_id'], $postId);
             return $this->json(['success' => true, 'liked' => true]);
         }
     }
