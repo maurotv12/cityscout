@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const editCaptionForm = document.getElementById('edit-caption-form');
     const newCaptionInput = document.getElementById('new-caption');
     const cancelEditCaptionBtn = document.getElementById('cancel-edit-caption');
-    const modalPostCaption = commentsModal.querySelector('.modal-post-caption'); 
+    const modalPostCaption = commentsModal.querySelector('.modal-post-caption');
     const addCommentForm = commentsModal.querySelector('#add-comment-form');
     const commentTextarea = addCommentForm.querySelector('#comment-textarea');
-    
+
 
 
     commentsModal.addEventListener('show.bs.modal', function (event) {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const postId = button.getAttribute('data-post-id'); // Obtener el ID del post
         commentsModal.setAttribute('data-post-id', postId);
         console.log(postId);
-    
+
         const postCaption = button.getAttribute('data-post-caption'); // Obtener la caption del post
 
         const postUsername = button.getAttribute('data-post-username'); // Obtener el username del post
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const modalMedia = commentsModal.querySelector('.modal-media'); // Obtener el contenedor de la media del modal
         const modalPostUsername = commentsModal.querySelector('.modal-post-username');// Obtener el contenedor del username del modal
-        
+
 
         // const modalPostImage = commentsModal.querySelector('.modal-post-image');
 
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
             modalMedia.appendChild(img);
         }
 
-        // Actualizar el contenido del modal de comentarios
-        // Limpiar el contenido del modal de comentarios
+        // Actualizar Mostrar el contenido del caption modal de comentarios
+        // Campo editable del contenido del caption modal de comentarios
         modalPostCaption.textContent = postCaption;
         newCaptionInput.value = postCaption;
 
@@ -160,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
+
     // Manejar el envío del formulario para agregar un comentario
     addCommentForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -219,4 +220,40 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('Error al agregar el comentario2.');
             });
     });
+
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('delete-comment-btn')) {
+            const commentId = e.target.getAttribute('data-comment-id');
+            const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
+
+            if (confirm('¿Estás seguro de que deseas eliminar este comentario?')) {
+                //Enviar Solicitud al backend para eliminar el comentario
+                fetch(`/comment/($commentId)/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+
+                })
+                    .then(response => response.json())
+                    .then(data =>{
+                        if (data.success) {
+                            //Eliminar el comentario del DOM
+                            commentElement.remove();
+                            alert('Comentario eliminado correctamente.');
+                        }else {
+                            alert('Error al eliminar el comentario.');
+                        }
+                    })
+                    .catch(error =>{
+                        console.error('Error al eliminar el comentario:', error);
+                        alert('Error al eliminar el comentario.');
+                    });
+                 
+            }
+        }
+
+    });
+
+
 });

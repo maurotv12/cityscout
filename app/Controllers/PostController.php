@@ -189,4 +189,29 @@ class PostController extends Controller
         ]);
     }
 
+    public function deleteComment($id)
+{
+    $commentModel = new Comment();
+    $userId = $_SESSION['user']['id'];
+
+    // Verificar si el comentario pertenece al usuario o al post del usuario
+    $comment = $commentModel->find($id);
+
+    if (!$comment) {
+        return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
+    }
+
+    if ($comment['user_id'] !== $userId) {
+        return $this->json(['success' => false, 'message' => 'No tienes permiso para eliminar este comentario.'], 403);
+    }
+
+    $deleted = $commentModel->delete($id);
+
+    if ($deleted) {
+        return $this->json(['success' => true, 'message' => 'Comentario eliminado correctamente.']);
+    } else {
+        return $this->json(['success' => false, 'message' => 'Error al eliminar el comentario.'], 500);
+    }
+}
+
 }

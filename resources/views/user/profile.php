@@ -25,6 +25,20 @@ $messages = [];
         <span class="ms-4"><strong><?= $followingCount ?></strong> seguidos</span>
       </div>
       <span id="bio-text"><?php echo nl2br(htmlspecialchars($user['bio'] ?? '')); ?></span>
+      
+      <?php if ($user['id'] !== $_SESSION['user']['id']): ?>
+          <!-- Botón Seguir/Dejar de seguir -->
+          <button id="follow-btn" class="btn btn-outline-primary btn-sm me-2" data-user-id="<?= $user['id'] ?>">
+            <?= $isFollowing ? 'Dejar de seguir' : 'Seguir' ?>
+          </button>
+        <?php endif; ?>
+       
+      <?php if ($user['id'] !== $_SESSION['user']['id']): ?>
+        <!-- Botón de Mensaje -->
+        <div class="mt-3">
+          <button id="message-btn" class="btn btn-primary btn-sm" data-user-id="<?= $user['id'] ?>">Mensaje</button>
+        </div>
+      <?php endif; ?>
 
       <form class="d-none" id="edit-profile-form" method="POST" action="/user/update-profile/<?= $user['id'] ?>" enctype="multipart/form-data">
         <div class="col-md-12">

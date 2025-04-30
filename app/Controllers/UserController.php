@@ -135,4 +135,30 @@ class UserController extends Controller
             return $this->json(['error' => 'No se pudo actualizar la biografía'], 500);
         }
     }
+
+    public function toggleFollow($id)
+    {
+        $followerModel = new Follower();
+        $userId = $_SESSION['user']['id'];
+    
+        // Verificar si ya sigue al usuario
+        $existingFollow = $followerModel->where('user_follower_id', $userId)->where('user_followed_id', $id)->first();
+    
+        if ($existingFollow) {
+            // Dejar de seguir
+            $followerModel->delete($existingFollow['id']);
+            return $this->json(['success' => true, 'following' => false]);
+        } else {
+            // Seguir
+            $followerModel->create([
+                'user_follower_id' => $userId,
+                'user_followed_id' => $id,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            return $this->json(['success' => true, 'following' => true]);
+        }
+    }
+
+
 }
+
