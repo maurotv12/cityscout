@@ -214,10 +214,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('click', function (e) {
         if (e.target.classList.contains('delete-comment-btn')) {
-            console.log('Eliminando comentario...');
+            
             const commentId = e.target.getAttribute('data-comment-id');
             const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
-            console.log('comentariotId', commentId);
+      
             if (confirm('¿Estás seguro de que deseas eliminar este comentario?')) {
                 //Enviar Solicitud al backend para eliminar el comentario
                 fetch(`/comment/${commentId}/delete`, {
@@ -246,4 +246,77 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
+
+
+    deletePost.addEventListener('click', function (e) {
+        e.preventDefault();
+        console.log('Eliminando post...');
+
+        const postId = deletePost.getAttribute('data-post-id');
+        const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+
+        if (confirm('¿Estas seguro de que deseas eliminar este post?')) {
+            //Enviar Solicitud al backend para eliminar el post
+            fetch(`/post/${postId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        //Eliminar el post del DOM
+                        postElement.remove();
+                        alert('Post eliminado correctamente.');
+                    } else {
+                        alert('Error al eliminar el post.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al eliminar el post:', error);
+                    alert('Error al eliminar el post.');
+                });
+        }
+    });
+
+
+
+    // document.addEventListener('click', function (e){
+    //     if(e.target.classList.contains('delete-post-btn')) {
+    //         console.log('Eliminando post...');
+
+    //         const postId = e.target.getAttribute('data-post-id');
+    //         const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+            
+    //         console.log('postId', postId);
+    //         if (confirm('¿Estas seguro de que deseas eliminar este post?')) {
+    //             //Enviar Solicitud al backend para eliminar el post
+    //             fetch(`/post/${postId}/delete`, {
+    //                 method: 'DELETE',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 },
+
+    //             })
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     if (data.success) {
+    //                         //Eliminar el post del DOM
+    //                         postElement.remove();
+    //                         alert('Post eliminado correctamente.');
+    //                     } else {
+    //                         alert('Error al eliminar el post.');
+    //                     }
+    //                 })
+    //                 .catch(error => {
+    //                     console.error('Error al eliminar el post:', error);
+    //                     alert('Error al eliminar el post.');
+    //                 });
+    //         }
+    //     }
+    // });
+
+
 });

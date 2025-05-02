@@ -234,7 +234,27 @@ class PostController extends Controller
 }
 
     public function deletePost($id){
-        
+
+        $postModel = new Post();
+        $userId = $_SESSION['user']['id'];
+        // Verificar si el post existe y pertenece al usuario
+        $post = $postModel->find($id);
+
+        if (!$post) {
+            return $this->json(['success' => false, 'message' => 'Post no encontrado.'], 404);
+        }
+
+        if ($post['user_id'] !== $userId) {
+            return $this->json(['success' => false, 'message' => 'No tienes permiso para eliminar este post.'], 403);
+        }
+
+        $deleted = $postModel->delete($id);
+
+        if ($deleted) {
+            return $this->json(['success' => true, 'message' => 'Post eliminado correctamente.']);
+        } else {
+            return $this->json(['success' => false, 'message' => 'Error al eliminar el post.'], 500);
+        }
     }
 
 }

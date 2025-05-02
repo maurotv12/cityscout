@@ -24,6 +24,9 @@ Route::get('/post/create', function () {
     AuthMiddleware::handle();
     (new PostController)->create();
 });
+Route::delete('/post/:id/delete', [PostController::class, 'delete'])
+    ->middleware([AuthMiddleware::class]);
+    
 Route::get('/post/:id/comments', [PostController::class, 'getComments'])
     ->middleware([AuthMiddleware::class]);
 Route::post('/post/:id/comments', [PostController::class, 'addComment'])

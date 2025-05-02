@@ -55,6 +55,13 @@
                     data-post-type="<?= $post['type'] ?>">
                     <i class="bi bi-chat-heart-fill"> Abrir y ver comentarios</i>
                 </a>
+                <button
+                    class="btn btn-danger delete-post-btn"
+                    data-post-id="<?= $post['id'] ?>"
+                    data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <!--<button class="btn btn-danger delete-post-btn" data-post-id="${post.id}"><i class="bi bi-trash3"></i></button>-->
             </div>
         </div>
     <?php } ?>
