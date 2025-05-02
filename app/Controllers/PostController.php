@@ -180,6 +180,7 @@ class PostController extends Controller
             'post_id' => $postId,
             'user_id' => $userId,
             'comment' => htmlspecialchars($commentText, ENT_QUOTES, 'UTF-8'),
+            'can_delete' => true,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
     
