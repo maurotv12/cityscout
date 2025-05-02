@@ -1,6 +1,6 @@
 function commentHtml(comment) {
     return `
-        <div class="row d-flex justify-content-center mb-2">
+        <div class="row d-flex justify-content-center mb-2" data-comment-id="${comment.id}">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -16,10 +16,9 @@ function commentHtml(comment) {
                                         ${comment.created_at}
                                     </p>
                                 </div>
-                            </div>
-                            
-                            <i class="bi bi-trash3" data-comment-id="${comment.id}"></i>
-                        </div>
+                            </div>` 
+                            + (comment.can_delete ? `<button class="btn btn-primary delete-comment-btn" data-comment-id="${comment.id}"><i class="bi bi-trash3"></i></button>` : ``) +
+                        `</div>
                         <p class="mt-3">${comment.comment}</p>
                     </div>
                 </div>
@@ -38,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalPostCaption = commentsModal.querySelector('.modal-post-caption');
     const addCommentForm = commentsModal.querySelector('#add-comment-form');
     const commentTextarea = addCommentForm.querySelector('#comment-textarea');
+    const deleteCommentBtn = commentsModal.querySelector('.delete-comment-btn');
 
 
 
@@ -214,9 +214,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('click', function (e) {
         if (e.target.classList.contains('delete-comment-btn')) {
+            console.log('Eliminando comentario...');
             const commentId = e.target.getAttribute('data-comment-id');
             const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
-
+            console.log('comentariotId', commentId);
             if (confirm('¿Estás seguro de que deseas eliminar este comentario?')) {
                 //Enviar Solicitud al backend para eliminar el comentario
                 fetch(`/comment/${commentId}/delete`, {
@@ -245,6 +246,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
-
-
 });

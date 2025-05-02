@@ -29,7 +29,7 @@ Route::get('/post/:id/comments', [PostController::class, 'getComments'])
 Route::post('/post/:id/comments', [PostController::class, 'addComment'])
     ->middleware([AuthMiddleware::class]);
 //Delete Comment
-Route::delete('/comments/:id/delete', [PostController::class, 'deleteComment'])
+Route::delete('/comment/:id/delete', [PostController::class, 'deleteComment'])
     ->middleware([AuthMiddleware::class]);
 
 Route::post('/post/:id/like', [PostController::class, 'toggleLike'])

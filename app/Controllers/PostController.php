@@ -180,7 +180,6 @@ class PostController extends Controller
             'post_id' => $postId,
             'user_id' => $userId,
             'comment' => htmlspecialchars($commentText, ENT_QUOTES, 'UTF-8'),
-            'can_delete' => true,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
     
@@ -196,6 +195,7 @@ class PostController extends Controller
                 'id' => $comment['id'],
                 'comment' => $comment['comment'],
                 'created_at' => $comment['created_at'],
+                'can_delete' => true,
                 'user' => [
                     'id' => $user['id'],
                     'fullname' => $user['fullname'],
@@ -212,18 +212,17 @@ class PostController extends Controller
 {
     $commentModel = new Comment();
     $userId = $_SESSION['user']['id'];
-
-    // Verificar si el comentario pertenece al usuario o al post del usuario
+    // Verificar si el comentario existe y pertenece al usuario
     $comment = $commentModel->find($id);
 
     if (!$comment) {
         return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
     }
-
+    
     if ($comment['user_id'] !== $userId) {
         return $this->json(['success' => false, 'message' => 'No tienes permiso para eliminar este comentario.'], 403);
     }
-
+    
     $deleted = $commentModel->delete($id);
 
     if ($deleted) {
@@ -231,6 +230,11 @@ class PostController extends Controller
     } else {
         return $this->json(['success' => false, 'message' => 'Error al eliminar el comentario.'], 500);
     }
+    var_dump($deleted);
 }
+
+    public function deletePost($id){
+        
+    }
 
 }

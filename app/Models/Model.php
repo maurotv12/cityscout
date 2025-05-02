@@ -148,6 +148,7 @@ class Model {
         //DELETE FROM users WHERE id = 1
         $sql = "DELETE FROM {$this->table} WHERE id = ?";
         $this->query($sql, [$id], 'i');
+        return $this;
     }
 
 }
