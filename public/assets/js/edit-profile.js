@@ -29,14 +29,6 @@ editProfileForm.addEventListener('submit', (e) => {
                 editProfileForm.classList.add('d-none');
                  
                 location.reload();
-
-                // Actualizar el contenido del perfil con los nuevos datos sin recargar la página
-                // bioText.textContent = formData.get('bio') || bioText.textContent;
-                // if (data.profile_photo_updated) {
-                //     profilePhotos.forEach((photo) => {
-                //         photo.src = '/../../../public/assets/images/profiles/' + data.user_id + '.' + data.profile_photo_type || photo.src;
-                //     });
-                // }
                 
             } else {
                 alert(data.error || 'Error al actualizar el perfil');

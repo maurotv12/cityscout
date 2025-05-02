@@ -65,6 +65,16 @@ class UserController extends Controller
             $data['bio'] = $_POST['bio'];
             $_SESSION['user']['bio'] = $data['bio'] ?? $user['bio']; // Actualizar la sesión con la nueva biografía
         }
+
+        if (isset($_POST['username'])) {
+            $data['username'] = $_POST['username'];
+            $_SESSION['user']['username'] = $data['username'] ?? $user['username']; // Actualizar la sesión con el nuevo nombre de usuario
+        }
+
+        if (isset($_POST['fullname'])) {
+            $data['fullname'] = $_POST['fullname'];
+            $_SESSION['user']['fullname'] = $data['fullname'] ?? $user['fullname']; // Actualizar la sesión con el nuevo nombre completo
+        }
     
         // Actualizar foto de perfil
         if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {

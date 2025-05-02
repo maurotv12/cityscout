@@ -38,6 +38,21 @@ class PostController extends Controller
     {
         $commentModel = new Comment();
         $comments = $commentModel->getComments($postId);
+        $postModel = new Post();
+        $post = $postModel->find($postId);
+
+        $comments = array_map(function($comment) use ($post) {
+            $userModel = new User();
+            $user = $userModel->find($comment['user_id']);
+
+            return [
+                'id' => $comment['id'],
+                'can_delete' => $comment['user_id'] === $_SESSION['user']['id'] || $post['user_id'] === $_SESSION['user']['id'],
+                'comment' => htmlspecialchars($comment['comment'], ENT_QUOTES, 'UTF-8'),
+                'created_at' => $comment['created_at'],
+                'user' => $user
+            ];
+        }, $comments);
 
         if (!$comments) {
             return ['success' => false, 'message' => 'No se encontraron comentarios.'];
@@ -172,6 +187,8 @@ class PostController extends Controller
         $userModel = new User();
         $user = $userModel->find($userId);
     
+        $hasMoreComments = count($commentModel->where('post_id', $postId)->get()) > 1; // Verificar si hay más comentarios para el post actual
+
         return $this->json([
             'success' => true,
             'comment' => [
@@ -182,10 +199,11 @@ class PostController extends Controller
                     'id' => $user['id'],
                     'fullname' => $user['fullname'],
                     'profile_photo' => file_exists(__DIR__ . '/../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'])
-                        ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']
-                        : '/assets/images/user-default.png',
+                    ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']
+                    : '/assets/images/user-default.png',
                 ],
             ],
+            'has_more_comments' => $hasMoreComments,
         ]);
     }
 

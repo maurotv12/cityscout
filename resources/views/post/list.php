@@ -118,7 +118,7 @@
                             </div>
 
                             <!-- Contenedor scrolleable de comentarios -->
-                            <div class="comments" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+                            <div class="comments" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
                             </div>
                         </div>
                     </div>

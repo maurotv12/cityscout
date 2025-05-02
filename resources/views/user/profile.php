@@ -16,7 +16,8 @@ $messages = [];
     </div>
     <div class="col-md-8">
       <div class="d-flex align-items-center mb-3">
-        <span class="username me-3"><?php echo $user['username'] ?></span>
+        <h2 class="mb-0 me-3"><?= $user['fullname'] ?></h2>
+        <span class="username me-3">@<?php echo $user['username'] ?></span>
         <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
       </div>
       <div class="mb-3">
@@ -41,6 +42,14 @@ $messages = [];
       <?php endif; ?>
 
       <form class="d-none" id="edit-profile-form" method="POST" action="/user/update-profile/<?= $user['id'] ?>" enctype="multipart/form-data">
+        <div class="col-md-6">
+          <label class="form-label" for="fullname">Nombre</label>
+          <input type="text" id="fullname" class="form-control" name="fullname" value="<?= htmlspecialchars($user['fullname'] ?? '') ?>">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="username">Nombre de Usuario</label>
+          <input type="text" id="username" class="form-control" name="username" value="<?= htmlspecialchars($user['username'] ?? '') ?>">
+        </div>
         <div class="col-md-12">
           <label class="form-label" for="profile_photo">Foto de perfil</label>
           <input type="file" id="profile_photo" class="form-control" name="profile_photo" accept="image/*">
@@ -68,5 +77,4 @@ include __DIR__ . '/../layout/main.php';
 ?>
 
 <script src="/assets/js/edit-profile.js"></script>
-<script src="/assets/js/post.js"></script>
 <script src="/assets/js/likes.js"></script>

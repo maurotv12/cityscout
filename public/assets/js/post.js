@@ -1,3 +1,33 @@
+function commentHtml(comment) {
+    return `
+        <div class="row d-flex justify-content-center mb-2">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-start align-items-center">
+                                <img class="rounded-circle shadow-1-strong me-3"
+                                    src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
+                                    onerror="this.src='/assets/images/user-default.png';" 
+                                    alt="avatar" width="40" height="40" />
+                                <div>
+                                    <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
+                                    <p class="text-muted small mb-0">
+                                        ${comment.created_at}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <i class="bi bi-trash3" data-comment-id="${comment.id}"></i>
+                        </div>
+                        <p class="mt-3">${comment.comment}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const commentsModal = document.getElementById('commentsModal');
     const modalBody = commentsModal.querySelector('.comments');
@@ -15,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const button = event.relatedTarget; // Botón que activó el modal
         const postId = button.getAttribute('data-post-id'); // Obtener el ID del post
         commentsModal.setAttribute('data-post-id', postId);
-        console.log(postId);
+        console.log('postId', postId);
 
         const postCaption = button.getAttribute('data-post-caption'); // Obtener la caption del post
 
@@ -31,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // const modalPostImage = commentsModal.querySelector('.modal-post-image');
 
 
-        modalPostUsername.innerHTML = `<a href="/profile/${postUserId}">${postUsername}</a>`;
+        modalPostUsername.innerHTML = `<a href="/profile/${postUserId}" class="text-decoration-none text-body">${postUsername}</a>`;
         modalPostCaption.innerHTML = postCaption;
         // modalPostImage.setAttribute('src', postRoute);
         modalMedia.innerHTML = '';
@@ -78,30 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Generar el HTML de los comentarios
                     let commentsHtml = '';
                     data.comments.forEach(comment => {
-                        commentsHtml += `
-                            <div class="row d-flex justify-content-center mb-2">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-start align-items-center">
-                                                
-                                            <img class="rounded-circle shadow-1-strong me-3"
-                                                    src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
-                                                    onerror="this.src='/assets/images/user-default.png';" 
-                                                    alt="avatar" width="40" height="40" />
-                                                <div>
-                                                    <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
-                                                    <p class="text-muted small mb-0">
-                                                        ${comment.created_at}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <p class="mt-3">${comment.comment}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                        commentsHtml += commentHtml(comment);
                     });
                     modalBody.innerHTML = commentsHtml;
                 } else {
@@ -130,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Manejar el envío del formulario para actualizar el caption
     editCaptionForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        console.log('Enviando nueva descripción...');
 
         const postId = editCaptionBtn.getAttribute('data-post-id');
         const newCaption = newCaptionInput.value;
@@ -164,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Manejar el envío del formulario para agregar un comentario
     addCommentForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
+        console.log('Enviando comentario...');
         const postId = commentsModal.getAttribute('data-post-id'); // Obtener el ID del post desde el modal
         const comment = commentTextarea.value.trim();
 
@@ -187,28 +195,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 console.log('Respuesta del backend:', data);
                 if (data.success) {
+                    if (!data.has_more_comments) {
+                        modalBody.innerHTML = ''; // Limpiar el contenido del modal
+                    }
                     // Agregar el nuevo comentario al inicio de la lista
-                    const newCommentHtml = `
-                        <div class="row d-flex justify-content-center mb-2">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex flex-start align-items-center">
-                                            <img class="rounded-circle shadow-1-strong me-3"
-                                                src="${data.comment.user.profile_photo ?? '/assets/images/user-default.png'}" alt="avatar" width="40" height="40" />
-                                            <div>
-                                                <h6 class="fw-bold text-primary mb-1">${data.comment.user.fullname}</h6>
-                                                <p class="text-muted small mb-0">
-                                                    ${data.comment.created_at}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <p class="mt-3">${data.comment.comment}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    const newCommentHtml = commentHtml(data.comment);
                     modalBody.insertAdjacentHTML('afterbegin', newCommentHtml);
                     commentTextarea.value = ''; // Limpiar el textarea
                 } else {
@@ -228,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (confirm('¿Estás seguro de que deseas eliminar este comentario?')) {
                 //Enviar Solicitud al backend para eliminar el comentario
-                fetch(`/comment/($commentId)/delete`, {
+                fetch(`/comment/${commentId}/delete`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -236,20 +227,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 })
                     .then(response => response.json())
-                    .then(data =>{
+                    .then(data => {
                         if (data.success) {
                             //Eliminar el comentario del DOM
                             commentElement.remove();
                             alert('Comentario eliminado correctamente.');
-                        }else {
+                        } else {
                             alert('Error al eliminar el comentario.');
                         }
                     })
-                    .catch(error =>{
+                    .catch(error => {
                         console.error('Error al eliminar el comentario:', error);
                         alert('Error al eliminar el comentario.');
                     });
-                 
+
             }
         }
 
