@@ -1,3 +1,6 @@
+let editCaptionBtn;
+let editCaptionForm;
+
 function commentHtml(comment) {
     return `
         <div class="row d-flex justify-content-center mb-2" data-comment-id="${comment.id}">
@@ -27,11 +30,46 @@ function commentHtml(comment) {
     `;
 }
 
+function deletePost(postId){
+    console.log('Eliminando post...');
+    const postElement = document.querySelector(`[card-post-id="${postId}"]`);
+
+    if (confirm('¿Estas seguro de que deseas eliminar este post?')) {
+        //Enviar Solicitud al backend para eliminar el post
+        fetch(`/post/${postId}/delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    //Eliminar el post del DOM
+                    postElement.remove();
+                    alert('Post eliminado correctamente.');
+                } else {
+                    alert('Error al eliminar el post.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al eliminar el post:', error);
+                alert('Error al eliminar el post.');
+            });
+    }
+}
+
+function showEditCaptionForm() {
+    editCaptionBtn.classList.add('d-none');
+    editCaptionForm.classList.remove('d-none');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const commentsModal = document.getElementById('commentsModal');
     const modalBody = commentsModal.querySelector('.comments');
-    const editCaptionBtn = document.getElementById('edit-caption-btn');
-    const editCaptionForm = document.getElementById('edit-caption-form');
+    editCaptionBtn = document.getElementById('edit-caption-btn');
+    editCaptionForm = document.getElementById('edit-caption-form');
     const newCaptionInput = document.getElementById('new-caption');
     const cancelEditCaptionBtn = document.getElementById('cancel-edit-caption');
     const modalPostCaption = commentsModal.querySelector('.modal-post-caption');
@@ -123,10 +161,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Mostrar el formulario de edición al hacer clic en "Editar descripción"
-    editCaptionBtn.addEventListener('click', () => {
-        editCaptionBtn.classList.add('d-none');
-        editCaptionForm.classList.remove('d-none');
-    });
+    // editCaptionBtn.addEventListener('click', () => {
+    //     editCaptionBtn.classList.add('d-none');
+    //     editCaptionForm.classList.remove('d-none');
+    // });
 
     // Cancelar la edición
     cancelEditCaptionBtn.addEventListener('click', () => {
@@ -154,9 +192,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    const postCaptionElement = document.querySelector(`[card-post-caption="${postId}"]`);
                     modalPostCaption.textContent = newCaption;
+                    postCaptionElement.textContent = newCaption;
                     editCaptionForm.classList.add('d-none');
-                    editCaptionBtn.classList.remove('d-none');
+                    editCaptionBtn.classList.remove('d-none'); 
                     alert('Descripción actualizada correctamente.');
                 } else {
                     alert('Error al actualizar la descripción.');

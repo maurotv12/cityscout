@@ -1,6 +1,6 @@
 <!-- Modal Chat -->
 <div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="createPostsModalLabel">Chat</h1>
@@ -10,11 +10,11 @@
                 <div class="container h-100">
                     <div class="row h-100">
                         <!-- Chat List -->
-                        <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 scrollable-col">
+                        <div class="col-md-12 mb-4 mb-md-0 scrollable-col">
                             <div class="card chat-list">
                                 <div class="card-body">
                                     <ul class="list-unstyled mb-0">
-                                        <li class="p-2 border-bottom bg-body-tertiary">
+                                        <!-- <li class="p-2 border-bottom bg-body-tertiary">
                                             <a href="#!" class="d-flex justify-content-between">
                                                 <div class="d-flex flex-row">
                                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-8.webp" alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
@@ -28,13 +28,13 @@
                                                     <span class="badge bg-danger float-end">1</span>
                                                 </div>
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <!-- Chat Messages -->
-                        <div class="col-md-6 col-lg-7 col-xl-8">
+                        <div class="col-md-12" class="d-none">
                             <div class="row scrollable-row">
                                 <ul class="list-unstyled">
                                     <li class="d-flex justify-content-between mb-4">
@@ -80,3 +80,5 @@
         </div>
     </div>
 </div>
+
+<script src="/assets/js/chat.js"></script>
