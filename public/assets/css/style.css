@@ -68,3 +68,20 @@
   object-position: center; /* Centra la imagen si el ancho es menor que el contenedor */
   display: block; /* Elimina el espacio extra debajo de las imágenes */
 }
+
+/* Estilo para el logo navbar: "Focuz" */
+.logo-img {
+  height: 20px;
+}
+
+@media (min-width: 576px) {
+  .logo-img {
+    height: 30px;
+  }
+}
+
+@media (min-width: 992px) {
+  .logo-img {
+    height: 40px;
+  }
+}

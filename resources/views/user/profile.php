@@ -5,25 +5,35 @@ $messages = [];
 
 <div class="container py-5">
   <div class="row align-items-center">
-    <div class="col-md-4 text-center">
-        <img
-            src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']) 
-                ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'] 
-                : '/assets/images/user-default.png' ?>"
-            alt="Perfil"
-            class="rounded-circle profile-photo"
-            style="width: 200px; height: 200px; object-fit: cover;">
-    </div>
+  <div class="col-md-4 text-center">
+  <img
+    src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']) 
+        ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'] 
+        : '/assets/images/user-default.png' ?>"
+    alt="Perfil"
+    class="rounded-circle img-fluid profile-photo"
+    style="max-width: 200px; height: auto; aspect-ratio: 1 / 1; object-fit: cover;">
+</div>
+
     <div class="col-md-8">
       <div class="d-flex align-items-center mb-3">
-        <h2 class="mb-0 me-3"><?= $user['fullname'] ?></h2>
+        <h2 class="mb-0 me-3" style="font-size: clamp(1.2rem, 2.5vw, 2rem);"><?= $user['fullname'] ?></h2>
         <span class="username me-3">@<?php echo $user['username'] ?></span>
         <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
       </div>
       <div class="mb-3">
-        <span><strong><?= $postCount ?></strong> publicaciones</span>
-        <span class="ms-4"><strong  id="followers-count"><?= $followersCount ?></strong> seguidores</span>
-        <span class="ms-4"><strong><?= $followingCount ?></strong> seguidos</span>
+        <div class="d-inline-block text-start me-4">
+          <strong class="d-block"><?= $postCount ?></strong>
+          <span>publicaciones</span>
+        </div>
+        <div class="d-inline-block text-start me-4">
+          <strong id="followers-count" class="d-block"><?= $followersCount ?></strong>
+          <span>seguidores</span>
+        </div>
+        <div class="d-inline-block text-start me-4">
+          <strong id="followed-count" class="d-block"><?= $followingCount ?></strong> seguidos</span>
+        </div>
+        
       </div>
       <span id="bio-text"><?php echo nl2br(htmlspecialchars($user['bio'] ?? '')); ?></span>
       
