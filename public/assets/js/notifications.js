@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const notificationCount = document.getElementById('notificationCount');
     const notificationMenu = document.querySelector('.dropdown-menu');
     const noNotifications = document.getElementById('noNotifications');
+    loadNotifications(); 
 
-    // Cargar notificaciones al abrir el dropdown
-    notificationDropdown.addEventListener('click', function () {
+    setInterval(() => loadNotifications(), 3000);
+
+    function loadNotifications() {
         fetch('/notifications')
             .then(response => response.json())
             .then(data => {
@@ -22,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             notificationItem.innerHTML = `
                                 <i class="bi ${getNotificationIcon(notification.type)} me-2"></i>
                                 <div>
-                                    <p class="mb-0">${notification.content}</p>
+                                    <p class="mb-0">${notification.sender.fullname} (${notification.sender.username}) - ${notification.content}</p>
                                     <small class="text-muted">${new Date(notification.created_at).toLocaleString()}</small>
                                 </div>
                             `;
-                            notificationItem.addEventListener('click', () => markAsRead(notification.id));
+                            // notificationItem.addEventListener('click', () => markAsRead(notification.id));
                             notificationMenu.appendChild(notificationItem);
                         });
 
@@ -42,16 +44,21 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error('Error al cargar las notificaciones:', error);
             });
+    }
+
+    // Cargar notificaciones al abrir el dropdown
+    notificationDropdown.addEventListener('click', function () {
+        loadNotifications();
+        markAsRead();
     });
 
     // Marcar notificación como leída
-    function markAsRead(notificationId) {
+    function markAsRead() {
         fetch('/notifications/read', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ notification_id: notificationId }),
+            }
         })
             .then(response => response.json())
             .then(data => {
@@ -73,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 return 'bi-chat-dots';
             case 'message':
                 return 'bi-envelope';
+            case 'follow':
+                return 'bi-person-plus';
             default:
                 return 'bi-info-circle';
         }

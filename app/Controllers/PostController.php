@@ -20,19 +20,6 @@ class PostController extends Controller
         return $this->view('post.feed', ['posts' => $posts]);
     }
 
-    public function create()
-    {
-        $model = new User;
-        $model = new Post;
-
-        $users = $model->all();
-
-        return $this->view('post.create');
-    }
-
-    public function post($id){
-        return "aqui se mostrará el feed";
-    }
 
     public function getComments($postId)
     {
@@ -188,7 +175,13 @@ class PostController extends Controller
         $user = $userModel->find($userId);
     
         $hasMoreComments = count($commentModel->where('post_id', $postId)->get()) > 1; // Verificar si hay más comentarios para el post actual
-
+    
+        // Enviar notificación al usuario que creó el post
+        $postModel = new Post();
+        $post = $postModel->find($postId);
+        $notificationController = new NotificationController();
+        $notificationController->createNotification('comment', $userId, $post['user_id'],  $postId);
+        
         return $this->json([
             'success' => true,
             'comment' => [
@@ -199,9 +192,7 @@ class PostController extends Controller
                 'user' => [
                     'id' => $user['id'],
                     'fullname' => $user['fullname'],
-                    'profile_photo' => file_exists(__DIR__ . '/../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'])
-                    ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']
-                    : '/assets/images/user-default.png',
+                    'profile_photo_type' => $user['profile_photo_type']
                 ],
             ],
             'has_more_comments' => $hasMoreComments,
@@ -230,7 +221,7 @@ class PostController extends Controller
     } else {
         return $this->json(['success' => false, 'message' => 'Error al eliminar el comentario.'], 500);
     }
-    var_dump($deleted);
+
 }
 
     public function deletePost($id){

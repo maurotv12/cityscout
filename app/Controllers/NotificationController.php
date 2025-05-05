@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Notification;
+use App\Models\User;
 
 class NotificationController extends Controller
 {
@@ -12,17 +13,29 @@ class NotificationController extends Controller
     {
         $userId = $_SESSION['user']['id'];
         $notificationModel = new Notification();
+        $userModel = new User();
+        
 
         // Obtener notificaciones del usuario autenticado con query
         $sql = "
-        SELECT * FROM `notifications` 
-        WHERE `user_id` = $userId 
-        AND `sender_id` != $userId
-        ORDER BY `created_at` DESC
-    ";
+            SELECT * FROM notifications
+            WHERE user_id = ? 
+            AND sender_id != ?
+            ORDER BY `created_at` DESC
+        ";
 
-        $notifications = $notificationModel->query($sql, $userId)->get();
+        $notifications = $notificationModel->query($sql, [$userId, $userId])->get();
 
+        $notifications = array_map(function($notification) use ($userModel) {
+            $sender = $userModel->find($notification['sender_id']);
+            $notification['sender'] = [
+                'id' => $sender['id'],
+                'fullname' => $sender['fullname'],
+                'username' => $sender['username'],
+                'profile_photo_type' => $sender['profile_photo_type'],
+            ];
+            return $notification;
+        }, $notifications);
 
 
         return $this->json(['success' => true, 'notifications' => $notifications]);
@@ -33,16 +46,22 @@ class NotificationController extends Controller
         $userId = $_SESSION['user']['id'];
         $notificationModel = new Notification();
 
-        $notifications = $notificationModel->where('user_id', $userId);
+        $notifications = $notificationModel->where('user_id', $userId)->get();
+
+        if (!$notifications) {
+            return $this->json(['success' => false, 'message' => 'No hay notificaciones para marcar como leídas.']);
+        }
 
         foreach ($notifications as $notification) {
             if ($notification['is_read'] == 0) {
                 $notificationModel->update($notification['id'], ['is_read' => 1]);
             }
         }
+
+        return $this->json(['success' => true, 'message' => 'Notificaciones marcadas como leídas.']);
     }
 
-    public function createNotification($type, $senderId, $receiverId, $referenceId)
+    public function createNotification($type, $senderId, $receiverId, $referenceId = null)
     {
         $notificationModel = new Notification();
         $content = null;

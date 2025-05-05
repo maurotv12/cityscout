@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Comment; 
+use App\Controllers\NotificationController;
 
 
 class ChatController extends Controller
@@ -24,10 +25,12 @@ class ChatController extends Controller
     {
         return $this->view('chat.conversation');
     }
-    public function getChats($userId)
+
+    public function getChats()
     {
         $messageModel = new Message();
         $userModel = new User();
+        $userId = $_SESSION['user']['id'];
 
         // Obtener los usuarios con los que el usuario ha chateado
         $sql = "
@@ -58,9 +61,10 @@ class ChatController extends Controller
         return $this->json(['success' => true, 'chats' => $chats]);
     }
 
-    public function getMessages($userId, $chatWithId)
+    public function getMessages($chatWithId)
     {
         $messageModel = new Message();
+        $userId = $_SESSION['user']['id'];
 
         // Obtener el historial de mensajes entre los dos usuarios
         $sql = "
@@ -70,21 +74,33 @@ class ChatController extends Controller
                     m.receiver_id, 
                     m.message, 
                     m.is_read, 
-                    m.created_at
+                    m.created_at,
+                    su.fullname AS sender_fullname,
+                    su.profile_photo_type AS sender_profile_photo_type,
+                    su.username AS sender_username
                 FROM messages m
-                WHERE (m.sender_id = ? AND m.receiver_id = ?)
-                   OR (m.sender_id = ? AND m.receiver_id = ?)
+                INNER JOIN users su on (su.id = m.sender_id)
+                WHERE (m.sender_id = ? OR m.receiver_id = ? )
+                   AND (m.sender_id = ? OR m.receiver_id = ? )
                 ORDER BY m.created_at ASC
             ";
 
-        $messages = $messageModel->query($sql, [$userId, $chatWithId, $chatWithId, $userId])->get();
+        $messages = $messageModel->query($sql, [$userId, $userId, $chatWithId, $chatWithId])->get();
+
+        foreach ($messages as &$message) {
+            $message['sender_profile_photo'] = file_exists(__DIR__ . "/../../public/assets/images/profiles/{$message['sender_id']}.{$message['sender_profile_photo_type']}")
+                ? "/assets/images/profiles/{$message['sender_id']}.{$message['sender_profile_photo_type']}"
+                : "/assets/images/user-default.png";
+        }
 
         return $this->json(['success' => true, 'messages' => $messages]);
     }
 
-    public function sendMessage($senderId, $receiverId, $message)
+    public function sendMessage($receiverId)
     {
+        $senderId = $_SESSION['user']['id'];
         $messageModel = new Message();
+        $message = json_decode(file_get_contents('php://input'), true)['message'] ?? '';
 
         // Validar el mensaje
         if (empty(trim($message))) {
@@ -99,13 +115,17 @@ class ChatController extends Controller
             'is_read' => 0,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
+        
+        $notificationController = new NotificationController();
+        $notificationController->createNotification('message', $senderId, $receiverId);
 
         return $this->json(['success' => true, 'message' => $newMessage]);
     }
 
-    public function markMessagesAsRead($userId, $chatWithId)
+    public function markMessagesAsRead($chatWithId)
     {
         $messageModel = new Message();
+        $userId = $_SESSION['user']['id'];
 
         // Marcar como leídos los mensajes recibidos del otro usuario
         $sql = "

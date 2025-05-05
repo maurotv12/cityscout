@@ -20,10 +20,6 @@ Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'register']);
 
 //posts
-Route::get('/post/create', function () {
-    AuthMiddleware::handle();
-    (new PostController)->create();
-});
 Route::delete('/post/:id/delete', [PostController::class, 'deletePost'])
     ->middleware([AuthMiddleware::class]);
     
@@ -38,16 +34,13 @@ Route::delete('/comment/:id/delete', [PostController::class, 'deleteComment'])
 Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
     ->middleware([AuthMiddleware::class]);
 
+//Guardar post
 Route::post('/post/store', [PostController::class, 'store'])
     ->middleware([AuthMiddleware::class]);
 
 Route::post('/post/:id/update-caption', [PostController::class, 'updateCaption'])
     ->middleware([AuthMiddleware::class]);
     
-// Route::get('/post/:id', function () {
-//     AuthMiddleware::handle();
-//     (new PostConstroller)->post();
-// });
 
 //user
 Route::get('/profile/:id', [UserController::class, 'show'])
@@ -72,10 +65,6 @@ Route::post('/chats/:chatWithId/read', [ChatController::class, 'markMessagesAsRe
 Route::post('/user/:id/follow', [UserController::class, 'toggleFollow'])
     ->middleware([AuthMiddleware::class]);
 
-// Route::get('/chats', [ChatController::class, 'index'])
-//     ->middleware([AuthMiddleware::class]);
-// Route::get('/conversation/:id', [ChatController::class, 'conversation'])
-//     ->middleware([AuthMiddleware::class]);
 
 //Notifications
 Route::get('/notifications', [NotificationController::class, 'getNotifications'])
