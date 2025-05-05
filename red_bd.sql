@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2025 a las 23:12:12
+-- Tiempo de generación: 05-05-2025 a las 05:15:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,6 +35,28 @@ CREATE TABLE `comments` (
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `post_id`, `comment`, `created_at`) VALUES
+(3, 1, 14, 'hola', '2025-05-01 20:11:32'),
+(4, 1, 21, 'hola', '2025-05-01 20:11:51'),
+(5, 1, 21, 'hola', '2025-05-01 20:11:51'),
+(6, 1, 15, 'hola', '2025-05-01 20:12:03'),
+(7, 1, 14, 'holis', '2025-05-01 20:18:10'),
+(8, 1, 21, 'holios', '2025-05-01 20:18:29'),
+(9, 1, 21, 'holios', '2025-05-01 20:18:29'),
+(10, 1, 22, 'holis', '2025-05-01 20:25:20'),
+(12, 1, 16, 'hol', '2025-05-01 20:29:11'),
+(13, 1, 17, 'holiss', '2025-05-01 20:32:23'),
+(14, 1, 22, 'holas', '2025-05-01 21:15:58'),
+(15, 1, 22, 'yyy', '2025-05-01 21:17:21'),
+(16, 1, 22, 'aa', '2025-05-01 21:24:10'),
+(17, 7, 14, 'como vas', '2025-05-01 22:10:44'),
+(18, 7, 22, 'que bonito video', '2025-05-05 04:16:43'),
+(19, 7, 22, 'video', '2025-05-05 04:19:20');
+
 -- --------------------------------------------------------
 
 --
@@ -53,8 +75,8 @@ CREATE TABLE `followers` (
 --
 
 INSERT INTO `followers` (`id`, `user_follower_id`, `user_followed_id`, `created_at`) VALUES
-(1, 1, 7, '2025-04-24 18:09:38'),
-(2, 7, 1, '2025-04-26 03:43:44');
+(2, 7, 1, '2025-04-26 03:43:44'),
+(17, 1, 7, '2025-05-05 05:02:42');
 
 -- --------------------------------------------------------
 
@@ -74,7 +96,7 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
-(84, 1, 22, '2025-04-28 21:40:52');
+(87, 1, 14, '2025-04-29 05:32:31');
 
 -- --------------------------------------------------------
 
@@ -97,7 +119,21 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `message`, `is_read`, `created_at`) VALUES
 (1, 1, 2, 'Hola Carlos', 1, '2025-04-16 21:44:56'),
-(2, 2, 3, 'Hola Mauricio', 1, '2025-04-16 21:45:46');
+(2, 2, 3, 'Hola Mauricio', 1, '2025-04-16 21:45:46'),
+(3, 7, 1, 'Hola ', 1, '2025-05-05 01:05:23'),
+(4, 7, 1, 'hola', 1, '2025-05-05 01:05:46'),
+(5, 1, 7, 'hola bro', 1, '2025-05-05 01:06:03'),
+(6, 9, 1, 'holi', 1, '2025-05-05 01:06:03'),
+(7, 1, 7, 'a', 1, '2025-05-05 03:04:30'),
+(8, 1, 7, 'a', 1, '2025-05-05 03:04:44'),
+(9, 1, 7, 'Holas', 1, '2025-05-05 03:04:56'),
+(10, 1, 7, 'Hola juan', 1, '2025-05-05 03:13:50'),
+(11, 1, 7, 'Como estas', 1, '2025-05-05 03:14:04'),
+(12, 7, 1, 'hola camlo', 1, '2025-05-05 03:23:53'),
+(13, 7, 1, 'Mauricio estas ahí?', 1, '2025-05-05 03:26:45'),
+(14, 1, 7, 'camilo', 1, '2025-05-05 03:41:45'),
+(15, 7, 1, 'me voy a dormir', 0, '2025-05-05 04:02:25'),
+(16, 7, 1, 'holis', 0, '2025-05-05 04:16:28');
 
 -- --------------------------------------------------------
 
@@ -115,6 +151,33 @@ CREATE TABLE `notifications` (
   `is_read` tinyint(1) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `reference_id`, `content`, `is_read`, `created_at`) VALUES
+(1, 1, 1, 'like', 21, 'Le dio like a tu publicación.', 1, '2025-04-29 05:31:35'),
+(2, 1, 7, 'like', 22, 'Le dio like a tu publicación.', 1, '2025-04-29 05:31:53'),
+(3, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-04-29 05:32:31'),
+(4, 7, 1, 'message', NULL, 'Te ha enviado un mensaje.', 1, '2025-05-05 03:41:45'),
+(5, 1, 7, 'message', NULL, 'Te ha enviado un mensaje.', 1, '2025-05-05 04:02:25'),
+(6, 1, 7, 'message', NULL, 'Te ha enviado un mensaje.', 1, '2025-05-05 04:16:28'),
+(7, 1, 7, 'comment', 22, 'Comentó tu publicación.', 1, '2025-05-05 04:16:43'),
+(8, 1, 7, 'comment', 22, 'Comentó tu publicación.', 1, '2025-05-05 04:19:20'),
+(9, 7, 1, 'follower', NULL, 'Te ha seguido.', 1, '2025-05-05 04:54:37'),
+(10, 7, 1, 'follower', NULL, 'Te ha seguido.', 1, '2025-05-05 04:54:56'),
+(11, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 04:56:52'),
+(12, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 04:57:12'),
+(13, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 04:57:32'),
+(14, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 04:58:32'),
+(15, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:11'),
+(16, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:37'),
+(17, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:39'),
+(18, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:40'),
+(19, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:41'),
+(20, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:41'),
+(21, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-05 05:02:42');
 
 -- --------------------------------------------------------
 
@@ -151,8 +214,8 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `user_id`, `image`, `file_name`, `type`, `caption`, `created_at`) VALUES
-(9, 1, '', '1745631029_680c37353e3f4', 'jpg', 'aaa', '2025-04-26 03:30:29'),
-(10, 1, '', '1745631556_680c39440f1ff', 'jpg', 'a', '2025-04-26 03:39:16'),
+(9, 1, '', '1745631029_680c37353e3f4', 'jpg', 'Camisa blanca 1', '2025-04-26 03:30:29'),
+(10, 1, '', '1745631556_680c39440f1ff', 'jpg', 'Sudadera azul 1', '2025-04-26 03:39:16'),
 (11, 1, '', '1745631592_680c3968bdf87', 'jpg', 'aaaa', '2025-04-26 03:39:52'),
 (12, 1, '', '1745631632_680c3990bbcad', 'jpg', 'drsggsd', '2025-04-26 03:40:32'),
 (13, 1, '', '1745631691_680c39cb52ff8', 'jpg', 'aaa', '2025-04-26 03:41:31'),
@@ -160,11 +223,10 @@ INSERT INTO `posts` (`id`, `user_id`, `image`, `file_name`, `type`, `caption`, `
 (15, 7, '', '1745636290_680c4bc2d375c', 'jpg', 'Verbos de objetivos', '2025-04-26 04:58:10'),
 (16, 1, '', '1745791647_680eaa9faa510', 'jpg', 'abc', '2025-04-28 00:07:27'),
 (17, 1, '', '1745791686_680eaac6711bf', 'jpg', '123', '2025-04-28 00:08:06'),
-(18, 1, '', '1745791732_680eaaf43b22c', 'jpg', '123', '2025-04-28 00:08:52'),
 (19, 1, '', '1745791744_680eab0049285', 'png', '123', '2025-04-28 00:09:04'),
 (20, 1, '', '1745791767_680eab173b701', 'jpg', '2132', '2025-04-28 00:09:27'),
 (21, 1, '', '1745795724_680eba8c0147f', 'jpg', 'Falda', '2025-04-28 01:15:24'),
-(22, 1, '', '1745849855_680f8dffe3748', 'mp4', 'Mi video de vacaciones en Velero por el mar caribe tomando el sol', '2025-04-28 16:17:35');
+(22, 1, '', '1745849855_680f8dffe3748', 'mp4', 'Mi video de vacaciones en Velero por el mar caribe tomando el sol..', '2025-04-28 16:17:35');
 
 -- --------------------------------------------------------
 
@@ -190,7 +252,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `password`, `profile_photo_type`, `bio`, `birth_date`, `created_at`, `updated_at`) VALUES
-(1, 'Maurici Muñoz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola\r\nEste es mi perfil de Focuz que utilizo para subir y reproducir videos', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
+(1, 'Mauricio Muñoz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola\r\nEste es mi perfil de Focuz que utilizo para subir y reproducir videos', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
 (2, 'Carlos Sanchez', 'carlitos2', 'carlitos@gmail.com', '66847374', '', 'hi', '2015-04-07', '2025-04-15 23:58:48', '2025-04-15 23:58:48'),
 (3, 'Mauricio 24', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Mauricio', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -271,31 +333,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `password_resets`
