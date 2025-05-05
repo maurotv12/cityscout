@@ -38,12 +38,18 @@ class UserController extends Controller
         $followingCount = $followerModel->where('user_follower_id', $id)->get();
         $followingCount = count($followingCount);
 
+        // Verificar si el usuario actual sigue al perfil que está viendo
+        $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
+        
+
         return $this->view('user.profile', [
             'posts' => $posts,
             'user' => $user,
             'postCount' => $postCount,
             'followersCount' => $followersCount,
             'followingCount' => $followingCount,
+            'isFollowing' => $isFollowing,
+
         ]);
     }
 
@@ -153,11 +159,13 @@ class UserController extends Controller
     
         // Verificar si ya sigue al usuario
         $existingFollow = $followerModel->where('user_follower_id', $userId)->where('user_followed_id', $id)->first();
-    
+
         if ($existingFollow) {
             // Dejar de seguir
             $followerModel->delete($existingFollow['id']);
-            return $this->json(['success' => true, 'following' => false]);
+            $followersCount = $followerModel->where('user_followed_id', $id)->get();
+            $followersCount = count($followersCount);
+            return $this->json(['success' => true, 'following' => false, 'followersCount' => $followersCount]);
         } else {
             // Seguir
             $followerModel->create([
@@ -165,7 +173,14 @@ class UserController extends Controller
                 'user_followed_id' => $id,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
-            return $this->json(['success' => true, 'following' => true]);
+
+            $followersCount = $followerModel->where('user_followed_id', $id)->get();
+            $followersCount = count($followersCount);
+
+            $notificationController = new NotificationController();
+            $notificationController->createNotification('follower', $userId, $id);
+
+            return $this->json(['success' => true, 'following' => true, 'followersCount' => $followersCount]);
         }
     }
 

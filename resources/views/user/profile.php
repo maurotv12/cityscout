@@ -22,24 +22,23 @@ $messages = [];
       </div>
       <div class="mb-3">
         <span><strong><?= $postCount ?></strong> publicaciones</span>
-        <span class="ms-4"><strong><?= $followersCount ?></strong> seguidores</span>
+        <span class="ms-4"><strong  id="followers-count"><?= $followersCount ?></strong> seguidores</span>
         <span class="ms-4"><strong><?= $followingCount ?></strong> seguidos</span>
       </div>
       <span id="bio-text"><?php echo nl2br(htmlspecialchars($user['bio'] ?? '')); ?></span>
       
       <?php if ($user['id'] !== $_SESSION['user']['id']): ?>
+        <div class="mt-3">
           <!-- Botón Seguir/Dejar de seguir -->
-          <button id="follow-btn" class="btn btn-outline-primary btn-sm me-2" data-user-id="<?= $user['id'] ?>">
+          <button id="follow-btn" class="btn btn-outline-primary btn-sm me-2" data-user-id="<?= $user['id'] ?>" onclick="toggleFollow(<?= $user['id'] ?>)">
             <?= $isFollowing ? 'Dejar de seguir' : 'Seguir' ?>
           </button>
+          <!-- Botón de Mensaje -->
+            <button id="message-btn" class="btn btn-primary btn-sm" data-user-id="<?= $user['id'] ?>">Mensaje</button>
+          </div>
         <?php endif; ?>
        
-      <?php if ($user['id'] !== $_SESSION['user']['id']): ?>
-        <!-- Botón de Mensaje -->
-        <div class="mt-3">
-          <button id="message-btn" class="btn btn-primary btn-sm" data-user-id="<?= $user['id'] ?>">Mensaje</button>
-        </div>
-      <?php endif; ?>
+   
 
       <form class="d-none" id="edit-profile-form" method="POST" action="/user/update-profile/<?= $user['id'] ?>" enctype="multipart/form-data">
         <div class="col-md-6">
@@ -78,3 +77,4 @@ include __DIR__ . '/../layout/main.php';
 
 <script src="/assets/js/edit-profile.js"></script>
 <script src="/assets/js/likes.js"></script>
+<script src="/assets/js/followers.js"></script>

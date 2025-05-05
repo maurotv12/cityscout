@@ -50,6 +50,10 @@ Route::get('/profile/:id/edit', [UserController::class, 'edit'])
 Route::post('/user/update-profile/:id', [UserController::class, 'update'])
     ->middleware([AuthMiddleware::class]);
 
+//Follow and Unfollow
+Route::post('/profile/:id/follow', [UserController::class, 'toggleFollow'])
+    ->middleware([AuthMiddleware::class]);
+
 //chat
 
 // Obtener lista de chats
