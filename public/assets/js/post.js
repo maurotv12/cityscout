@@ -1,5 +1,7 @@
 let editCaptionBtn;
 let editCaptionForm;
+let blurButton;
+
 
 function commentHtml(comment) {
     return `
@@ -77,26 +79,30 @@ function toggleBlur(postId, isBlurred) {
                 const postElement = document.querySelector(`[card-post-id="${postId}"]`);
                 const mediaElement = postElement.querySelector('.post-image, .post-video');
                 const blurButton = postElement.querySelector('.toggle-blur-btn');
+                const modalTriggerButton = document.querySelector(`[data-post-id="${postId}"][data-bs-toggle="modal"]`);
 
                 if (data.is_blurred) {
                     mediaElement.classList.add('blurred');
                     blurButton.innerHTML = '<i class="bi bi-file-lock"></i>';
                     blurButton.setAttribute('onclick', `toggleBlur(${postId}, true)`);
+                    modalTriggerButton.setAttribute('data-is-blurred', 'true'); // Actualizar el estado del blur en el botón del modal
                 } else {
                     mediaElement.classList.remove('blurred');
                     blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i>';
                     blurButton.setAttribute('onclick', `toggleBlur(${postId}, false)`);
+                    modalTriggerButton.setAttribute('data-is-blurred', 'false'); // Actualizar el estado del blur en el botón del modal
+
                 }
                 // Actualizar el estado del blur en el modal de comentarios
-                const commentsModal = document.getElementById('commentsModal');
-                if (commentsModal.getAttribute('data-post-id') === String(postId)) {
-                    const modalMedia = commentsModal.querySelector('.modal-media img, .modal-media video');
-                    if (data.is_blurred) {
-                        modalMedia.classList.add('blurred');
-                    } else {
-                        modalMedia.classList.remove('blurred');
-                    }
-                }
+                // const commentsModal = document.getElementById('commentsModal');
+                // if (commentsModal.getAttribute('data-post-id') === String(postId)) {
+                //     const modalMedia = commentsModal.querySelector('.modal-media img, .modal-media video');
+                //     if (data.is_blurred) {
+                //         modalMedia.classList.add('blurred');
+                //     } else {
+                //         modalMedia.classList.remove('blurred');
+                //     }
+                // }
             } else {
                 alert('Error al actualizar el estado del blur.');
             }
@@ -115,14 +121,17 @@ function showEditCaptionForm() {
 document.addEventListener('DOMContentLoaded', function () {
     const commentsModal = document.getElementById('commentsModal');
     const modalBody = commentsModal.querySelector('.comments');
+
     editCaptionBtn = document.getElementById('edit-caption-btn');
     editCaptionForm = document.getElementById('edit-caption-form');
     const newCaptionInput = document.getElementById('new-caption');
     const cancelEditCaptionBtn = document.getElementById('cancel-edit-caption');
     const modalPostCaption = commentsModal.querySelector('.modal-post-caption');
+
     const addCommentForm = commentsModal.querySelector('#add-comment-form');
     const commentTextarea = addCommentForm.querySelector('#comment-textarea');
     const deleteCommentBtn = commentsModal.querySelector('.delete-comment-btn');
+    blurButton = document.getElementById('blur-btn');
 
 
 
@@ -130,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const button = event.relatedTarget; // Botón que activó el modal
         const postId = button.getAttribute('data-post-id'); // Obtener el ID del post
         commentsModal.setAttribute('data-post-id', postId);
-        console.log('postId', postId);
+        const isBlurred = button.getAttribute('data-is-blurred') === 'true'; // Verificar si el post está bloqueado
 
         const postCaption = button.getAttribute('data-post-caption'); // Obtener la caption del post
 
@@ -149,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modalPostUsername.innerHTML = `<a href="/profile/${postUserId}" class="text-decoration-none text-body">${postUsername}</a>`;
         modalPostCaption.innerHTML = postCaption;
         // modalPostImage.setAttribute('src', postRoute);
-        modalMedia.innerHTML = '';
+        modalMedia.innerHTML = ''; // Limpiar el contenido previo
 
         editCaptionBtn.setAttribute('data-post-id', postId); // Establecer la caption del post en el botón de editar caption
 
@@ -159,6 +168,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const video = document.createElement('video');
             video.setAttribute('controls', '');
             video.setAttribute('style', 'width: 100%; object-fit: cover;');
+            if (isBlurred) {
+                video.classList.add('blurred'); // Aplicar la clase blurred si el post está bloqueado
+            }
             const source = document.createElement('source');
             source.setAttribute('src', postRoute);
             source.setAttribute('type', 'video/mp4');
@@ -170,6 +182,9 @@ document.addEventListener('DOMContentLoaded', function () {
             img.setAttribute('src', postRoute);
             img.setAttribute('alt', 'Post Media');
             img.setAttribute('style', 'width: 100%; object-fit: cover;');
+            if (isBlurred) {
+                img.classList.add('blurred'); // Aplicar la clase blurred si el post está bloqueado
+            }
             modalMedia.appendChild(img);
         }
 

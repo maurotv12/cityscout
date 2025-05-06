@@ -56,7 +56,8 @@
                             data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
                             data-post-route="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>"
                             data-post-caption="<?= htmlspecialchars($post['caption']) ?>"
-                            data-post-type="<?= $post['type'] ?>">
+                            data-post-type="<?= $post['type'] ?>"
+                            data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
                             <i class="bi bi-chat-heart-fill"> Abrir y ver comentarios</i>
                         </a>
                     </div>
@@ -73,6 +74,7 @@
                     <!-- Botón para editar blur del post -->
                     <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
                         <button
+                            id="blur-btn"
                             class="btn btn-warning toggle-blur-btn"
                             onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
                             data-post-id="<?= $post['id'] ?>"
