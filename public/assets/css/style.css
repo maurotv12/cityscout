@@ -85,3 +85,9 @@
     height: 40px;
   }
 }
+
+/*blurred para los posts*/
+.blurred {
+  filter: blur(15px);
+  pointer-events: none;
+}

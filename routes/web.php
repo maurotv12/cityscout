@@ -77,4 +77,8 @@ Route::get('/notifications', [NotificationController::class, 'getNotifications']
 Route::post('/notifications/read', [NotificationController::class, 'markAsRead'])
     ->middleware([AuthMiddleware::class]);
 
+//ruta para blur de posts  
+Route::post('/post/:id/toggle-blur', [PostController::class, 'toggleBlur'])
+    ->middleware([AuthMiddleware::class]);
+
 Lib\Route::dispatch();

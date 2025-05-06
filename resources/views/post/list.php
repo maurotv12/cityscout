@@ -4,7 +4,7 @@
             <?php if ($post['type'] === 'mp4'): ?>
                 <!-- Renderizar video si el archivo es un video -->
                 <video
-                    class="card-img-top post-video"
+                    class="card-img-top post-video <?= $post['is_blurred'] ? 'blurred' : '' ?>" 
                     controls
                     style="max-height: 300px; object-fit: cover;">
                     <source src="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>" type="video/mp4">
@@ -14,7 +14,7 @@
                 <!-- Renderizar imagen si el archivo no es un video -->
                 <img
                     src="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>"
-                    class="card-img-top post-image"
+                    class="card-img-top post-image <?= $post['is_blurred'] ? 'blurred' : '' ?>"
                     alt="...">
             <?php endif; ?>
             <div class="card-body">
@@ -60,7 +60,7 @@
                             <i class="bi bi-chat-heart-fill"> Abrir y ver comentarios</i>
                         </a>
                     </div>
-
+                    <!-- Botón para eliminar el post -->        
                     <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
                         <button
                             class="btn btn-danger delete-post-btn"
@@ -68,6 +68,16 @@
                             data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
                             onclick="deletePost(<?= $post['id'] ?>)">
                             <i class="bi bi-trash"></i>
+                        </button>
+                    <?php } ?>
+                    <!-- Botón para editar blur del post -->
+                    <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
+                        <button
+                            class="btn btn-warning toggle-blur-btn"
+                            onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
+                            data-post-id="<?= $post['id'] ?>"
+                            data-is-blurred="<?= $post['is_blurred'] ?>">
+                            <?= $post['is_blurred'] ? '<i class="bi bi-file-lock"></i>' : '<i class="bi bi-file-lock-fill"></i>' ?> <!--iconos de blur para post, coinciden con el js-->
                         </button>
                     <?php } ?>
                 </div>

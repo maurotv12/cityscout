@@ -248,4 +248,33 @@ class PostController extends Controller
         }
     }
 
+    public function toggleBlur($id){
+        $postModel = new Post();
+        $userId = $_SESSION['user']['id'];
+        // Verificar si el post existe y pertenece al usuario
+        $post = $postModel->find($id);
+
+        if (!$post) {
+            return $this->json(['success' => false, 'message' => 'Post no encontrado.'], 404);
+        }
+
+        if ($post['user_id'] !== $userId) {
+            return $this->json(['success' => false, 'message' => 'No tienes permiso para ocultar este post.'], 403);
+        }
+
+        // $newBlurredState = json_decode(file_get_contents('php://input'), true)['is_blurred'] ?? false;
+
+        $isBlurred = (bool)$post['is_blurred'];
+        $newBlurredState = !$isBlurred;
+        
+        $updated = $postModel->update($id, ['is_blurred' => $newBlurredState]);
+
+        if ($updated) {
+            return $this->json(['success' => true, 'message' => 'Post actualizado correctamente.', 'is_blurred' => $newBlurredState]);
+        } else {
+            return $this->json(['success' => false, 'message' => 'Error al actualizar el blur del post.'], 500);
+        }
+    }
+
+
 }

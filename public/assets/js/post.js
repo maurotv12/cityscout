@@ -60,6 +60,53 @@ function deletePost(postId){
     }
 }
 
+function toggleBlur(postId, isBlurred) {
+    const newBlurState = !isBlurred;
+
+    fetch(`/post/${postId}/toggle-blur`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ is_blurred: newBlurState }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Actualizar el estado del blur en la card del post
+                const postElement = document.querySelector(`[card-post-id="${postId}"]`);
+                const mediaElement = postElement.querySelector('.post-image, .post-video');
+                const blurButton = postElement.querySelector('.toggle-blur-btn');
+
+                if (data.is_blurred) {
+                    mediaElement.classList.add('blurred');
+                    blurButton.innerHTML = '<i class="bi bi-file-lock"></i>';
+                    blurButton.setAttribute('onclick', `toggleBlur(${postId}, true)`);
+                } else {
+                    mediaElement.classList.remove('blurred');
+                    blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i>';
+                    blurButton.setAttribute('onclick', `toggleBlur(${postId}, false)`);
+                }
+                // Actualizar el estado del blur en el modal de comentarios
+                const commentsModal = document.getElementById('commentsModal');
+                if (commentsModal.getAttribute('data-post-id') === String(postId)) {
+                    const modalMedia = commentsModal.querySelector('.modal-media img, .modal-media video');
+                    if (data.is_blurred) {
+                        modalMedia.classList.add('blurred');
+                    } else {
+                        modalMedia.classList.remove('blurred');
+                    }
+                }
+            } else {
+                alert('Error al actualizar el estado del blur.');
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar el estado del blur:', error);
+            alert('Error al actualizar el estado del blur.');
+        });
+}
+
 function showEditCaptionForm() {
     editCaptionBtn.classList.add('d-none');
     editCaptionForm.classList.remove('d-none');
@@ -92,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const postRoute = button.getAttribute('data-post-route'); // Obtener la ruta del post
         const postType = button.getAttribute('data-post-type'); // Obtener el tipo del post
 
-        const modalMedia = commentsModal.querySelector('.modal-media'); // Obtener el contenedor de la media del modal
+        const modalMedia = commentsModal.querySelector('.modal-media'); // Obtener la media del contenedor modal-media 
         const modalPostUsername = commentsModal.querySelector('.modal-post-username');// Obtener el contenedor del username del modal
 
 
