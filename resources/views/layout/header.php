@@ -35,7 +35,7 @@
         <!--dropdown de notificaciones + foto de perfil -->
         <div class="d-flex align-items-center">
           <!-- Notificaciones -->
-          <div class="dropdown">
+          <div class="dropdown me-3">
             <button class="btn btn-secondary position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-bell"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationCount">

@@ -43,7 +43,7 @@
                             data-post-liked-by-logged="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'true' : 'false' ?>">
                             <i class="bi bi-hand-thumbs-up"></i>
                         </button></p>
-                        <p class="card-text"><strong><?= $post['comment_count'] ?></strong> <!-- Botón para abrir el modal con el ID del post -->
+                        <p class="card-text"><strong><?= $post['comment_count'] ?></strong> <!-- Botón icono para abrir el modal con el ID del post -->
                             <a href="#"
                                 class="btn btn-primary"
                                 data-bs-toggle="modal"
@@ -55,10 +55,10 @@
                                 data-post-caption="<?= htmlspecialchars($post['caption']) ?>"
                                 data-post-type="<?= $post['type'] ?>"
                                 data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
-                                <i class="bi bi-chat-heart-fill"> Abrir y ver comentarios</i>
+                                <i class="bi bi-chat-heart-fill"> </i> <!--icono de abrir comentarios-->
                         </a></p>
                     </div>
-                <p class="card-text"><small class="text-muted"><?= date('d/m/Y H:i', strtotime($post['created_at'])) ?></small></p>
+                
                 
                 <div class="d-flex justify-content-between align-items-center">
                     
@@ -107,7 +107,7 @@
                             <div class="card col-12 mb-3">
                                 <!-- Renderizar dinámicamente imagen o video -->
                                 <div class="modal-media">
-                                    <!-- Este contenedor será actualizado dinámicamente con JS -->
+                                    <!-- Este contenedor modal-media será actualizado dinámicamente con JS -->
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text modal-post-caption"></p>
@@ -119,7 +119,9 @@
                                         <button type="submit" class="btn btn-primary btn-sm mt-2">Guardar</button>
                                         <button type="button" id="cancel-edit-caption" class="btn btn-secondary btn-sm mt-2">Cancelar</button>
                                     </form>
+                                    <p class="card-text"><small class="text-muted"><?= date('d/m/Y H:i', strtotime($post['created_at'])) ?></small></p> <!-- Fecha de creación del post -->
                                 </div>
+                                
                             </div>
                         </div>
 
