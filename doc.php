@@ -1,3 +1,4 @@
+<!-- Ayudame a crear un boton para editar comentarios que se muestre con el siguiente icono <i class="bi bi-pencil-square"></i> se muestre en el post.js en la function commenHtml debajo del boton eliminar comentarios o delete-coment-btn porque ahí se encuentra el html de comentarios, y que solo lo pueda utilizar el dueño del comentario o quien hizo el comentario, Todas las funcionalidades que ya estan deben seguir funcionando de la misma manera, la función de javascript necesito que sea llamada por un onclick en el html -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const commentsModal = document.getElementById('commentsModal');

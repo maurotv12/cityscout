@@ -19,27 +19,33 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'register']);
 
-//posts
-Route::delete('/post/:id/delete', [PostController::class, 'deletePost'])
-    ->middleware([AuthMiddleware::class]);
-    
+//comments
 Route::get('/post/:id/comments', [PostController::class, 'getComments'])
     ->middleware([AuthMiddleware::class]);
+//Agregar comentario
 Route::post('/post/:id/comments', [PostController::class, 'addComment'])
     ->middleware([AuthMiddleware::class]);
-//Delete Comment
+//Eliminar Comentario
 Route::delete('/comment/:id/delete', [PostController::class, 'deleteComment'])
     ->middleware([AuthMiddleware::class]);
+//Editar Comentario
+Route::post('/comment/:id/update', [PostController::class, 'updateComment'])
+    ->middleware([AuthMiddleware::class]);
 
-Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
+//Likes
+    Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
     ->middleware([AuthMiddleware::class]);
 
 //Guardar post
 Route::post('/post/store', [PostController::class, 'store'])
     ->middleware([AuthMiddleware::class]);
-
+//Eliminar post
+Route::delete('/post/:id/delete', [PostController::class, 'deletePost'])
+    ->middleware([AuthMiddleware::class]);
+//Editar caption o descripción de post
 Route::post('/post/:id/update-caption', [PostController::class, 'updateCaption'])
     ->middleware([AuthMiddleware::class]);
+
     
 
 //user
@@ -57,13 +63,17 @@ Route::post('/profile/:id/follow', [UserController::class, 'toggleFollow'])
 //chat
 
 // Obtener lista de chats
-Route::get('/chats', [ChatController::class, 'getChats'])->middleware([AuthMiddleware::class]);
+Route::get('/chats', [ChatController::class, 'getChats'])
+    ->middleware([AuthMiddleware::class]);
 // Obtener mensajes de un chat
-Route::get('/chats/:chatWithId/messages', [ChatController::class, 'getMessages'])->middleware([AuthMiddleware::class]);
+Route::get('/chats/:chatWithId/messages', [ChatController::class, 'getMessages'])
+    ->middleware([AuthMiddleware::class]);
 // Enviar un mensaje
-Route::post('/chats/:chatWithId/send', [ChatController::class, 'sendMessage'])->middleware([AuthMiddleware::class]);
+Route::post('/chats/:chatWithId/send', [ChatController::class, 'sendMessage'])
+    ->middleware([AuthMiddleware::class]);
 // Marcar mensajes como leídos
-Route::post('/chats/:chatWithId/read', [ChatController::class, 'markMessagesAsRead'])->middleware([AuthMiddleware::class]);
+Route::post('/chats/:chatWithId/read', [ChatController::class, 'markMessagesAsRead'])
+    ->middleware([AuthMiddleware::class]);
 
 // Follow and Unfollow
 Route::post('/user/:id/follow', [UserController::class, 'toggleFollow'])
