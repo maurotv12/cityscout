@@ -60,29 +60,37 @@
                     </div>
                 
                 
-                <div class="d-flex justify-content-between align-items-center">
-                    
-                    <!-- Botón para eliminar el post -->        
-                    <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
-                        <button
-                            class="btn btn-danger delete-post-btn"
-                            data-post-id="<?= $post['id'] ?>"
-                            data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
-                            onclick="deletePost(<?= $post['id'] ?>)">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    <?php } ?>
-                    <!-- Botón para editar blur del post -->
-                    <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
-                        <button
-                            id="blur-btn"
-                            class="btn btn-warning toggle-blur-btn"
-                            onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
-                            data-post-id="<?= $post['id'] ?>"
-                            data-is-blurred="<?= $post['is_blurred'] ?>">
-                            <?= $post['is_blurred'] ? '<i class="bi bi-file-lock"></i>' : '<i class="bi bi-file-lock-fill"></i>' ?> <!--iconos de blur para post, coinciden con el js-->
-                        </button>
-                    <?php } ?>
+                <div class="dropdown text-end">
+                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <!-- Botón para eliminar el post -->
+                        <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
+                            <li>
+                                <button
+                                    class="dropdown-item text-danger delete-post-btn"
+                                    data-post-id="<?= $post['id'] ?>"
+                                    data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
+                                    onclick="deletePost(<?= $post['id'] ?>)">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </li>
+                        <?php } ?>
+                        <!-- Botón para editar blur del post -->
+                        <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
+                            <li>
+                                <button
+                                    id="blur-btn"
+                                    class="dropdown-item text-warning toggle-blur-btn"
+                                    onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
+                                    data-post-id="<?= $post['id'] ?>"
+                                    data-is-blurred="<?= $post['is_blurred'] ?>">
+                                    <?= $post['is_blurred'] ? '<i class="bi bi-file-lock"></i> Desenfocar' : '<i class="bi bi-file-lock-fill"></i> Enfocar' ?>
+                                </button>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 </div>
                 <!--<button class="btn btn-danger delete-post-btn" data-post-id="${post.id}"><i class="bi bi-trash3"></i></button>-->
             </div>

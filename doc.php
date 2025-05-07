@@ -1,4 +1,40 @@
+<div class="dropdown text-end">
+                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Botón para eliminar el post -->        
+                        <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
+                            <button
+                                class="btn btn-danger delete-post-btn"
+                                data-post-id="<?= $post['id'] ?>"
+                                data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
+                                onclick="deletePost(<?= $post['id'] ?>)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        <?php } ?>
+                        <!-- Botón para editar blur del post -->
+                        <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
+                            <button
+                                id="blur-btn"
+                                class="btn btn-warning toggle-blur-btn"
+                                onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
+                                data-post-id="<?= $post['id'] ?>"
+                                data-is-blurred="<?= $post['is_blurred'] ?>">
+                                <?= $post['is_blurred'] ? '<i class="bi bi-file-lock"></i>' : '<i class="bi bi-file-lock-fill"></i>' ?> <!--iconos de blur para post, coinciden con el js-->
+                            </button>
+                        <?php } ?>
+                    </div>
+                </div>
+
+
+
+
+
 <!-- Ayudame a crear un boton para editar comentarios que se muestre con el siguiente icono <i class="bi bi-pencil-square"></i> se muestre en el post.js en la function commenHtml debajo del boton eliminar comentarios o delete-coment-btn porque ahí se encuentra el html de comentarios, y que solo lo pueda utilizar el dueño del comentario o quien hizo el comentario, Todas las funcionalidades que ya estan deben seguir funcionando de la misma manera, la función de javascript necesito que sea llamada por un onclick en el html -->
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const commentsModal = document.getElementById('commentsModal');

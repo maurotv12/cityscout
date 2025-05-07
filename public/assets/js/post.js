@@ -201,12 +201,12 @@ function toggleBlur(postId, isBlurred) {
 
         if (data.is_blurred) {
           mediaElement.classList.add("blurred");
-          blurButton.innerHTML = '<i class="bi bi-file-lock"></i>';
+          blurButton.innerHTML = '<i class="bi bi-file-lock"></i> Desenfocar';
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, true)`);
           modalTriggerButton.setAttribute("data-is-blurred", "true"); // Actualizar el estado del blur en el botón del modal
         } else {
           mediaElement.classList.remove("blurred");
-          blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i>';
+          blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i> Enfocar';
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, false)`);
           modalTriggerButton.setAttribute("data-is-blurred", "false"); // Actualizar el estado del blur en el botón del modal
         }
