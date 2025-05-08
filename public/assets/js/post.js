@@ -4,37 +4,39 @@ let blurButton;
 
 function commentHtml(comment) {
   return `
-    <div class="row d-flex justify-content-center mb-2" data-comment-id="${comment.id}">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-start align-items-center">
-                <img class="rounded-circle shadow-1-strong me-3"
-                  src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
-                  onerror="this.src='/assets/images/user-default.png';" 
-                  alt="avatar" width="40" height="40" /> 
+    <div data-comment-id="${comment.id}">
+      <div class="row d-flex justify-content-center mb-2">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-start align-items-center">
+                  <img class="rounded-circle shadow-1-strong me-3"
+                    src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
+                    onerror="this.src='/assets/images/user-default.png';" 
+                    alt="avatar" width="40" height="40" /> 
+                  <div>
+                    <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
+                    <p class="text-muted small mb-0">
+                      ${comment.created_at}
+                    </p>
+                  </div>
+                </div>
                 <div>
-                  <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
-                  <p class="text-muted small mb-0">
-                    ${comment.created_at}
-                  </p>
+                  ${comment.can_delete ? `
+                    <button class="btn btn-primary delete-comment-btn" data-comment-id="${comment.id}">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  ` : ''}
+                  ${comment.can_edit ? `
+                    <button class="btn btn-secondary edit-comment-btn" onclick='editComment(${comment.id}, ${JSON.stringify(comment)})'>
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                  ` : ''}
                 </div>
               </div>
-               <div>
-                ${comment.can_delete ? `
-                  <button class="btn btn-primary delete-comment-btn" data-comment-id="${comment.id}">
-                    <i class="bi bi-trash3"></i>
-                  </button>
-                ` : ''}
-                ${comment.can_edit ? `
-                  <button class="btn btn-secondary edit-comment-btn" onclick="editComment(${comment.id}, '${comment.comment}')">
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                ` : ''}
-              </div>
+              <p class="mt-3 comment-text" data-comment-id="${comment.id}">${comment.comment}</p>
             </div>
-            <p class="mt-3 comment-text" data-comment-id="${comment.id}">${comment.comment}</p>
           </div>
         </div>
       </div>
@@ -42,27 +44,15 @@ function commentHtml(comment) {
   `;
 }
 
-// Por si me falla el buton comentarios, este es el boton eliminar comentario
-// ` +
-//   (comment.can_delete
-//     ? `
-//       <button class="btn btn-primary delete-comment-btn" data-comment-id="${comment.id}">
-//         <i class="bi bi-trash3"></i>
-//       </button>
-//     `
-//     : ``) +
-// `
-
 function editComment(commentId, currentComment) {
-  const commentElement = document.querySelector(`[data-comment-id="${commentId}"] .comment-text`);
   const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
 
   // Crear un formulario de edición
   const editFormHtml = `
     <form class="edit-comment-form" onsubmit="submitEditComment(event, ${commentId})">
-      <textarea class="form-control mb-2" rows="2">${currentComment}</textarea>
+      <textarea class="form-control mb-2" rows="2">${currentComment.comment}</textarea>
       <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
-      <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEditComment(${commentId}, '${currentComment}')">Cancelar</button>
+      <button type="button" class="btn btn-secondary btn-sm" onclick='cancelEditComment(${commentId}, ${JSON.stringify(currentComment)})'>Cancelar</button>
     </form>
   `;
 
@@ -93,24 +83,25 @@ function submitEditComment(event, commentId) {
       console.log('Respuesta del backend:', data);
       if (data.success) {
         // Restaurar el contenido original del comentario
-        const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
-        commentCard.innerHTML = commentHtml(data.comment); // Reutilizar commentHtml para actualizar el comentario
+        const commentElement = document.querySelector(`[data-comment-id="${commentId}"] `);
+        commentElement.innerHTML = commentHtml(data.comment); // Reutilizar commentHtml para actualizar el comentario
       } else {
-        alert('Error al actualizar el comentario1.');
+        alert('Error al actualizar el comentario.');
       }
     })
     .catch(error => {
-      console.error('Error al actualizar el comentario2:', error);
-      alert('Error al actualizar el comentario3.');
+      console.error('Error al actualizar el comentario:', error);
+      alert('Error al actualizar el comentario.');
     });
 }
 
 function cancelEditComment(commentId, commentData) {
-  const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
+  const commentElement = document.querySelector(`[data-comment-id="${commentId}"]`);
 
   // Restaurar el contenido original del comentario usando commentHtml
-  commentCard.innerHTML = commentHtml(commentData);
+  commentElement.innerHTML = commentHtml(commentData);
 }
+
 
 // function cancelEditComment(commentId, originalComment) {
 //   const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
@@ -201,12 +192,12 @@ function toggleBlur(postId, isBlurred) {
 
         if (data.is_blurred) {
           mediaElement.classList.add("blurred");
-          blurButton.innerHTML = '<i class="bi bi-file-lock"></i> Desenfocar';
+          blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i> Enfocar';
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, true)`);
           modalTriggerButton.setAttribute("data-is-blurred", "true"); // Actualizar el estado del blur en el botón del modal
         } else {
           mediaElement.classList.remove("blurred");
-          blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i> Enfocar';
+          blurButton.innerHTML = '<i class="bi bi-file-lock"></i> Desenfocar';
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, false)`);
           modalTriggerButton.setAttribute("data-is-blurred", "false"); // Actualizar el estado del blur en el botón del modal
         }
