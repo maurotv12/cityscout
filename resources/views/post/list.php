@@ -117,7 +117,9 @@
                                 <div class="card-body">
                                     <p class="card-text modal-post-caption"></p>
                                     <!-- Botón para editar el caption -->
-                                    <button id="edit-caption-btn" class="btn btn-sm btn-outline-primary mt-2" onclick="showEditCaptionForm()">Editar descripción</button>
+                                   
+                                        <button id="edit-caption-btn" class="btn btn-sm btn-outline-primary mt-2" onclick="showEditCaptionForm()">Editar descripción</button>
+                                   
                                     <!-- Formulario para editar el caption -->
                                     <form id="edit-caption-form" class="d-none mt-2" method="POST" action="/post/update-caption">
                                         <textarea class="form-control" id="new-caption" rows="2"></textarea>
