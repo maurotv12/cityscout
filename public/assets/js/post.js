@@ -34,7 +34,7 @@ function commentHtml(comment) {
                 ` : ''}
               </div>
             </div>
-            <p class="mt-3 comment-text" data-comment-id="${comment.id}">${comment.comment}</p>
+            <p class="mt-3 comment-text">${comment.comment}</p>
           </div>
         </div>
       </div>
@@ -54,7 +54,6 @@ function commentHtml(comment) {
 // `
 
 function editComment(commentId, currentComment) {
-  const commentElement = document.querySelector(`[data-comment-id="${commentId}"] .comment-text`);
   const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
 
   // Crear un formulario de edición
@@ -93,8 +92,10 @@ function submitEditComment(event, commentId) {
       console.log('Respuesta del backend:', data);
       if (data.success) {
         // Restaurar el contenido original del comentario
-        const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
-        commentCard.innerHTML = commentHtml(data.comment); // Reutilizar commentHtml para actualizar el comentario
+        console.log('Actualizando comentario...');
+        const comment = document.querySelector(`[data-comment-id="${commentId}"]`);
+
+        comment.innerHTML = commentHtml(data.comment);
       } else {
         alert('Error al actualizar el comentario1.');
       }
@@ -106,7 +107,7 @@ function submitEditComment(event, commentId) {
 }
 
 function cancelEditComment(commentId, commentData) {
-  const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
+  const commentCard = document.querySelector(`[data-comment-id="${commentId}"]`);
 
   // Restaurar el contenido original del comentario usando commentHtml
   commentCard.innerHTML = commentHtml(commentData);
@@ -201,12 +202,12 @@ function toggleBlur(postId, isBlurred) {
 
         if (data.is_blurred) {
           mediaElement.classList.add("blurred");
-          blurButton.innerHTML = '<i class="bi bi-file-lock"></i> Desenfocar';
+          blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i> Enfocar';
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, true)`);
           modalTriggerButton.setAttribute("data-is-blurred", "true"); // Actualizar el estado del blur en el botón del modal
         } else {
           mediaElement.classList.remove("blurred");
-          blurButton.innerHTML = '<i class="bi bi-file-lock-fill"></i> Enfocar';
+          blurButton.innerHTML = '<i class="bi bi-file-lock"></i> Desenfocar';
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, false)`);
           modalTriggerButton.setAttribute("data-is-blurred", "false"); // Actualizar el estado del blur en el botón del modal
         }
