@@ -190,6 +190,7 @@ class PostController extends Controller
                 'comment' => $comment['comment'],
                 'created_at' => $comment['created_at'],
                 'can_delete' => true,
+                'can_edit' => $comment['user_id'] === $userId, 
                 'user' => [
                     'id' => $user['id'],
                     'fullname' => $user['fullname'],
@@ -203,18 +204,23 @@ class PostController extends Controller
     public function deleteComment($id)
 {
     $commentModel = new Comment();
+    $postModel = new Post();
     $userId = $_SESSION['user']['id'];
     // Verificar si el comentario existe y pertenece al usuario
     $comment = $commentModel->find($id);
-
     if (!$comment) {
         return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
     }
     
-    if ($comment['user_id'] !== $userId && $comment['post_user_id'] !== $userId) {
+    $post = $postModel->find($comment['post_id']);
+    if (!$post) {
+        return $this->json(['success' => false, 'message' => 'Post no encontrado.'], 404);
+    }
+     // Verificar si el usuario tiene permiso para eliminar el comentario
+    if ($comment['user_id'] !== $userId && $post['user_id'] !== $userId) {
         return $this->json(['success' => false, 'message' => 'No tienes permiso para eliminar este comentario.'], 403);
     }
-    
+      // Eliminar el comentario
     $deleted = $commentModel->delete($id);
 
     if ($deleted) {

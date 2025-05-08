@@ -22,26 +22,42 @@ function commentHtml(comment) {
                     </p>
                   </div>
                 </div>
-                <div class="dropdown text-end">
-                  <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li> 
-                      ${comment.can_delete ? `
-                        <button class="dropdown-item text-danger delete-comment-btn" data-comment-id="${comment.id}">
-                          <i class="bi bi-trash3"></i> Eliminar
+                  ${
+                  comment.can_delete || comment.can_edit
+                    ? `
+                      <div class="dropdown text-end">
+                        <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="bi bi-three-dots"></i>
                         </button>
-                      ` : ''}
-                    </li> 
-                    <li>
-                      ${comment.can_edit ? `
-                        <button class="dropdown-item edit-comment-btn" onclick='editComment(${comment.id}, ${JSON.stringify(comment)})'>
-                          <i class="bi bi-pencil-square"></i> Editar
-                        </button>
-                      ` : ''}
-                    </li>
-                  </ul>
-                </div>
+                        <ul class="dropdown-menu">
+                          ${
+                            comment.can_delete
+                              ? `
+                                <li>
+                                  <button class="dropdown-item text-danger delete-comment-btn" data-comment-id="${comment.id}">
+                                    <i class="bi bi-trash3"></i> Eliminar
+                                  </button>
+                                </li>
+                              `
+                              : ''
+                          }
+                          ${
+                            comment.can_edit
+                              ? `
+                                <li>
+                                  <button class="dropdown-item edit-comment-btn" onclick='editComment(${comment.id}, ${JSON.stringify(comment)})'>
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                  </button>
+                                </li>
+                              `
+                              : ''
+                          }
+                        </ul>
+                      </div>
+                    `
+                    : ''
+                }
+
               </div>
               <p class="mt-3 comment-text" data-comment-id="${comment.id}">${comment.comment}</p>
             </div>
