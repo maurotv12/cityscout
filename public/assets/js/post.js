@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // modalPostImage.setAttribute('src', postRoute);
     modalMedia.innerHTML = ""; // Limpiar el contenido previo
 
-    editCaptionBtn.setAttribute("data-post-id", postId); // Establecer la caption del post en el botón de editar caption
+    if (editCaptionBtn) editCaptionBtn.setAttribute("data-post-id", postId); // Establecer la caption del post en el botón de editar caption
 
     // Renderizar dinámicamente imagen o video
     if (postType === "mp4") {
@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
     newCaptionInput.value = postCaption;
 
     // Mostrar el botón de editar caption y ocultar el formulario
-    editCaptionBtn.classList.remove("d-none");
+    if (editCaptionBtn) editCaptionBtn.classList.remove("d-none");
     editCaptionForm.classList.add("d-none");
 
     // Limpiar el contenido del modal de caption

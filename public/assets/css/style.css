@@ -110,6 +110,13 @@
   }
 }
 
+@media (max-width: 750px) {
+  .main-profile-photo{
+    width: 90px;
+    height: 90px;
+  }
+}
+
 /*blurred para los posts*/
 .blurred {
   filter: blur(15px);

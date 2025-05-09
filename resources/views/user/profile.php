@@ -11,7 +11,7 @@ $messages = [];
         ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'] 
         : '/assets/images/user-default.png' ?>"
     alt="Perfil"
-    class="rounded-circle img-fluid profile-photo"
+    class="rounded-circle img-fluid profile-photo main-profile-photo"
     style="max-width: 200px; height: auto; aspect-ratio: 1 / 1; object-fit: cover;">
 </div>
 
