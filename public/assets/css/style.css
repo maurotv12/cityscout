@@ -122,3 +122,25 @@
   filter: blur(15px);
   pointer-events: none;
 }
+
+
+/* likes */
+
+.like-btn, .comment-btn{
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Tamaño del ícono */
+    color: #007bff; /* Color predeterminado */
+    transition: color 0.3s ease;
+
+}
+
+.like-btn:hover {
+    color: #0056b3; /* Color al pasar el mouse */
+}
+
+.like-btn .bi-hand-thumbs-up-fill {
+    color: #28a745; /* Color para el estado "liked" */
+}

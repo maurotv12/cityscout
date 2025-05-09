@@ -1,3 +1,54 @@
+
+/* likes */
+
+.like-btn, .comment-btn{
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; /* Tamaño del ícono */
+    color: #007bff; /* Color predeterminado */
+    transition: color 0.3s ease;
+
+}
+
+.like-btn:hover {
+    color: #0056b3; /* Color al pasar el mouse */
+}
+
+.like-btn .bi-hand-thumbs-up-fill {
+    color: #28a745; /* Color para el estado "liked" */
+}
+
+
+  <!-- Botón para dar like al post -->
+                   <p class="like-count"><strong><?= count($post['likes']) ?></strong>
+                    <span class="like-btn"
+                        onclick="toggleLike(this, <?= $post['id'] ?>)"
+                        data-post-id="<?= $post['id'] ?>"
+                        data-post-liked-by-logged="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'true' : 'false' ?>">
+                        <i class="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up' ?>"></i>
+                    </span>
+                   </p>
+
+                    <p class="card-text"><strong><?= $post['comment_count'] ?></strong> <!-- Botón icono para abrir el modal con el ID del post -->
+                        <a href="#"
+                            class="comment-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#commentsModal"
+                            data-post-id="<?= $post['id'] ?>"
+                            data-post-username="<?= htmlspecialchars($post['user']['username']) ?>"
+                            data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
+                            data-post-route="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>"
+                            data-post-caption="<?= htmlspecialchars($post['caption']) ?>"
+                            data-post-type="<?= $post['type'] ?>"
+                            data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
+                            <i class="bi bi-chat-heart-fill"> </i> <!--icono de abrir comentarios-->
+                        </a>
+                    </p>
+
+
+
 <div class="dropdown text-end">
                     <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-three-dots"></i>
