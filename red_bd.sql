@@ -304,7 +304,7 @@ ALTER TABLE `followers`
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `likes_user_id_fk` (`user_id`,`post_id`),
+  ADD KEY `likes_user_id_fk` (`user_id`),
   ADD KEY `post_id` (`post_id`);
 
 --

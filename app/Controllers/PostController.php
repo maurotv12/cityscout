@@ -57,7 +57,8 @@ class PostController extends Controller
 
 
         // Verificar si el usuario ya dio like
-        $existingLike = $likeModel->where('post_id', $postId)->where('user_id', $userId)->first();
+        $sql = "SELECT * FROM likes WHERE post_id = ? AND user_id = ?";
+        $existingLike = $likeModel->query($sql, [$postId, $userId])->first();
 
         if ($existingLike) {
             // Quitar like

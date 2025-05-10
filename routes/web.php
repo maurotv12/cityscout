@@ -33,7 +33,7 @@ Route::post('/comment/:id/update', [PostController::class, 'updateComment'])
     ->middleware([AuthMiddleware::class]);
 
 //Likes
-    Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
+Route::post('/post/:id/like', [PostController::class, 'toggleLike'])
     ->middleware([AuthMiddleware::class]);
 
 //Guardar post

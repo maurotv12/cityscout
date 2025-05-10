@@ -35,8 +35,8 @@
                 </h5>
                 <p class="card-text" card-post-caption="<?= $post['id'] ?>"><?= htmlspecialchars($post['caption']) ?></p>
                 <div class="card-text d-flex">
-                    
-                        <!-- Botón para dar like al post -->
+
+                    <!-- Botón para dar like al post -->
                     <p class="like-count"><strong><?= count($post['likes']) ?></strong>
                         <span class="like-btn"
                             onclick="toggleLike(this, <?= $post['id'] ?>)"
