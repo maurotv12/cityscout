@@ -27,11 +27,11 @@ $messages = [];
           <span>publicaciones</span>
         </div>
         <div class="d-inline-block text-start me-4">
-          <strong id="followers-count" class="d-block"><?= $followersCount ?></strong>
+          <strong id="followers-count" class="d-block" data-count="<?= $followersCount ?>"> <?= $followersCount ?></strong>
           <span>seguidores</span>
         </div>
         <div class="d-inline-block text-start me-4">
-          <strong id="followed-count" class="d-block"><?= $followingCount ?></strong> seguidos</span>
+          <strong id="followed-count" class="d-block" data-count="<?= $followingCount ?>"><?= $followingCount ?></strong> seguidos</span>
         </div>
         
       </div>
