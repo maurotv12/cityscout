@@ -1,5 +1,3 @@
-
-
 <!-- Side Panel -->
 <div class="offcanvas offcanvas-start sidebar-custom" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
   <div class="offcanvas-header">
@@ -22,14 +20,22 @@
       <li class="nav-item">
         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal">➕ Crear Post</a>
       </li>
+      <li>
+        <!-- Buscador -->
+        <?php if (isset($_SESSION['user'])): ?>
+          <div class="d-flex flex-grow-1 justify-content-center mx-3">
+            <form class="d-flex w-100 " role="search">
+              <input class="form-control text-center" type="search" placeholder="Buscar" aria-label="Search">
+              <button class="btn btn-link position-absolute" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div>
+        <?php endif; ?>
+      </li>
 
       <li class="nav-item">
         <!-- Botón de logout -->
         <a href="/logout" class="btn btn-outline-danger btn-sm ms-3 mt-5">Cerrar sesión</a>
-      </li> 
+      </li>
     </ul>
   </div>
 </div>
-
-
- 

@@ -1,4 +1,8 @@
 
+.card{
+  border:none;
+}
+
 
 .avatar-img {
   width: 40px;
@@ -98,6 +102,8 @@
   height: 20px;
 }
 
+
+
 @media (min-width: 576px) {
   .logo-img {
     height: 30px;
@@ -144,3 +150,17 @@
 .like-btn .bi-hand-thumbs-up-fill {
     color: #28a745; /* Color para el estado "liked" */
 }
+
+
+/* Centrar el buscador */
+form[role="search"] {
+    max-width: 200px;
+    position: relative;
+}
+
+/* Ajustar el tamaño del botón de notificaciones */
+#notificationDropdown {
+    font-size: 1.2rem;
+}
+
+/* Ajustar el tamaño de la foto de perfil */

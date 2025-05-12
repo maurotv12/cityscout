@@ -1,6 +1,6 @@
 <div class="row">
     <?php foreach ($posts as $post) { ?>
-        <div class="card mb-3 mr-3 col-lg-4 p-3 col-sm-12 col-md-6" card-post-id="<?= $post['id'] ?>">
+        <div class="card mb-4 col-lg-4 p-3 col-sm-12 col-md-6" card-post-id="<?= $post['id'] ?>">
             <?php if ($post['type'] === 'mp4'): ?>
                 <!-- Renderizar video si el archivo es un video -->
                 <video

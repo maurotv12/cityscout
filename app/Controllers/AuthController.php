@@ -74,7 +74,6 @@ class AuthController extends Controller{
                 'email' => strtolower($email),
                 'password' => $hashedPassword,
                 'birth_date' => $birth_date,
-                'profile_photo' => $profile_photo,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);

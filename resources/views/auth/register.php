@@ -53,12 +53,6 @@ unset($_SESSION['error']);
                     <input type="date" id="birth_date" class="form-control" required name="birth_date" min="<?php echo date('Y-m-d', strtotime('-100 years')); ?>" max="<?php echo date('Y-m-d', strtotime('-18 years')); ?>" />
                   </div>
 
-                  <div class="col-md-12">
-                    <label class="form-label" for="photo">Foto de perfil</label>
-                    <input type="file" id="profile_photo" class="form-control" name="profile_photo" accept="image/*" />
-                  </div>
-
-
                   <div class="d-flex align-items-center justify-content-center ">
                     <p class="mb-0 me-2">¡Estas a solo un paso de crear tu cuenta!</p>
                     <button type="submit" class="btn btn-primary btn-block gradient-custom-2">Registrarme</button>
