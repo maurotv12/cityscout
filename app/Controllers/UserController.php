@@ -184,6 +184,23 @@ class UserController extends Controller
         }
     }
 
+    public function searchUsers()
+    {
+    $query = $_GET['query'] ?? '';
+
+    if (empty($query)) {
+        return $this->json(['success' => false, 'message' => 'No se proporcionó un término de búsqueda.'], 400);
+    }
+
+    $userModel = new User();
+    $users = $userModel->query(
+        "SELECT id, username, fullname, profile_photo_type FROM users WHERE username LIKE ? OR fullname LIKE ? LIMIT 10",
+        ['%' . $query . '%', '%' . $query . '%']
+    )->get();
+
+    return $this->json(['success' => true, 'users' => $users]);
+    }
+
 
 }
 

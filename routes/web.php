@@ -91,4 +91,8 @@ Route::post('/notifications/read', [NotificationController::class, 'markAsRead']
 Route::post('/post/:id/toggle-blur', [PostController::class, 'toggleBlur'])
     ->middleware([AuthMiddleware::class]);
 
+Route::get('/search/users', [UserController::class, 'searchUsers'])
+    ->middleware([AuthMiddleware::class]);
+
+
 Lib\Route::dispatch();

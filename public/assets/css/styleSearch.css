@@ -1,0 +1,15 @@
+#search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+}
+
+#search-results .list-group-item {
+    cursor: pointer;
+}
+
+#search-results .list-group-item:hover {
+    background-color: #f8f9fa;
+}

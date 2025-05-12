@@ -23,12 +23,15 @@
       <li>
         <!-- Buscador -->
         <?php if (isset($_SESSION['user'])): ?>
-          <div class="d-flex flex-grow-1 justify-content-center mx-3">
-            <form class="d-flex w-100 " role="search">
-              <input class="form-control text-center" type="search" placeholder="Buscar" aria-label="Search">
-              <button class="btn btn-link position-absolute" type="submit"><i class="bi bi-search"></i></button>
+        <div class="d-flex flex-grow-1 justify-content-center mx-3 mt-3 position-relative">
+            <form class="d-flex w-100" role="search" onsubmit="return false;">
+                <input id="search-input" class="form-control text-center" type="search" placeholder="Buscar usuarios..." aria-label="Search" oninput="searchUsers(this.value)">
+                <button class="btn btn-link position-absolute" type="submit"><i class="bi bi-search"></i></button>
             </form>
-          </div>
+            <ul id="search-results" class="list-group position-absolute w-100 mt-2 d-none" style="z-index: 1050;">
+                <!-- Resultados de búsqueda aparecerán aquí -->
+            </ul>
+        </div>
         <?php endif; ?>
       </li>
 
@@ -39,3 +42,6 @@
     </ul>
   </div>
 </div>
+
+
+<script src="/assets/js/search.js"></script>
