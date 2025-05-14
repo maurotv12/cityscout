@@ -58,6 +58,7 @@ $messages = [];
         <div class="col-md-6">
           <label class="form-label" for="username">Nombre de Usuario</label>
           <input type="text" id="username" class="form-control" name="username" value="<?= htmlspecialchars($user['username'] ?? '') ?>">
+          <small class="form-text text-danger"></small> <!-- Mensaje de error -->
         </div>
         <div class="col-md-12">
           <label class="form-label" for="profile_photo">Foto de perfil</label>
@@ -67,7 +68,7 @@ $messages = [];
           <label for="bio-textarea">Biografía</label>
           <textarea id="bio-textarea" name="bio" class="form-control"><?= htmlspecialchars($user['bio'] ?? '') ?></textarea>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Guardar cambios</button>
+        <button type="submit" id="save-changes-btn" class="btn btn-primary mt-3">Guardar cambios</button>
       </form>
     </div>
   </div>

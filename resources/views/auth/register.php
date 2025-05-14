@@ -35,11 +35,13 @@ unset($_SESSION['error']);
                   <div class="col-md-12">
                     <label class="form-label" for="username">Nombre de usuario *</label>
                     <input type="text" id="username" class="form-control" required name="username" />
+                    <small class="form-text text-danger"></small> <!-- Mensaje de error -->
                   </div>
 
                   <div class="col-md-12">
                     <label class="form-label" for="email">Correo *</label>
                     <input type="email" id="email" class="form-control" required name="email" />
+                    <small class="form-text text-danger"></small> <!-- Mensaje de error -->
                   </div>
 
                   <div class="col-md-12">
@@ -69,12 +71,13 @@ unset($_SESSION['error']);
 
 </form>
 
-
 <?php if ($error): ?>
   <div class="alert alert-danger mt-3"><?= htmlspecialchars($error) ?></div>
-<?php endif; ?>
-
-<?php
+  <?php endif; ?>
+  
+  <?php
 $content = ob_get_clean();
 include __DIR__ . '/../layout/main.php';
 ?>
+
+<script src="/assets/js/register.js"></script>

@@ -201,6 +201,33 @@ class UserController extends Controller
     return $this->json(['success' => true, 'users' => $users]);
     }
 
+    public function checkAvailability()
+{
+    $field = $_GET['field'] ?? null;
+    $value = $_GET['value'] ?? null;
+
+     $allowedFields = ['username' => 'username', 'email' => 'email'];
+
+
+    if (!$field || !$value || !in_array($field, ['username', 'email'])) {
+        return $this->json(['success' => false, 'message' => 'Campo o valor inválido.'], 400);
+    }
+
+    $userModel = new User();
+    $fieldName = $allowedFields[$field];
+
+
+    // Consulta SQL directa para verificar si el campo ya existe
+    $sql = "SELECT * FROM users WHERE {$field} = ?";
+    $existingUser = $userModel->query($sql, [$value])->first();
+
+    if ($existingUser) {
+        return $this->json(['success' => false, 'message' => ucfirst($field) . ' ya está en uso.']);
+    }
+
+    return $this->json(['success' => true, 'message' => ucfirst($field) . ' disponible.']);
+}
+
 
 }
 

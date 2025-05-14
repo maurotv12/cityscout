@@ -29,7 +29,7 @@
                 <button class="btn btn-link position-absolute" type="submit"><i class="bi bi-search"></i></button>
             </form>
             <ul id="search-results" class="list-group position-absolute w-100 mt-2 d-none" style="z-index: 1050;">
-                <!-- Resultados de búsqueda aparecerán aquí -->
+                <!-- Resultados de búsqueda aparecerán aquí en Js-->
             </ul>
         </div>
         <?php endif; ?>
