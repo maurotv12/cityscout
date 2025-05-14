@@ -12,10 +12,16 @@
 }
 
 .sidebar-custom {
-  width: 240px;
+  width: 300px !important;
   background-color: #f8f9fa;
-  border-right: 1px solid #dee2e6;
+  border-right: 20px solid #dee2e6;
 }
+@media (max-width: 576px) {
+  .sidebar-custom {
+    width: 200px !important; 
+  }
+}
+
 
 .sidebar-custom .nav-link {
   padding: 15px 20px;
@@ -160,7 +166,19 @@ form[role="search"] {
 
 /* Ajustar el tamaño del botón de notificaciones */
 #notificationDropdown {
-    font-size: 1.2rem;
+    font-size: 1.0rem;
 }
 
-/* Ajustar el tamaño de la foto de perfil */
+
+@media (max-width: 576px) {
+  .dropdown-item  {
+    width: 300px;
+   
+  }
+}
+
+@media (max-width: 576px) {
+  .notification-extra {
+    display: none !important;
+  }
+}

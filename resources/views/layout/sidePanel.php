@@ -1,4 +1,5 @@
 <!-- Side Panel -->
+ <link rel="stylesheet" href="/assets/css/style.css"> 
 <div class="offcanvas offcanvas-start sidebar-custom" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
   <div class="offcanvas-header">
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">

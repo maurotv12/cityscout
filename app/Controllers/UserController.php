@@ -206,7 +206,7 @@ class UserController extends Controller
     $field = $_GET['field'] ?? null;
     $value = $_GET['value'] ?? null;
 
-     $allowedFields = ['username' => 'username', 'email' => 'email'];
+    $allowedFields = ['username' => 'username', 'email' => 'email'];
 
 
     if (!$field || !$value || !in_array($field, ['username', 'email'])) {

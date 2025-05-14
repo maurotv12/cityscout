@@ -39,7 +39,6 @@ class Model {
             $stmt = $this->connection->prepare($sql);
             $stmt->bind_param($params, ...$data);
             $stmt->execute();
-    
             $this->query = $stmt->get_result();
         }else{
             $this->query = $this->connection->query($sql);
@@ -119,28 +118,6 @@ class Model {
         return $this->query($sql, $params);
     }
 
-
-
-   /*  public function update($id, $data){
-        //UPDATE users SET fullname = 'Mauricio', email = 'Mauricio@gmail.com' WHERE id = 1
-        
-        $fields =[];
-
-        foreach($data as $key => $value){
-            $fields[] = "{$key} = ?";
-        }
-
-        $fields = implode(', ', $fields);
-        
-        $sql = "UPDATE {$this->table} SET {$fields} WHERE id = ?";
-
-        $values = array_values($data);
-        $values[] = $id;
-
-        $this->query($sql, $values);
-
-        return $this->find($id);
-    } */
     
     //Delete
 

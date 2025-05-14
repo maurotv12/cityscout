@@ -24,8 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             notificationItem.innerHTML = `
                                 <i class="bi ${getNotificationIcon(notification.type)} me-2"></i>
                                 <div>
-                                    <p class="mb-0">${notification.sender.fullname} (${notification.sender.username}) - ${notification.content}</p>
-                                    <small class="text-muted">${new Date(notification.created_at).toLocaleString()}</small>
+                                    <span class="notification-fullname notification-extra">${notification.sender.fullname}</span>
+                                    <span class="notification-username "> (${notification.sender.username}) </span>
+                                    <span class="notification-content"> ${notification.content}</span>
+                                    <br>
+                                    <small class="text-muted ">${new Date(notification.created_at).toLocaleString()}</small>
                                 </div>
                             `;
                             // notificationItem.addEventListener('click', () => markAsRead(notification.id));

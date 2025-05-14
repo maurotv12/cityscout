@@ -27,8 +27,14 @@
               0
             </span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="max-height: 300px; overflow-y: auto;">
-            <li class="dropdown-item text-center text-muted" id="noNotifications">No hay notificaciones</li>
+          <ul 
+            class="dropdown-menu dropdown-menu-end notifications-dropdown"
+            aria-labelledby="notificationDropdown" 
+            style="max-height: 300px; overflow-y: auto;">
+            <li 
+              class="dropdown-item text-center text-000000muted" 
+              id="noNotifications">No hay notificaciones
+            </li>
           </ul>
         </div>
            <!-- Foto de perfil -->

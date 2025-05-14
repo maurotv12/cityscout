@@ -35,13 +35,13 @@ unset($_SESSION['error']);
                   <div class="col-md-12">
                     <label class="form-label" for="username">Nombre de usuario *</label>
                     <input type="text" id="username" class="form-control" required name="username" />
-                    <small class="form-text text-danger"></small> <!-- Mensaje de error -->
+                    <small class="form-text text-danger" style="display:none;"></small> <!-- Mensaje de error -->
                   </div>
 
                   <div class="col-md-12">
                     <label class="form-label" for="email">Correo *</label>
                     <input type="email" id="email" class="form-control" required name="email" />
-                    <small class="form-text text-danger"></small> <!-- Mensaje de error -->
+                    <small class="form-text text-danger" style="display:none;"></small> <!-- Mensaje de error -->
                   </div>
 
                   <div class="col-md-12">
@@ -57,7 +57,7 @@ unset($_SESSION['error']);
 
                   <div class="d-flex align-items-center justify-content-center ">
                     <p class="mb-0 me-2">¡Estas a solo un paso de crear tu cuenta!</p>
-                    <button type="submit" class="btn btn-primary btn-block gradient-custom-2">Registrarme</button>
+                    <button type="submit" id="register-button" class="btn btn-primary btn-block gradient-custom-2">Registrarme</button>
                   </div>
                 </div>
               </div>
