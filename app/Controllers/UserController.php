@@ -205,6 +205,7 @@ class UserController extends Controller
 {
     $field = $_GET['field'] ?? null;
     $value = $_GET['value'] ?? null;
+    $fieldLabel= $field == 'username' ? 'Nombre de usuario' : 'Correo';
 
     $allowedFields = ['username' => 'username', 'email' => 'email'];
 
@@ -216,16 +217,13 @@ class UserController extends Controller
     $userModel = new User();
     $fieldName = $allowedFields[$field];
 
-
-    // Consulta SQL directa para verificar si el campo ya existe
-    $sql = "SELECT * FROM users WHERE {$field} = ?";
-    $existingUser = $userModel->query($sql, [$value])->first();
+    $existingUser = $userModel->where($fieldName, '=',$value)->first();
 
     if ($existingUser) {
-        return $this->json(['success' => false, 'message' => ucfirst($field) . ' ya está en uso.']);
+        return $this->json(['success' => false, 'message' => ucfirst($fieldLabel) . ' ya está en uso.']);
     }
 
-    return $this->json(['success' => true, 'message' => ucfirst($field) . ' disponible.']);
+    return $this->json(['success' => true, 'message' => ucfirst($fieldLabel) . ' disponible.']);
 }
 
 

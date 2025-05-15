@@ -95,6 +95,7 @@ Route::get('/search/users', [UserController::class, 'searchUsers'])
     ->middleware([AuthMiddleware::class]);
 
 //ruta para manejo de solicitudes de verificación 
-Route::get('/check-availability', [UserController::class, 'checkAvailability'])
-    ->middleware([AuthMiddleware::class]);
+Route::get('/check-availability', [UserController::class, 'checkAvailability']);
+
+
 Lib\Route::dispatch();

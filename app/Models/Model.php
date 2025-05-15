@@ -73,8 +73,6 @@ class Model {
             $value = $operator;
             $operator = '='; 
         } 
-        //prevención de inyección sql a nuestro código
-        // $value = $this->connection->real_escape_string($value);
 
          //SELECT FROM users WHERE fullname = mauricio
         $sql = "SELECT * FROM {$this->table} WHERE {$column} {$operator} ?";
