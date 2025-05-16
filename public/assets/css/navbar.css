@@ -1,0 +1,45 @@
+
+
+/* Estilo para el logo navbar: "Focuz" */
+.logo-img {
+  height: 20px;
+}
+
+@media (min-width: 576px) {
+  .logo-img {
+    height: 30px;
+  }
+}
+
+@media (min-width: 992px) {
+  .logo-img {
+    height: 40px;
+  }
+}
+
+@media (max-width: 750px) {
+  .main-profile-photo{
+    width: 90px;
+    height: 90px;
+  }
+}
+
+
+/* Ajustar el tamaño del botón de notificaciones */
+#notificationDropdown {
+    font-size: 1.0rem;
+}
+
+
+@media (max-width: 576px) {
+  .dropdown-item  {
+    width: 300px;
+   
+  }
+}
+
+@media (max-width: 576px) {
+  .notification-extra {
+    display: none !important;
+  }
+}

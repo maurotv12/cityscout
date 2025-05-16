@@ -1,0 +1,22 @@
+.chat-list {
+  height: 97% !important;
+}
+
+.fixed-height-modal {
+  height: 490px; /* Ajusta según lo que necesites */
+  overflow: hidden;
+}
+
+.scrollable-col {
+  height: 100%;
+  overflow-y: auto;
+  height: 470px;
+  padding-right: 10px; /* Para evitar superposición del scroll */
+}
+
+.scrollable-row {
+  height: 100%;
+  overflow-y: auto;
+  height: 330px;
+  padding-right: 10px; /* Para evitar superposición del scroll */
+}

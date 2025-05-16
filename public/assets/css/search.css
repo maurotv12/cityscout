@@ -1,3 +1,11 @@
+
+/* Centrar el buscador */
+form[role="search"] {
+    max-width: 200px;
+    position: relative;
+}
+
+
 #search-results {
     max-height: 200px;
     overflow-y: auto;
