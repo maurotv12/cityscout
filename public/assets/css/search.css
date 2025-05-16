@@ -5,6 +5,10 @@ form[role="search"] {
     position: relative;
 }
 
+.search-result-item {
+  padding: 0.01rem 0.1rem !important; /* Ejemplo de padding modificado */
+  border: none !important; /* Ejemplo de borde modificado */
+}
 
 #search-results {
     max-height: 200px;
@@ -12,6 +16,10 @@ form[role="search"] {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
+    width: 100%;       /* Aseguramos que el ancho coincida con el input */
+    margin-top: 5px;   /* Añadimos un pequeño margen para separarlo visualmente */
+    top: 100%;         /* Colocamos la parte superior del ul justo debajo del elemento relativo (el form) */
+    z-index: 1050; /* Aseguramos que el ul esté por encima de otros elementos */
 }
 
 #search-results .list-group-item {

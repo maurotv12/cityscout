@@ -151,7 +151,7 @@
                                                 alt="avatar" width="40"
                                                 height="40" />
                                             <div class="form-outline w-100">
-                                                <textarea class="form-control w-100" id="comment-textarea" rows="2" style="background: #fff;"></textarea>
+                                                <textarea class="form-control w-100 " id="comment-textarea" rows="2" style="background: #fff;"></textarea>
                                             </div>
                                         </div>
                                         <div class="float-end mt-2 pt-1">

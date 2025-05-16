@@ -32,7 +32,7 @@
                             <div class="row border-top pt-3">
                                 <div class="col-10">
                                     <div data-mdb-input-init class="form-outline">
-                                        <textarea class="form-control bg-body-tertiary" id="textAreaExample2" rows="4"></textarea>
+                                        <textarea class="form-control bg-body-tertiary " id="textAreaExample2" rows="4"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-2">

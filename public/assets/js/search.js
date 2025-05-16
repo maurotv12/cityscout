@@ -23,7 +23,7 @@ function searchUsers(query) {
                 if (data.success) {
                     // Mostrar resultados
                     resultsContainer.innerHTML = data.users.map(user => `
-                        <li class="list-group-item d-flex align-items-center">
+                        <li class="list-group-item d-flex align-items-center border-0 ">
                             <img src="/assets/images/profiles/${user.id}.${user.profile_photo_type}" 
                                  onerror="this.src='/assets/images/user-default.png';" 
                                  alt="${user.username}" 
