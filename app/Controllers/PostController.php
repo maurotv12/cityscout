@@ -55,9 +55,8 @@ class PostController extends Controller
         $post = $postModel->find($postId);
         $userId = $_SESSION['user']['id'];
 
-
         // Verificar si el usuario ya dio like
-        $sql = "SELECT * FROM likes WHERE post_id = ? AND user_id = ?";
+        $sql = "SELECT * FROM likes WHERE post_id = ? AND user_id = ?"; //TODO
         $existingLike = $likeModel->query($sql, [$postId, $userId])->first();
 
         if ($existingLike) {

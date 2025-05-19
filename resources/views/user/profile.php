@@ -40,7 +40,10 @@ $messages = [];
       <?php if ($user['id'] !== $_SESSION['user']['id']): ?>
         <div class="mt-3">
           <!-- Botón Seguir/Dejar de seguir -->
-          <button id="follow-btn" class="btn btn-outline-primary btn-sm me-2" data-user-id="<?= $user['id'] ?>" onclick="toggleFollow(<?= $user['id'] ?>)">
+          <button id="follow-btn" 
+          class="btn btn-sm me-2 <?= $isFollowing ? 'btn-primary' : 'btn-outline-primary' ?>"
+          data-user-id="<?= $user['id'] ?>" 
+          onclick="toggleFollow(<?= $user['id'] ?>)">
             <?= $isFollowing ? 'Dejar de seguir' : 'Seguir' ?>
           </button>
           <!-- Botón de Mensaje -->

@@ -1,7 +1,6 @@
 let followButton;
 
-// Función para formatear números
-// Esta función formatea números para que se muestren de manera legible
+// formatear números
 function formatNumber(number) {
     if (number < 10000) {
         // Mostrar números completos con punto de mil

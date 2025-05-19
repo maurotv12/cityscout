@@ -39,8 +39,15 @@ class UserController extends Controller
         $followingCount = count($followingCount);
 
         // Verificar si el usuario actual sigue al perfil que está viendo
-        $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
+
+        $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
+        $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id])->first();
+        $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
+
         
+        // $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
+        // $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
+
 
         return $this->view('user.profile', [
             'posts' => $posts,
@@ -158,14 +165,20 @@ class UserController extends Controller
         $userId = $_SESSION['user']['id'];
     
         // Verificar si ya sigue al usuario
-        $existingFollow = $followerModel->where('user_follower_id', $userId)->where('user_followed_id', $id)->first();
+        $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
+        $existingFollow = $followerModel->query($sql, [$userId, $id])->first(); 
+
+        // $existingFollow = $followerModel->where('user_follower_id', $userId)->where('user_followed_id', $id)->first();
 
         if ($existingFollow) {
             // Dejar de seguir
             $followerModel->delete($existingFollow['id']);
             $followersCount = $followerModel->where('user_followed_id', $id)->get();
             $followersCount = count($followersCount);
-            return $this->json(['success' => true, 'following' => false, 'followersCount' => $followersCount]);
+            return $this->json([
+                'success' => true, 
+                'following' => false, 
+                'followersCount' => $followersCount]);
         } else {
             // Seguir
             $followerModel->create([
@@ -180,7 +193,10 @@ class UserController extends Controller
             $notificationController = new NotificationController();
             $notificationController->createNotification('follower', $userId, $id);
 
-            return $this->json(['success' => true, 'following' => true, 'followersCount' => $followersCount]);
+            return $this->json([
+                'success' => true, 
+                'following' => true, 
+                'followersCount' => $followersCount]);
         }
     }
 
