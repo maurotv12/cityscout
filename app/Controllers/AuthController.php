@@ -18,6 +18,7 @@ class AuthController extends Controller{
         $password = $_POST['password'];
 
         $userModel = new User();
+        $userModel->hidden = [];
         $user = $userModel->where('username', '=', $username)->first();
 
         if ($user && password_verify($password, $user['password'])) {

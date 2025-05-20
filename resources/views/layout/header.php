@@ -27,6 +27,7 @@
               0
             </span>
           </button>
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#interestsModal">➕ Intereses </a>
           <ul 
             class="dropdown-menu dropdown-menu-end notifications-dropdown"
             aria-labelledby="notificationDropdown" 

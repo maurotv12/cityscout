@@ -2,11 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Models\Interest;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Follower;
 
 use App\Models\Comment;
+use App\Models\UserInterest;
 
 class UserController extends Controller
 {
@@ -44,9 +46,11 @@ class UserController extends Controller
         $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id])->first();
         $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
 
-        
+
         // $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
         // $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
+
+        var_dump($this->getUsersWithSimilarInterests($id));
 
 
         return $this->view('user.profile', [
@@ -66,13 +70,13 @@ class UserController extends Controller
     {
         $userModel = new User();
         $user = $userModel->find($id);
-    
+
         if (!$user) {
             return $this->json(['error' => 'Usuario no encontrado'], 404);
         }
-    
+
         $data = [];
-    
+
         // Actualizar biografía
         if (isset($_POST['bio'])) {
             $data['bio'] = $_POST['bio'];
@@ -88,19 +92,19 @@ class UserController extends Controller
             $data['fullname'] = $_POST['fullname'];
             $_SESSION['user']['fullname'] = $data['fullname'] ?? $user['fullname']; // Actualizar la sesión con el nuevo nombre completo
         }
-    
+
         // Actualizar foto de perfil
         if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
             $allowedExtensions = ['jpg', 'jpeg', 'png'];
             $extension = strtolower(pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION));
-    
+
             if (!in_array($extension, $allowedExtensions)) {
                 return $this->json(['error' => 'Formato de archivo no permitido'], 400);
             }
-    
+
             $fileName = $id . '.' . $extension;
             $filePath = __DIR__ . '/../../public/assets/images/profiles/' . $fileName;
-    
+
             if (move_uploaded_file($_FILES['profile_photo']['tmp_name'], $filePath)) {
                 $data['profile_photo_type'] = $extension;
 
@@ -110,25 +114,24 @@ class UserController extends Controller
                 }
 
                 $_SESSION['user']['profile_photo_type'] = $extension; // Actualizar la sesión con el nuevo tipo de foto de perfil
-                
+
             } else {
                 return $this->json(['error' => 'Error al guardar la foto de perfil'], 500);
             }
         }
-    
+
         // Guardar cambios en la base de datos
         $updated = $userModel->update($id, $data);
-    
+
         if ($updated) {
             return $this->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Perfil actualizado con éxito',
                 'bio' => $data['bio'] ?? $user['bio'],
                 'user_id' => $user['id'],
                 'profile_photo_updated' => isset($data['profile_photo_type']),
                 'profile_photo_type' => $data['profile_photo_type'] ?? $user['profile_photo_type'],
             ]);
-            
         } else {
             return $this->json(['error' => 'No se pudo actualizar el perfil'], 500);
         }
@@ -163,10 +166,10 @@ class UserController extends Controller
     {
         $followerModel = new Follower();
         $userId = $_SESSION['user']['id'];
-    
+
         // Verificar si ya sigue al usuario
         $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
-        $existingFollow = $followerModel->query($sql, [$userId, $id])->first(); 
+        $existingFollow = $followerModel->query($sql, [$userId, $id])->first();
 
         // $existingFollow = $followerModel->where('user_follower_id', $userId)->where('user_followed_id', $id)->first();
 
@@ -176,9 +179,10 @@ class UserController extends Controller
             $followersCount = $followerModel->where('user_followed_id', $id)->get();
             $followersCount = count($followersCount);
             return $this->json([
-                'success' => true, 
-                'following' => false, 
-                'followersCount' => $followersCount]);
+                'success' => true,
+                'following' => false,
+                'followersCount' => $followersCount
+            ]);
         } else {
             // Seguir
             $followerModel->create([
@@ -194,54 +198,112 @@ class UserController extends Controller
             $notificationController->createNotification('follower', $userId, $id);
 
             return $this->json([
-                'success' => true, 
-                'following' => true, 
-                'followersCount' => $followersCount]);
+                'success' => true,
+                'following' => true,
+                'followersCount' => $followersCount
+            ]);
         }
     }
 
     public function searchUsers()
     {
-    $query = $_GET['query'] ?? '';
+        $query = $_GET['query'] ?? '';
 
-    if (empty($query)) {
-        return $this->json(['success' => false, 'message' => 'No se proporcionó un término de búsqueda.'], 400);
-    }
+        if (empty($query)) {
+            return $this->json(['success' => false, 'message' => 'No se proporcionó un término de búsqueda.'], 400);
+        }
 
-    $userModel = new User();
-    $users = $userModel->query(
-        "SELECT id, username, fullname, profile_photo_type FROM users WHERE username LIKE ? OR fullname LIKE ? LIMIT 10",
-        ['%' . $query . '%', '%' . $query . '%']
-    )->get();
+        $userModel = new User();
+        $users = $userModel->query(
+            "SELECT id, username, fullname, profile_photo_type FROM users WHERE username LIKE ? OR fullname LIKE ? LIMIT 10",
+            ['%' . $query . '%', '%' . $query . '%']
+        )->get();
 
-    return $this->json(['success' => true, 'users' => $users]);
+        return $this->json(['success' => true, 'users' => $users]);
     }
 
     public function checkAvailability()
-{
-    $field = $_GET['field'] ?? null;
-    $value = $_GET['value'] ?? null;
-    $fieldLabel= $field == 'username' ? 'Nombre de usuario' : 'Correo';
+    {
+        $field = $_GET['field'] ?? null;
+        $value = $_GET['value'] ?? null;
+        $fieldLabel = $field == 'username' ? 'Nombre de usuario' : 'Correo';
 
-    $allowedFields = ['username' => 'username', 'email' => 'email'];
+        $allowedFields = ['username' => 'username', 'email' => 'email'];
 
 
-    if (!$field || !$value || !in_array($field, ['username', 'email'])) {
-        return $this->json(['success' => false, 'message' => 'Campo o valor inválido.'], 400);
+        if (!$field || !$value || !in_array($field, ['username', 'email'])) {
+            return $this->json(['success' => false, 'message' => 'Campo o valor inválido.'], 400);
+        }
+
+        $userModel = new User();
+        $fieldName = $allowedFields[$field];
+
+        $existingUser = $userModel->where($fieldName, '=', $value)->first();
+
+        if ($existingUser) {
+            return $this->json(['success' => false, 'message' => ucfirst($fieldLabel) . ' ya está en uso.']);
+        }
+
+        return $this->json(['success' => true, 'message' => ucfirst($fieldLabel) . ' disponible.']);
     }
 
-    $userModel = new User();
-    $fieldName = $allowedFields[$field];
-
-    $existingUser = $userModel->where($fieldName, '=',$value)->first();
-
-    if ($existingUser) {
-        return $this->json(['success' => false, 'message' => ucfirst($fieldLabel) . ' ya está en uso.']);
+    public function getInterests(){
+        $interestModel = new Interest();
+        $interests = $interestModel->all();
+        return $this->json(['success' => true, 'interests' => $interests]);
     }
 
-    return $this->json(['success' => true, 'message' => ucfirst($fieldLabel) . ' disponible.']);
+    public function getInterestByUserId($id){
+        $interestModel = new Interest();
+        $interests = $interestModel->where('user_id', $id)->get();
+        return $this->json(['success' => true, 'interests' => $interests]);
+    }
+
+    public function getUsersWithSimilarInterests($userId){
+        $userModel = new User();
+        $interestModel = new Interest();
+        $userInterestsModel = new UserInterest();
+        $followerModel = new Follower();
+        
+        $interests = $interestModel->all();
+
+        $followedUsers = $followerModel->where('user_follower_id', $userId)->get();
+        $followedUsersIds = array_column($followedUsers, 'user_followed_id');
+        
+        // Obtener los intereses del usuario
+        $userInterests = $userInterestsModel->where('user_id', $userId)->get();
+        $userInterestsIds = array_column($userInterests, 'interest_id');
+        
+        // Obtener el id de los usuarios con intereses similares
+        $usersInterests = $userInterestsModel->where('interest_id', 'IN',  $userInterestsIds)
+            ->where('user_id', '!=', $userId)
+            ->where('user_id', 'NOT IN', $followedUsersIds)
+            ->get();
+        
+        $usersInterests = array_map(function($userInterest) use ($interests) {
+            $userInterest['interest'] = array_filter($interests, function($i) use ($userInterest) {
+                return $i['id'] == $userInterest['interest_id'];
+            });
+            return $userInterest;
+        }, $usersInterests);
+
+        $usersIdInterests = array_column($usersInterests, 'user_id');
+        $usersWithSimilarInterests = $userModel->where('id', 'IN',  $usersIdInterests)->get();
+
+
+        $usersWithSimilarInterests = array_map(function($user) use ($followerModel, $usersInterests) {
+            $followersCount = $followerModel->where('user_followed_id', $user['id'])->get();
+            $user['followersCount'] = count($followersCount);
+            $user['interests'] = array_filter($usersInterests, function($interest) use ($user) {
+                return $interest['user_id'] == $user['id'];
+            });
+            return $user;
+        }, $usersWithSimilarInterests);
+        
+        return $this->json([
+            'success' => true,
+            'usersWithSimilarInterests' => $usersWithSimilarInterests
+        ]);
+
+    }
 }
-
-
-}
-

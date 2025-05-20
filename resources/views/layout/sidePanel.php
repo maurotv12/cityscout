@@ -21,6 +21,9 @@
       <li class="nav-item border-0">
         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal">➕ Crear Post</a>
       </li>
+       <li class="nav-item border-0">
+        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#interestsModal">➕ Intereses </a>
+      </li>
       <li>
         <!-- Buscador -->
         <?php if (isset($_SESSION['user'])): ?>

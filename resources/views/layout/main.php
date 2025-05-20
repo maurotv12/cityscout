@@ -25,6 +25,7 @@
     <?php  if (isset($_SESSION['user'])) include_once __DIR__ . '/sidePanel.php'; 
     include __DIR__ . '/../post/create.php';
     include __DIR__ . '/../chat/chatList.php';
+    include __DIR__ . '/../user/interests.php';
     ?>
 
     <main class="container mt-4"> 

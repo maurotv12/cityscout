@@ -15,6 +15,10 @@ class Model {
     protected $query; 
     protected $table;
 
+    public $hidden = [];
+
+    protected $wheres = [];
+
     public function __construct(){
         $this->connection();
     }
@@ -47,12 +51,52 @@ class Model {
     
     }
 
-    public function first (){
-        return $this->query->fetch_assoc();
+    // public function first (){
+    //     return $this->query->fetch_assoc();
+    // }
+
+    // public function get(){
+    //     return $this->query->fetch_all(MYSQLI_ASSOC);
+    // }
+
+    public function get()
+    {
+        if (!empty($this->wheres)) {
+            list($whereSql, $values) = $this->buildWhereQuery();
+            $sql = "SELECT * FROM {$this->table} {$whereSql}";
+            $result = $this->query($sql, $values)->query->fetch_all(MYSQLI_ASSOC);
+            $this->wheres = [];
+        } else {
+            $result = $this->query->fetch_all(MYSQLI_ASSOC);
+        }
+        // Ocultar campos privados
+        if (!empty($this->hidden)) {
+            foreach ($result as &$row) {
+                foreach ($this->hidden as $field) {
+                    unset($row[$field]);
+                }
+            }
+        }
+        return $result;
     }
 
-    public function get(){
-        return $this->query->fetch_all(MYSQLI_ASSOC);
+    public function first()
+    {
+        if (!empty($this->wheres)) {
+            list($whereSql, $values) = $this->buildWhereQuery();
+            $sql = "SELECT * FROM {$this->table} {$whereSql} LIMIT 1";
+            $result = $this->query($sql, $values)->query->fetch_assoc();
+            $this->wheres = [];
+        } else {
+            $result = $this->query->fetch_assoc();
+        }
+        // Ocultar campos privados
+        if (!empty($this->hidden) && is_array($result)) {
+            foreach ($this->hidden as $field) {
+                unset($result[$field]);
+            }
+        }
+        return $result;
     }
 
     //Consultas
@@ -68,18 +112,65 @@ class Model {
         return $this->query($sql, [$id], 'i')->first();
     }
 
-    public function where ($column, $operator, $value = null){   
-        if($value == null){
+    public function where($column, $operator, $value = null)
+    {
+        // Permitir sintaxis where('columna', valor)
+        if ($value === null) {
             $value = $operator;
-            $operator = '='; 
-        } 
+            $operator = '=';
+        }
 
-         //SELECT FROM users WHERE fullname = mauricio
-        $sql = "SELECT * FROM {$this->table} WHERE {$column} {$operator} ?";
-
-        $this->query($sql, [$value], 's');
+        // Soporte para IN y NOT IN
+        if (in_array(strtoupper($operator), ['IN', 'NOT IN']) && is_array($value)) {
+            if (empty($value)) {
+                // Si el array está vacío, forzamos una condición falsa
+                $this->wheres[] = ["1", "=", "0"];
+            } else {
+                $placeholders = implode(', ', array_fill(0, count($value), '?'));
+                $this->wheres[] = [
+                    "{$column} {$operator} ($placeholders)",
+                    'IN',
+                    $value
+                ];
+            }
+        } else {
+            $this->wheres[] = [$column, $operator, $value];
+        }
         return $this;
     }
+
+    protected function buildWhereQuery()
+    {
+        if (empty($this->wheres)) {
+            return ['', []];
+        }
+        $clauses = [];
+        $values = [];
+        foreach ($this->wheres as $where) {
+            if ($where[1] === 'IN') {
+                $clauses[] = $where[0];
+                $values = array_merge($values, $where[2]);
+            } else {
+                $clauses[] = "{$where[0]} {$where[1]} ?";
+                $values[] = $where[2];
+            }
+        }
+        $whereSql = 'WHERE ' . implode(' AND ', $clauses);
+        return [$whereSql, $values];
+    }
+
+    // public function where ($column, $operator, $value = null){   
+    //     if($value == null){
+    //         $value = $operator;
+    //         $operator = '='; 
+    //     } 
+
+    //      //SELECT FROM users WHERE fullname = mauricio
+    //     $sql = "SELECT * FROM {$this->table} WHERE {$column} {$operator} ?";
+
+    //     $this->query($sql, [$value], 's');
+    //     return $this;
+    // }
 
     //Create
 
