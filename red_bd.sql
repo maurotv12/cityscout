@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2025 a las 23:04:38
+-- Tiempo de generación: 20-05-2025 a las 04:51:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -56,7 +56,8 @@ INSERT INTO `comments` (`id`, `user_id`, `post_id`, `comment`, `created_at`) VAL
 (19, 7, 22, 'video', '2025-05-05 04:19:20'),
 (21, 1, 15, 'asdasd', '2025-05-05 22:50:30'),
 (22, 1, 15, 'Los objetivos son muy importantes', '2025-05-06 22:50:50'),
-(23, 1, 15, 'si', '2025-05-06 22:51:41');
+(23, 1, 15, 'si', '2025-05-06 22:51:41'),
+(25, 1, 24, 'yeyeyteytr', '2025-05-13 18:54:52');
 
 -- --------------------------------------------------------
 
@@ -76,8 +77,30 @@ CREATE TABLE `followers` (
 --
 
 INSERT INTO `followers` (`id`, `user_follower_id`, `user_followed_id`, `created_at`) VALUES
-(18, 1, 7, '2025-05-05 15:39:46'),
-(19, 7, 1, '2025-05-07 15:32:16');
+(19, 7, 1, '2025-05-07 15:32:16'),
+(20, 1, 4, '2025-05-13 17:21:34'),
+(22, 1, 7, '2025-05-13 18:37:44'),
+(24, 1, 3, '2025-05-20 01:12:30'),
+(26, 1, 12, '2025-05-20 01:12:37');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `interests`
+--
+
+CREATE TABLE `interests` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `interests`
+--
+
+INSERT INTO `interests` (`id`, `name`) VALUES
+(1, 'Viajes'),
+(2, 'Comida');
 
 -- --------------------------------------------------------
 
@@ -91,6 +114,25 @@ CREATE TABLE `likes` (
   `post_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `likes`
+--
+
+INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
+(109, 1, 25, '2025-05-10 18:10:05'),
+(118, 7, 15, '2025-05-10 19:12:23'),
+(119, 7, 14, '2025-05-10 19:12:24'),
+(120, 7, 27, '2025-05-10 19:12:57'),
+(121, 7, 26, '2025-05-10 19:12:58'),
+(122, 7, 25, '2025-05-10 19:12:59'),
+(123, 1, 26, '2025-05-10 20:20:14'),
+(124, 1, 27, '2025-05-10 20:20:16'),
+(125, 1, 15, '2025-05-10 20:20:20'),
+(126, 1, 14, '2025-05-10 20:20:21'),
+(130, 1, 22, '2025-05-13 18:43:24'),
+(131, 1, 24, '2025-05-13 18:43:25'),
+(132, 1, 21, '2025-05-13 18:43:26');
 
 -- --------------------------------------------------------
 
@@ -194,7 +236,48 @@ INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `reference_id
 (39, 1, 1, 'like', 12, 'Le dio like a tu publicación.', 1, '2025-05-07 15:17:38'),
 (40, 1, 1, 'like', 12, 'Le dio like a tu publicación.', 1, '2025-05-07 15:17:42'),
 (41, 1, 7, 'follower', NULL, 'Te ha seguido.', 1, '2025-05-07 15:32:16'),
-(42, 1, 1, 'comment', 22, 'Comentó tu publicación.', 0, '2025-05-07 20:57:27');
+(42, 1, 1, 'comment', 22, 'Comentó tu publicación.', 1, '2025-05-07 20:57:27'),
+(43, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 17:58:49'),
+(44, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 17:59:39'),
+(45, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 17:59:55'),
+(46, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 18:00:35'),
+(47, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 18:01:03'),
+(48, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-05-10 18:07:51'),
+(49, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-05-10 18:07:58'),
+(50, 1, 1, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:02'),
+(51, 1, 1, 'like', 27, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:04'),
+(52, 1, 1, 'like', 25, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:05'),
+(53, 1, 1, 'like', 24, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:06'),
+(54, 1, 1, 'like', 22, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:08'),
+(55, 1, 1, 'like', 21, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:08'),
+(56, 1, 1, 'like', 19, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:10'),
+(57, 1, 1, 'like', 17, 'Le dio like a tu publicación.', 1, '2025-05-10 18:10:11'),
+(58, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-05-10 18:14:20'),
+(59, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-05-10 19:11:54'),
+(60, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 19:11:55'),
+(61, 7, 7, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 19:12:23'),
+(62, 7, 7, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-05-10 19:12:24'),
+(63, 1, 7, 'like', 27, 'Le dio like a tu publicación.', 1, '2025-05-10 19:12:57'),
+(64, 1, 7, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-10 19:12:58'),
+(65, 1, 7, 'like', 25, 'Le dio like a tu publicación.', 1, '2025-05-10 19:12:59'),
+(66, 1, 1, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-10 20:20:14'),
+(67, 1, 1, 'like', 27, 'Le dio like a tu publicación.', 1, '2025-05-10 20:20:16'),
+(68, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 1, '2025-05-10 20:20:20'),
+(69, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 1, '2025-05-10 20:20:21'),
+(70, 1, 1, 'like', 17, 'Le dio like a tu publicación.', 1, '2025-05-10 20:20:30'),
+(71, 1, 1, 'like', 22, 'Le dio like a tu publicación.', 1, '2025-05-10 20:47:48'),
+(72, 1, 1, 'like', 21, 'Le dio like a tu publicación.', 1, '2025-05-10 20:47:50'),
+(73, 4, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-13 17:21:34'),
+(74, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-13 18:37:33'),
+(75, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-13 18:37:44'),
+(76, 1, 1, 'like', 22, 'Le dio like a tu publicación.', 1, '2025-05-13 18:43:24'),
+(77, 1, 1, 'like', 24, 'Le dio like a tu publicación.', 1, '2025-05-13 18:43:25'),
+(78, 1, 1, 'like', 21, 'Le dio like a tu publicación.', 1, '2025-05-13 18:43:26'),
+(79, 1, 1, 'comment', 24, 'Comentó tu publicación.', 1, '2025-05-13 18:54:52'),
+(80, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:27'),
+(81, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:30'),
+(82, 12, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:36'),
+(83, 12, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:37');
 
 -- --------------------------------------------------------
 
@@ -244,7 +327,7 @@ INSERT INTO `posts` (`id`, `user_id`, `image`, `file_name`, `type`, `caption`, `
 (24, 1, '', '1746623974_681b5de67edbe', 'jpg', 'mujer', 0, '2025-05-07 15:19:34'),
 (25, 1, '', '1746624008_681b5e0830f24', 'jpg', 'hombre\r\n', 0, '2025-05-07 15:20:08'),
 (26, 1, '', '1746624067_681b5e43383ec', 'jpg', 'mujer cuerpo completo', 0, '2025-05-07 15:21:07'),
-(27, 1, '', '1746627266_681b6ac2cdd1e', 'mp4', 'Video Reel\r\n', 1, '2025-05-07 16:14:26');
+(27, 1, '', '1746627266_681b6ac2cdd1e', 'mp4', 'Video Reel\r\n', 0, '2025-05-07 16:14:26');
 
 -- --------------------------------------------------------
 
@@ -277,7 +360,32 @@ INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `password`, `profile
 (7, 'Juan Camilo', 'camilocai', 'camilo@mail.com', '$2y$10$sGDUSO35XetkR6UoBKPoW.TVI6U1q69rBuJdLCRWGGQ7xutlv8lwy', 'jpg', 'Hola soy Camilo', '2025-04-01', '2025-04-20 18:12:27', '2025-04-20 18:12:27'),
 (8, 'Andres Lopez', 'Andreslop', 'andres@gmail.com', '$2y$10$DmE9P5oXwV.iLV6tYr6B..Zbsw0rf.7wwrUfR72INuVp7QbrsY3e6', '', NULL, '1999-05-12', '2025-04-27 22:40:06', '2025-04-27 22:40:06'),
 (9, 'Pepito', 'pepito1', 'pepito@mail.com', '$2y$10$k8j.h6KH/Hm1eiXwZYSPk.5oks7OQlQiRo1Ka5DVxfhIoEaNr9CX6', '', NULL, '1221-12-12', '2025-04-27 23:57:56', '2025-04-27 23:57:56'),
-(10, '1', '1', 'mauricio.andres.munoz@correounivalle.edu.co', '$2y$10$eK3P7Ic698K1eMW3MP5bbeYDzyo6aSPMAOBmBQWteLSbZg8JAeAi.', '', NULL, '1111-11-11', '2025-04-28 00:18:12', '2025-04-28 00:18:12');
+(10, '1', '1', 'mauricio.andres.munoz@correounivalle.edu.co', '$2y$10$eK3P7Ic698K1eMW3MP5bbeYDzyo6aSPMAOBmBQWteLSbZg8JAeAi.', '', NULL, '1111-11-11', '2025-04-28 00:18:12', '2025-04-28 00:18:12'),
+(12, 'Camilo Astudillo', 'camilocaii', 'camilo@gmail.com', '$2y$10$EVJ/zwoHatCKHHBvYlu4IuQGKgnvE1W4zyQgy4L/ugmQlomR/MyB6', '', NULL, '1999-05-12', '2025-05-15 03:10:17', '2025-05-15 03:10:17');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_interests`
+--
+
+CREATE TABLE `user_interests` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `interest_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `user_interests`
+--
+
+INSERT INTO `user_interests` (`id`, `user_id`, `interest_id`) VALUES
+(1, 1, 1),
+(2, 7, 1),
+(3, 7, 2),
+(4, 9, 2),
+(5, 9, 1),
+(6, 1, 2);
 
 --
 -- Índices para tablas volcadas
@@ -298,6 +406,12 @@ ALTER TABLE `followers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `followers_user_follower_id` (`user_follower_id`),
   ADD KEY `followed_user_followed_id` (`user_followed_id`);
+
+--
+-- Indices de la tabla `interests`
+--
+ALTER TABLE `interests`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `likes`
@@ -344,6 +458,14 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `user_interests`
+--
+ALTER TABLE `user_interests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `interest_id` (`interest_id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -351,19 +473,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de la tabla `interests`
+--
+ALTER TABLE `interests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
@@ -375,7 +503,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT de la tabla `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de la tabla `password_resets`
@@ -393,7 +521,13 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `user_interests`
+--
+ALTER TABLE `user_interests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
@@ -445,6 +579,13 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `user_interests`
+--
+ALTER TABLE `user_interests`
+  ADD CONSTRAINT `user_interests_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_interests_ibfk_2` FOREIGN KEY (`interest_id`) REFERENCES `interests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
