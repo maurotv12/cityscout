@@ -50,7 +50,7 @@ class UserController extends Controller
         // $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
         // $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
 
-        var_dump($this->getUsersWithSimilarInterests($id));
+        // var_dump($this->getUsersWithSimilarInterests($id));
 
 
         return $this->view('user.profile', [
@@ -264,9 +264,10 @@ class UserController extends Controller
         $interestModel = new Interest();
         $userInterestsModel = new UserInterest();
         $followerModel = new Follower();
-        
+        // Obtener todos los intereses
         $interests = $interestModel->all();
 
+        // Obtiener los usuarios que sigue el usuario
         $followedUsers = $followerModel->where('user_follower_id', $userId)->get();
         $followedUsersIds = array_column($followedUsers, 'user_followed_id');
         
@@ -274,7 +275,7 @@ class UserController extends Controller
         $userInterests = $userInterestsModel->where('user_id', $userId)->get();
         $userInterestsIds = array_column($userInterests, 'interest_id');
         
-        // Obtener el id de los usuarios con intereses similares
+        // Obtener el id de los usuarios con intereses similares (excluyendo el $userId asi mismo y los ya seguidos)
         $usersInterests = $userInterestsModel->where('interest_id', 'IN',  $userInterestsIds)
             ->where('user_id', '!=', $userId)
             ->where('user_id', 'NOT IN', $followedUsersIds)
@@ -306,4 +307,5 @@ class UserController extends Controller
         ]);
 
     }
+    
 }
