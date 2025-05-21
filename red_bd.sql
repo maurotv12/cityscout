@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-05-2025 a las 04:51:23
+-- Tiempo de generación: 22-05-2025 a las 01:57:10
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -77,11 +77,12 @@ CREATE TABLE `followers` (
 --
 
 INSERT INTO `followers` (`id`, `user_follower_id`, `user_followed_id`, `created_at`) VALUES
-(19, 7, 1, '2025-05-07 15:32:16'),
-(20, 1, 4, '2025-05-13 17:21:34'),
-(22, 1, 7, '2025-05-13 18:37:44'),
-(24, 1, 3, '2025-05-20 01:12:30'),
-(26, 1, 12, '2025-05-20 01:12:37');
+(19, 7, 4, '2025-05-07 15:32:16'),
+(26, 1, 12, '2025-05-20 01:12:37'),
+(31, 7, 1, '2025-05-22 00:16:29'),
+(38, 1, 7, '2025-05-22 00:53:13'),
+(42, 7, 3, '2025-05-22 01:05:54'),
+(43, 7, 9, '2025-05-22 01:06:29');
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,14 @@ CREATE TABLE `interests` (
 
 INSERT INTO `interests` (`id`, `name`) VALUES
 (1, 'Viajes'),
-(2, 'Comida');
+(2, 'Comida'),
+(3, 'Vestuario'),
+(4, 'Educación'),
+(5, 'Marketing Digital'),
+(6, 'Emprendimiento'),
+(7, 'Desportes'),
+(8, 'Bienestar'),
+(9, 'Belleza');
 
 -- --------------------------------------------------------
 
@@ -128,7 +136,6 @@ INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
 (122, 7, 25, '2025-05-10 19:12:59'),
 (123, 1, 26, '2025-05-10 20:20:14'),
 (124, 1, 27, '2025-05-10 20:20:16'),
-(125, 1, 15, '2025-05-10 20:20:20'),
 (126, 1, 14, '2025-05-10 20:20:21'),
 (130, 1, 22, '2025-05-13 18:43:24'),
 (131, 1, 24, '2025-05-13 18:43:25'),
@@ -268,8 +275,8 @@ INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `reference_id
 (71, 1, 1, 'like', 22, 'Le dio like a tu publicación.', 1, '2025-05-10 20:47:48'),
 (72, 1, 1, 'like', 21, 'Le dio like a tu publicación.', 1, '2025-05-10 20:47:50'),
 (73, 4, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-13 17:21:34'),
-(74, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-13 18:37:33'),
-(75, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-13 18:37:44'),
+(74, 7, 1, 'follower', NULL, 'Te ha seguido.', 1, '2025-05-13 18:37:33'),
+(75, 7, 1, 'follower', NULL, 'Te ha seguido.', 1, '2025-05-13 18:37:44'),
 (76, 1, 1, 'like', 22, 'Le dio like a tu publicación.', 1, '2025-05-13 18:43:24'),
 (77, 1, 1, 'like', 24, 'Le dio like a tu publicación.', 1, '2025-05-13 18:43:25'),
 (78, 1, 1, 'like', 21, 'Le dio like a tu publicación.', 1, '2025-05-13 18:43:26'),
@@ -277,7 +284,26 @@ INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `reference_id
 (80, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:27'),
 (81, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:30'),
 (82, 12, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:36'),
-(83, 12, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:37');
+(83, 12, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-20 01:12:37'),
+(84, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-21 23:39:45'),
+(85, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:14:30'),
+(86, 8, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:14:32'),
+(87, 8, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:14:33'),
+(88, 1, 7, 'follower', NULL, 'Te ha seguido.', 1, '2025-05-22 00:16:29'),
+(89, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:37:08'),
+(90, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:38:35'),
+(91, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:38:36'),
+(92, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:38:36'),
+(93, 8, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:38:37'),
+(94, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:53:13'),
+(95, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:53:13'),
+(96, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:53:13'),
+(97, 8, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 00:53:14'),
+(98, 3, 7, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:05:55'),
+(99, 9, 7, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:06:29'),
+(100, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:20'),
+(101, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:21'),
+(102, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:23');
 
 -- --------------------------------------------------------
 
@@ -380,12 +406,26 @@ CREATE TABLE `user_interests` (
 --
 
 INSERT INTO `user_interests` (`id`, `user_id`, `interest_id`) VALUES
-(1, 1, 1),
-(2, 7, 1),
-(3, 7, 2),
-(4, 9, 2),
-(5, 9, 1),
-(6, 1, 2);
+(56, 9, 2),
+(114, 9, 6),
+(187, 3, 5),
+(197, 8, 2),
+(370, 7, 8),
+(371, 7, 9),
+(376, 7, 4),
+(377, 7, 6),
+(378, 7, 5),
+(710, 8, 7),
+(723, 9, 8),
+(724, 9, 3),
+(737, 9, 5),
+(820, 1, 1),
+(821, 1, 2),
+(822, 1, 3),
+(823, 1, 4),
+(824, 1, 7),
+(825, 1, 9),
+(826, 1, 5);
 
 --
 -- Índices para tablas volcadas
@@ -479,13 +519,13 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT de la tabla `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `interests`
 --
 ALTER TABLE `interests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `likes`
@@ -503,7 +543,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT de la tabla `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de la tabla `password_resets`
@@ -527,7 +567,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `user_interests`
 --
 ALTER TABLE `user_interests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=827;
 
 --
 -- Restricciones para tablas volcadas
