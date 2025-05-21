@@ -97,5 +97,17 @@ Route::get('/search/users', [UserController::class, 'searchUsers'])
 //ruta para manejo de solicitudes de verificación 
 Route::get('/check-availability', [UserController::class, 'checkAvailability']);
 
+// Obtener todos los intereses
+Route::get('/interests', [UserController::class, 'getInterests'])
+    ->middleware([AuthMiddleware::class]);
+// Obtener usuarios recomendados con intereses similares
+Route::get('/user/recommendations', [UserController::class, 'getUsersWithSimilarInterests'])
+    ->middleware([AuthMiddleware::class]);
+// Guardar intereses del usuario
+Route::post('/user/interests', [UserController::class, 'saveUserInterests'])
+    ->middleware([AuthMiddleware::class]);
+// Seguir/Dejar de seguir usuario
+Route::post('/profile/:id/follow', [UserController::class, 'toggleFollow'])
+    ->middleware([AuthMiddleware::class]);
 
 Lib\Route::dispatch();

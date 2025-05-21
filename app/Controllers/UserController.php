@@ -50,7 +50,7 @@ class UserController extends Controller
         // $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
         // $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
 
-        // var_dump($this->getUsersWithSimilarInterests($id));
+        // var_dump($this->getUsersWithSimilarInterests());
 
 
         return $this->view('user.profile', [
@@ -247,65 +247,179 @@ class UserController extends Controller
         return $this->json(['success' => true, 'message' => ucfirst($fieldLabel) . ' disponible.']);
     }
 
-    public function getInterests(){
+    public function getInterests()
+    {
         $interestModel = new Interest();
         $interests = $interestModel->all();
-        return $this->json(['success' => true, 'interests' => $interests]);
+        return $this->json(['success' => true, 'interests' => $interests, 'userInterests' => $this->getInterestByUserId($_SESSION['user']['id'])]);
     }
 
-    public function getInterestByUserId($id){
-        $interestModel = new Interest();
-        $interests = $interestModel->where('user_id', $id)->get();
-        return $this->json(['success' => true, 'interests' => $interests]);
+    public function getInterestByUserId($id)
+    {
+        $userInterestModel = new UserInterest();
+        $interests = $userInterestModel->where('user_id', $id)->get();
+        return array_map(function ($interest) {
+            return strval($interest['interest_id']);
+        }, $interests);
     }
 
-    public function getUsersWithSimilarInterests($userId){
+
+    public function saveUserInterests()
+    {
+        $userId = $_SESSION['user']['id'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        $interests = $data['interests'] ?? [];
+
+        if (count($interests) < 3) {
+            return $this->json(['success' => false, 'message' => 'Selecciona al menos tres intereses.'], 400);
+        }
+
+        $userInterestModel = new UserInterest();
+
+        // Elimina los intereses previos del usuario
+        $userInterestModel->where('user_id', $userId)->delete();
+
+        // Inserta los nuevos intereses
+        foreach ($interests as $interestId) {
+            $userInterestModel->create([
+                'user_id' => $userId,
+                'interest_id' => $interestId
+            ]);
+        }
+
+        return $this->json(['success' => true]);
+    }
+
+    // public function getUsersWithSimilarInterests()
+    // {
+    //     $userModel = new User();
+    //     $interestModel = new Interest();
+    //     $userInterestsModel = new UserInterest();
+    //     $followerModel = new Follower();
+    //     $userId = $_SESSION['user']['id'];
+
+
+    //     // Obtener todos los intereses
+    //     $interests = $interestModel->all();
+
+    //     // Obtiener los usuarios que sigue el usuario
+    //     $followedUsers = $followerModel->where('user_follower_id', $userId)->get();
+    //     $followedUsersIds = array_column($followedUsers, 'user_followed_id');
+
+        
+    //     // Obtener los intereses del usuario
+    //     $userInterests = $userInterestsModel->where('user_id', $userId)->get();
+    //     $userInterestsIds = array_column($userInterests, 'interest_id');
+
+    //     // Obtener el id de los usuarios con intereses similares (excluyendo el $userId asi mismo y los ya seguidos)
+    //     $usersInterests = $userInterestsModel->where('interest_id', 'IN',  $userInterestsIds)
+    //         ->where('user_id', '!=', $userId)
+    //         ->where('user_id', 'NOT IN', $followedUsersIds)
+    //         ->get();
+
+    //     $usersInterests = array_map(function ($userInterest) use ($interests) {
+    //         $userInterest['interest'] = array_filter($interests, function ($i) use ($userInterest) {
+    //             return $i['id'] == $userInterest['interest_id'];
+    //         });
+    //         return $userInterest;
+    //     }, $usersInterests);
+        
+    //     $usersIdInterests = array_column($usersInterests, 'user_id');
+    //     $usersWithSimilarInterests = $userModel->where('id', 'IN',  $usersIdInterests)->get();
+
+
+    //     $usersWithSimilarInterests = array_map(function ($user) use ($followerModel, $usersInterests) {
+    //         $followersCount = $followerModel->where('user_followed_id', $user['id'])->get();
+    //         $user['followersCount'] = count($followersCount);
+    //         // Obtener los nombres de los intereses del usuario
+    //         $userInterestsForUser = array_filter($usersInterests, function ($interest) use ($user) {
+    //             return $interest['user_id'] == $user['id'];
+    //         });
+    //         $user['interests'] = array_values(array_map(function ($interest) {
+    //             // $interest['interest'] es un array filtrado, tomamos el primero
+    //             $interestData = reset($interest['interest']);
+    //             return $interestData['name'] ?? null;
+    //         }, $userInterestsForUser));
+    //         return $user;
+    //     }, $usersWithSimilarInterests);
+
+    //     return $this->json([
+    //         'success' => true,
+    //         'usersWithSimilarInterests' => $usersWithSimilarInterests
+    //     ]);
+    // }
+
+
+    public function getUsersWithSimilarInterests()
+    {
+        $userId = $_SESSION['user']['id'];
         $userModel = new User();
         $interestModel = new Interest();
-        $userInterestsModel = new UserInterest();
+        $userInterestModel = new UserInterest();
         $followerModel = new Follower();
-        // Obtener todos los intereses
-        $interests = $interestModel->all();
 
-        // Obtiener los usuarios que sigue el usuario
-        $followedUsers = $followerModel->where('user_follower_id', $userId)->get();
-        $followedUsersIds = array_column($followedUsers, 'user_followed_id');
-        
-        // Obtener los intereses del usuario
-        $userInterests = $userInterestsModel->where('user_id', $userId)->get();
-        $userInterestsIds = array_column($userInterests, 'interest_id');
-        
-        // Obtener el id de los usuarios con intereses similares (excluyendo el $userId asi mismo y los ya seguidos)
-        $usersInterests = $userInterestsModel->where('interest_id', 'IN',  $userInterestsIds)
+        // Get user's interests
+        $userInterestIds = array_column(
+            $userInterestModel->where('user_id', $userId)->get(),
+            'interest_id'
+        );
+
+        if (empty($userInterestIds)) {
+            return $this->json(['success' => true, 'usersWithSimilarInterests' => []]);
+        }
+
+        // Get users the current user already follows
+        $followedUserIds = array_column(
+            $followerModel->where('user_follower_id', $userId)->get(),
+            'user_followed_id'
+        );
+
+        // Find users with at least one shared interest, excluding self and already followed users
+        $similarUserInterests = $userInterestModel
+            ->where('interest_id', 'IN', $userInterestIds)
             ->where('user_id', '!=', $userId)
-            ->where('user_id', 'NOT IN', $followedUsersIds)
+            ->where('user_id', 'NOT IN', $followedUserIds)
             ->get();
-        
-        $usersInterests = array_map(function($userInterest) use ($interests) {
-            $userInterest['interest'] = array_filter($interests, function($i) use ($userInterest) {
-                return $i['id'] == $userInterest['interest_id'];
-            });
-            return $userInterest;
-        }, $usersInterests);
 
-        $usersIdInterests = array_column($usersInterests, 'user_id');
-        $usersWithSimilarInterests = $userModel->where('id', 'IN',  $usersIdInterests)->get();
+        if (empty($similarUserInterests)) {
+            return $this->json(['success' => true, 'usersWithSimilarInterests' => []]);
+        }
 
+        // Group interests by user_id
+        $userInterestsMap = [];
+        foreach ($similarUserInterests as $row) {
+            $userInterestsMap[$row['user_id']][] = $row['interest_id'];
+        }
 
-        $usersWithSimilarInterests = array_map(function($user) use ($followerModel, $usersInterests) {
-            $followersCount = $followerModel->where('user_followed_id', $user['id'])->get();
-            $user['followersCount'] = count($followersCount);
-            $user['interests'] = array_filter($usersInterests, function($interest) use ($user) {
-                return $interest['user_id'] == $user['id'];
-            });
-            return $user;
-        }, $usersWithSimilarInterests);
-        
+        $similarUserIds = array_keys($userInterestsMap);
+
+        // Get user data
+        $users = $userModel->where('id', 'IN', $similarUserIds)->get();
+
+        // Get all interests for name lookup
+        $allInterests = [];
+        foreach ($interestModel->all() as $interest) {
+            $allInterests[$interest['id']] = $interest['name'];
+        }
+
+        // Build result
+        $result = [];
+        foreach ($users as $user) {
+            $interests = [];
+            foreach ($userInterestsMap[$user['id']] as $interestId) {
+                if (isset($allInterests[$interestId])) {
+                    $interests[] = $allInterests[$interestId];
+                }
+            }
+            $followersCount = count($followerModel->where('user_followed_id', $user['id'])->get());
+            $user['followersCount'] = $followersCount;
+            $user['interests'] = $interests;
+            $result[] = $user;
+        }
+
         return $this->json([
             'success' => true,
-            'usersWithSimilarInterests' => $usersWithSimilarInterests
+            'usersWithSimilarInterests' => $result
         ]);
-
     }
-    
 }

@@ -209,12 +209,42 @@ class Model {
 
     
     //Delete
-
-    public function delete($id){
-        //DELETE FROM users WHERE id = 1
+    public function delete($id = null)
+{
+    if ($id !== null) {
+        // Eliminar por ID
         $sql = "DELETE FROM {$this->table} WHERE id = ?";
         $this->query($sql, [$id], 'i');
         return $this;
+    } elseif (!empty($this->wheres)) {
+        // Eliminar por condiciones (deleteWhere)
+        list($whereSql, $values) = $this->buildWhereQuery();
+        $sql = "DELETE FROM {$this->table} {$whereSql}";
+        $this->query($sql, $values);
+        $this->wheres = [];
+        return $this;
     }
+    // Si no hay ID ni condiciones, no hace nada
+    return false;
+}
+
+//     public function delete($id){
+//         //DELETE FROM users WHERE id = 1
+//         $sql = "DELETE FROM {$this->table} WHERE id = ?";
+//         $this->query($sql, [$id], 'i');
+//         return $this;
+//     }
+
+//     public function deleteWhere()
+// {
+//     if (empty($this->wheres)) {
+//         return false;
+//     }
+//     list($whereSql, $values) = $this->buildWhereQuery();
+//     $sql = "DELETE FROM {$this->table} {$whereSql}";
+//     $this->query($sql, $values);
+//     $this->wheres = [];
+//     return true;
+// }
 
 }
