@@ -13,6 +13,38 @@ use App\Models\UserInterest;
 class UserController extends Controller
 {
 
+      // Nueva función para formatear números al estilo followers.js
+ private function formatNumber($number)
+{
+    if ($number < 10000) {
+        return number_format($number, 0, '', '.');
+    } else if ($number < 1000000) {
+        // Miles, sin decimales si es exacto, con uno si no es exacto
+        $miles = floor($number / 1000);
+        $resto = $number % 1000;
+        if ($resto === 0) {
+            return $miles . ' mil';
+        } else {
+            $dec = floor(($number % 1000) / 100); // Un decimal, truncado
+            return $miles . ($dec > 0 ? ',' . $dec : '') . ' mil';
+        }
+    } else if ($number < 100000000) {
+        // Millones, con un decimal si no es exacto
+        $millones = floor($number / 1000000);
+        $resto = $number % 1000000;
+        if ($resto === 0) {
+            return $millones . ' mill';
+        } else {
+            $dec = floor(($number % 1000000) / 100000); // Un decimal, truncado
+            return $millones . ($dec > 0 ? ',' . $dec : '') . ' mill';
+        }
+    } else {
+        // 100 millones o más, sin decimales
+        $millones = floor($number / 1000000);
+        return $millones . ' mill';
+    }
+}
+
     public function show($id)
     {
 
@@ -57,13 +89,12 @@ class UserController extends Controller
             'posts' => $posts,
             'user' => $user,
             'postCount' => $postCount,
-            'followersCount' => $followersCount,
-            'followingCount' => $followingCount,
+            'followersCount' => $this->formatNumber( $followersCount),
+            'followingCount' => $this->formatNumber($followingCount),
             'isFollowing' => $isFollowing,
 
         ]);
     }
-
 
 
     public function update($id)
@@ -412,7 +443,7 @@ class UserController extends Controller
                 }
             }
             $followersCount = count($followerModel->where('user_followed_id', $user['id'])->get());
-            $user['followersCount'] = $followersCount;
+            $user['followersCount'] = $this->formatNumber($followersCount);
             $user['interests'] = $interests;
             $result[] = $user;
         }

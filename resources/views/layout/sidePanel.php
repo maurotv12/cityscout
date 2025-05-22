@@ -13,16 +13,16 @@
   <div class="offcanvas-body p-0">
     <ul class="nav flex-column">
       <li class="nav-item border-0">
-        <a class="nav-link active" aria-current="page" href="/">🏠 Inicio</a>
+        <a class="nav-link active" aria-current="page" href="/"><i class="bi bi-house-fill"></i></a>
       </li>
       <li class="nav-item border-0">
-        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#chatModal">💬 Chats</a>
+        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#chatModal"><i class="bi bi-wechat"></i></a>
       </li>
       <li class="nav-item border-0">
-        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal">➕ Crear Post</a>
+        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#createPostModal"><i class="bi bi-upload"></i></a>
       </li>
        <li class="nav-item border-0">
-        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#interestsModal">➕ Intereses </a>
+        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#interestsModal"><i class="bi bi-person-plus-fill"></i></a>
       </li>
       <li>
         <!-- Buscador -->
