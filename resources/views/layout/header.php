@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
   <div class="container-fluid d-flex justify-content-between align-items-center">
     
-    <!-- Botón del Side Panel -->
+    <!-- Botón del Side Panel  y logo-->
     <?php if (isset($_SESSION['user'])): ?>
       <div class="d-flex align-items-center flex-shrink-0">
         <button class="btn  me-3 d-none d-lg-flex align-items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -13,6 +13,21 @@
         <a class="navbar-brand d-flex align-items-center" href="/">
           <img src="/assets/images/logo.png" alt="Logo" class="logo-img">
         </a>
+      </div>
+    <?php endif; ?>
+
+    <!-- Buscador centrado -->
+    <?php if (isset($_SESSION['user'])): ?>
+      <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+        <div class="position-relative" style="width: 100%; max-width: 350px;">
+          <form class="d-flex w-100" role="search" onsubmit="return false;">
+            <input id="search-input" class="form-control text-center rounded-pill" type="search" placeholder="Buscar usuarios..." aria-label="Search" oninput="searchUsers(this.value)">
+            
+          </form>
+          <ul id="search-results" class="list-group position-absolute d-none border-0 search-result-item" style="z-index: 1050; width:100%;">
+            <!-- Resultados de búsqueda aparecerán aquí en Js-->
+          </ul>
+        </div>
       </div>
     <?php endif; ?>
 

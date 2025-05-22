@@ -24,20 +24,7 @@
        <li class="nav-item border-0">
         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#interestsModal"><i class="bi bi-person-plus-fill"></i></a>
       </li>
-      <li>
-        <!-- Buscador -->
-        <?php if (isset($_SESSION['user'])): ?>
-        <div class="d-flex flex-grow-1 justify-content-center mx-3 mt-3 position-relative">
-            <form class="d-flex w-100" role="search" onsubmit="return false;">
-                <input id="search-input" class="form-control text-center rounded-pill" type="search" placeholder="Buscar usuarios..." aria-label="Search" oninput="searchUsers(this.value)">
-                <button class="btn btn-link position-absolute rounded-pill" type="submit"><i class="bi bi-search"></i></button>
-            </form>
-            <ul id="search-results" class="list-group position-absolute d-none border-0 search-result-item" style="z-index: 1050;">
-                <!-- Resultados de búsqueda aparecerán aquí en Js-->
-            </ul>
-        </div>
-        <?php endif; ?>
-      </li>
+      
 
       <li class="nav-item">
         <!-- Botón de logout -->
