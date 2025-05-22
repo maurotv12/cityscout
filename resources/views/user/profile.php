@@ -19,7 +19,9 @@ $messages = [];
       <div class="d-flex align-items-center mb-3">
         <h2 class="mb-0 me-3" style="font-size: clamp(1.2rem, 2.5vw, 2rem);"><?= $user['fullname'] ?></h2>
         <span class="username me-3">@<?php echo $user['username'] ?></span>
-        <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
+        <?php if ($user['id'] == $_SESSION['user']['id']): ?>
+          <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
+        <?php endif; ?>
       </div>
       <div class="mb-3">
         <div class="d-inline-block text-start me-4">
