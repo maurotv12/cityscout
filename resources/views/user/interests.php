@@ -7,7 +7,7 @@
                     <i class="bi bi-arrow-left-circle-fill"></i>
                 </button>
 
-                <h1 class="modal-title fs-5" id="createPostsModalLabel">Temas de Interés</h1>
+                <h1 class="modal-title fs-5" id="createPostsModalLabel">Conecta con más personas</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body fixed-height-modal">
@@ -17,7 +17,7 @@
                         <div class="col-md-12 mb-4 mb-md-0 scrollable-col ">
                             <!-- Opciones de intereses -->
                             <div class="interests-container ">
-                                <span>Selecciona al menos tres de tus intereses para continuar</span>
+                                <small>¡Selecciona al menos tres de tus intereses para conectar con más personas!</small>
                                  
                                 <div class="interests-btns d-flex flex-wrap justify-content-center mt-3 gap-2">
                                     <!-- Interests Renderizado con JS -->

@@ -74,3 +74,4 @@
 <!-- Incluir el Side Panel -->
 <?php include __DIR__ . '/sidePanel.php'; ?>
 <script src="/assets/js/notifications.js"></script>
+<script src="/assets/js/search.js"></script>

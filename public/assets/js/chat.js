@@ -165,4 +165,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         }
     });
+
+        // --- NUEVO: Soporte para botón Mensaje en el perfil ---
+    const messageBtn = document.getElementById('message-btn');
+    if (messageBtn) {
+        messageBtn.addEventListener('click', function () {
+            const userId = this.getAttribute('data-user-id');
+            const chatBackBtn = document.querySelector('.chat-back-btn');
+            const bsModal = new bootstrap.Modal(chatModal);
+            bsModal.show();
+
+            // Espera a que el modal esté completamente visible antes de manipular el DOM interno
+            chatModal.addEventListener('shown.bs.modal', function handler() {
+                containerChatList.classList.add('d-none');
+                containerChatMessages.classList.remove('d-none');
+                chatBackBtn.classList.remove('d-none');
+                currentChatWithId = userId;
+                loadMessages(userId);
+                chatModal.querySelector('.modal-title').textContent = "Chat";
+                messageInput.value = '';
+                chatModal.removeEventListener('shown.bs.modal', handler);
+            });
+        });
+    }
+
 });
