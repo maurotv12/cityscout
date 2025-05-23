@@ -1,0 +1,44 @@
+#createPostModal .modal-content {
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(60,60,60,0.12);
+    border: none;
+}
+
+#createPostModal .modal-header {
+    border-bottom: 1px solid #f0f0f0;
+
+    border-radius: 18px 18px 0 0;
+}
+
+#createPostModal .modal-title {
+    font-weight: 600;
+    color: #222;
+}
+
+#createPostModal .form-control[type="file"] {
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+#createPostModal textarea.form-control {
+    min-height: 80px;
+    border-radius: 10px;
+    resize: vertical;
+}
+
+#createPostModal .btn-primary {
+    min-width: 100px;
+}
+
+#createPostModal .btn-outline-primary {
+    min-width: 100px;
+}
+
+#createPostModal .modal-body {
+    padding-bottom: 10px;
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
