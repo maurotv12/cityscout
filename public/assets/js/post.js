@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // const modalPostImage = commentsModal.querySelector('.modal-post-image');
 
-    modalPostUsername.innerHTML = `<a href="/profile/${postUserId}" class="text-decoration-none text-body">${postUsername}</a>`;
+    modalPostUsername.innerHTML = `<a href="/@${postUsername}" class="text-decoration-none text-body">${postUsername}</a>`;
     modalPostCaption.innerHTML = postCaption;
     // modalPostImage.setAttribute('src', postRoute);
     modalMedia.innerHTML = ""; // Limpiar el contenido previo

@@ -48,8 +48,8 @@ Route::post('/post/:id/update-caption', [PostController::class, 'updateCaption']
 
     
 
-//user
-Route::get('/profile/:id', [UserController::class, 'show'])
+//user profile
+Route::get('/@:username', [UserController::class, 'show'])
     ->middleware([AuthMiddleware::class]);
 Route::get('/profile/:id/edit', [UserController::class, 'edit'])
     ->middleware([AuthMiddleware::class]);

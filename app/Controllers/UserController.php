@@ -45,21 +45,22 @@ class UserController extends Controller
     }
 }
 
-    public function show($id)
+    public function show($username)
     {
 
         $userModel = new User();
         $postModel = new Post();
         $followerModel = new Follower();
 
-        $user = $userModel->find($id);
-        $posts = $postModel->getPostsByUser($id);
-
+       
+        $user = $userModel->where('username', $username)->first();
+        
         if (!$user) {
             http_response_code(404);
             return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
         }
-
+        $id = $user['id'];
+        $posts = $postModel->getPostsByUser($id);
         // Contar publicaciones
         $postCount = $postModel->where('user_id', $id)->get();
         $postCount = count($postCount);

@@ -103,7 +103,7 @@ function renderSuggestions(users) {
                     class="rounded-circle me-2"
                     style="width: 70px; height: 70px; object-fit: cover;">
                 <div class="d-grid">
-                    <a href="/profile/${user.id}" class="text-decoration-none text-body fw-bold">
+                    <a href="/@${user.username}" class="text-decoration-none text-body fw-bold">
                         ${user.fullname}
                     </a>
                     <small class="text-muted">@${user.username} • ${user.followersCount} seguidores</small>

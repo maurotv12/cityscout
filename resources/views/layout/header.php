@@ -54,7 +54,7 @@
           </ul>
         </div>
            <!-- Foto de perfil -->
-          <a class="nav-link p-0 d-flex align-items-center" href="/profile/<?= $_SESSION['user']['id'] ?>">
+          <a class="nav-link p-0 d-flex align-items-center" href="/@<?= $_SESSION['user']['username'] ?>">
           <img
             src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
                     ? '/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type']

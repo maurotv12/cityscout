@@ -19,7 +19,7 @@
             <?php endif; ?>
             <div class="card-body">
                 <h5 class="card-title">
-                    <a href="/profile/<?= htmlspecialchars($post['user']['id']) ?>" class="text-decoration-none text-body">
+                    <a href="/@<?= htmlspecialchars($post['user']['username']) ?>" class="text-decoration-none text-body">
                         <img
                             src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $post['user']['id'] . '.' . $post['user']['profile_photo_type'])
                                         ? '/assets/images/profiles/' . $post['user']['id'] . '.' . $post['user']['profile_photo_type']
@@ -29,7 +29,7 @@
                             height="30"
                             class="rounded-circle profile-photo">
                     </a>
-                    <a href="/profile/<?= htmlspecialchars($post['user']['id']) ?>" class="text-decoration-none text-body">
+                    <a href="/@<?= htmlspecialchars($post['user']['username']) ?>" class="text-decoration-none text-body">
                         <?= htmlspecialchars($post['user']['fullname']) ?>
                     </a>
                 </h5>

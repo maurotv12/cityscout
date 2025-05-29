@@ -29,7 +29,7 @@ function searchUsers(query) {
                                  alt="${user.username}" 
                                  class="rounded-circle me-2" 
                                  style="width: 30px; height: 30px; object-fit: cover;">
-                            <a href="/profile/${user.id}" class="text-decoration-none text-body">
+                            <a href="/@${user.username}" class="text-decoration-none text-body">
                                 ${user.fullname} (@${user.username})
                             </a>
                         </li>
