@@ -22,41 +22,38 @@ function commentHtml(comment) {
                     </p>
                   </div>
                 </div>
-                  ${
-                  comment.can_delete || comment.can_edit
-                    ? `
+                  ${comment.can_delete || comment.can_edit
+      ? `
                       <div class="dropdown text-end">
                         <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          ${
-                            comment.can_delete
-                              ? `
+                          ${comment.can_delete
+        ? `
                                 <li>
                                   <button class="dropdown-item text-danger delete-comment-btn" data-comment-id="${comment.id}">
                                     <i class="bi bi-trash3"></i> Eliminar
                                   </button>
                                 </li>
                               `
-                              : ''
-                          }
-                          ${
-                            comment.can_edit
-                              ? `
+        : ''
+      }
+                          ${comment.can_edit
+        ? `
                                 <li>
                                   <button class="dropdown-item edit-comment-btn" onclick='editComment(${comment.id}, ${JSON.stringify(comment)})'>
                                     <i class="bi bi-pencil-square"></i> Editar
                                   </button>
                                 </li>
                               `
-                              : ''
-                          }
+        : ''
+      }
                         </ul>
                       </div>
                     `
-                    : ''
-                }
+      : ''
+    }
 
               </div>
               <p class="mt-3 comment-text" data-comment-id="${comment.id}">${comment.comment}</p>
@@ -127,66 +124,54 @@ function cancelEditComment(commentId, commentData) {
 }
 
 
-// function cancelEditComment(commentId, originalComment) {
-//   const commentCard = document.querySelector(`[data-comment-id="${commentId}"] .card-body`);
-
-//   // Restaurar el contenido original del comentario
-//   commentCard.innerHTML = `
-//     <div class="d-flex justify-content-between">
-//       <div class="d-flex flex-start align-items-center">
-//         <img class="rounded-circle shadow-1-strong me-3"
-//           src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
-//           onerror="this.src='/assets/images/user-default.png';" 
-//           alt="avatar" width="40" height="40" />
-//         <div>
-//           <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
-//           <p class="text-muted small mb-0">
-//             ${comment.created_at}
-//           </p>
-//         </div>
-//       </div>
-//       <div>
-//         <button class="btn btn-primary delete-comment-btn" data-comment-id="${commentId}">
-//           <i class="bi bi-trash3"></i>
-//         </button>
-//         <button class="btn btn-secondary edit-comment-btn" onclick="editComment(${commentId}, '${originalComment}')">
-//           <i class="bi bi-pencil-square"></i>
-//         </button>
-//       </div>
-//     </div>
-//     <p class="mt-3 comment-text" data-comment-id="${commentId}">${originalComment}</p>
-//   `;
-// }
-
-
 
 function deletePost(postId) {
-  console.log("Eliminando post...");
   const postElement = document.querySelector(`[card-post-id="${postId}"]`);
 
-  if (confirm("¿Estas seguro de que deseas eliminar este post?")) {
-    //Enviar Solicitud al backend para eliminar el post
-    fetch(`/post/${postId}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          //Eliminar el post del DOM
-          postElement.remove();
-          alert("Post eliminado correctamente.");
-        } else {
-          alert("Error al eliminar el post.");
-        }
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "¡Esta acción eliminará el post permanentemente!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/post/${postId}/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.error("Error al eliminar el post:", error);
-        alert("Error al eliminar el post.");
-      });
-  }
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            postElement.remove();
+            Swal.fire(
+              "¡Eliminado!",
+              "El post ha sido eliminado correctamente.",
+              "success"
+            );
+          } else {
+            Swal.fire(
+              "Error",
+              "Error al eliminar el post.",
+              "error"
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error al eliminar el post:", error);
+          Swal.fire(
+            "Error",
+            "Error al eliminar el post.",
+            "error"
+          );
+        });
+    }
+  });
 }
 
 function toggleBlur(postId, isBlurred) {
@@ -351,11 +336,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  // Mostrar el formulario de edición al hacer clic en "Editar descripción"
-  // editCaptionBtn.addEventListener('click', () => {
-  //     editCaptionBtn.classList.add('d-none');
-  //     editCaptionForm.classList.remove('d-none');
-  // });
 
   // Cancelar la edición
   cancelEditCaptionBtn.addEventListener("click", () => {

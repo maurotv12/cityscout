@@ -1,7 +1,16 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
   <div class="container-fluid d-flex justify-content-between align-items-center">
 
-    <?php if (!isset($_SESSION['user'])): ?>
+    <?php
+    // Detectar si la URL es un perfil tipo /@username
+    $isProfileUrl = false;
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    if (preg_match('#^/@[a-zA-Z0-9_.-]+$#', $requestUri)) {
+      $isProfileUrl = true;
+    }
+    ?>
+
+    <?php if (!isset($_SESSION['user']) && $isProfileUrl): ?>
       <div>
         <a href="/login" class="btn btn-outline-primary me-2">Iniciar sesión</a>
         <a href="/register" class="btn btn-primary">Registrarse</a>
@@ -82,5 +91,5 @@
 <?php include __DIR__ . '/sidePanel.php'; ?>
 <script src="/assets/js/search.js"></script>
 <?php if (isset($_SESSION['user'])): ?>
-<script src="/assets/js/notifications.js"></script>
+  <script src="/assets/js/notifications.js"></script>
 <?php endif; ?>

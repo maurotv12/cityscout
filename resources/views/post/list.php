@@ -101,14 +101,13 @@
                                     class="dropdown-item  toggle-blur-btn"
                                     onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
                                     data-post-id="<?= $post['id'] ?>"
-                                    data-is-blurred="<?= $post['is_blurred'] ?>">
+                                    data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
                                     <?= $post['is_blurred'] ? '<i class="bi bi-file-lock-fill"></i> Enfocar' : '<i class="bi bi-file-lock"></i> Desenfocar' ?>
                                 </button>
                             </li>
                         </ul>
                     </div>
                 <?php } ?>
-                <!--<button class="btn btn-danger delete-post-btn" data-post-id="${post.id}"><i class="bi bi-trash3"></i></button>-->
             </div>
         </div>
     <?php } ?>

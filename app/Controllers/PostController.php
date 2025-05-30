@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Models\Post;
-use App\Models\User;
+use App\Controllers\NotificationController;
 use App\Models\Comment;
 use App\Models\Like;
-use App\Controllers\NotificationController;
+use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -28,7 +28,7 @@ class PostController extends Controller
         $postModel = new Post();
         $post = $postModel->find($postId);
 
-        $comments = array_map(function($comment) use ($post) {
+        $comments = array_map(function ($comment) use ($post) {
             $userModel = new User();
             $user = $userModel->find($comment['user_id']);
 
@@ -44,12 +44,13 @@ class PostController extends Controller
 
         if (!$comments) {
             return ['success' => false, 'message' => 'No se encontraron comentarios.'];
-        } 
+        }
 
         return ['success' => true, 'message' => 'funciono', 'comments' => $comments];
     }
 
-    public function toggleLike($postId){
+    public function toggleLike($postId)
+    {
         $likeModel = new Like();
         $postModel = new Post();
         $post = $postModel->find($postId);
@@ -76,7 +77,7 @@ class PostController extends Controller
 
     public function store()
     {
-        
+
         $userId = $_SESSION['user']['id'];
         $caption = $_POST['caption'] ?? '';
         $uploadedFiles = $_FILES['files'] ?? null;
@@ -128,21 +129,21 @@ class PostController extends Controller
         foreach ($fileData as $data) {
             $postModel->create($data);
         }
-      
+
         return ['success' => true, 'message' => 'Publicación creada con éxito.'];
     }
-    
+
     public function updateCaption($id)
     {
         $postModel = new Post();
         $caption = json_decode(file_get_contents('php://input'), true)['caption'] ?? '';
-    
+
         if (empty($caption)) {
             return $this->json(['success' => false, 'message' => 'La descripción no puede estar vacía.'], 400);
         }
-    
+
         $updated = $postModel->update($id, ['caption' => $caption]);
-    
+
         if ($updated) {
             return $this->json(['success' => true, 'message' => 'Descripción actualizada correctamente.']);
         } else {
@@ -155,34 +156,34 @@ class PostController extends Controller
         $commentModel = new Comment();
         $userId = $_SESSION['user']['id'];
         $data = json_decode(file_get_contents('php://input'), true);
-     
+
         $commentText = $data['comment'] ?? '';
-        
-        
+
+
 
         if (empty($commentText)) {
             return $this->json(['success' => false, 'message' => 'El comentario no puede estar vacío.'], 400);
         }
-    
+
         $comment = $commentModel->create([
             'post_id' => $postId,
             'user_id' => $userId,
             'comment' => htmlspecialchars($commentText, ENT_QUOTES, 'UTF-8'),
             'created_at' => date('Y-m-d H:i:s'),
         ]);
-    
+
         // Obtener información del usuario para devolverla en la respuesta
         $userModel = new User();
         $user = $userModel->find($userId);
-    
+
         $hasMoreComments = count($commentModel->where('post_id', $postId)->get()) > 1; // Verificar si hay más comentarios para el post actual
-    
+
         // Enviar notificación al usuario que creó el post
         $postModel = new Post();
         $post = $postModel->find($postId);
         $notificationController = new NotificationController();
         $notificationController->createNotification('comment', $userId, $post['user_id'],  $postId);
-        
+
         return $this->json([
             'success' => true,
             'comment' => [
@@ -190,7 +191,7 @@ class PostController extends Controller
                 'comment' => $comment['comment'],
                 'created_at' => $comment['created_at'],
                 'can_delete' => true,
-                'can_edit' => $comment['user_id'] === $userId, 
+                'can_edit' => $comment['user_id'] === $userId,
                 'user' => [
                     'id' => $user['id'],
                     'fullname' => $user['fullname'],
@@ -202,84 +203,84 @@ class PostController extends Controller
     }
 
     public function deleteComment($id)
-{
-    $commentModel = new Comment();
-    $postModel = new Post();
-    $userId = $_SESSION['user']['id'];
-    // Verificar si el comentario existe y pertenece al usuario
-    $comment = $commentModel->find($id);
-    if (!$comment) {
-        return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
-    }
-    
-    $post = $postModel->find($comment['post_id']);
-    if (!$post) {
-        return $this->json(['success' => false, 'message' => 'Post no encontrado.'], 404);
-    }
-     // Verificar si el usuario tiene permiso para eliminar el comentario
-    if ($comment['user_id'] !== $userId && $post['user_id'] !== $userId) {
-        return $this->json(['success' => false, 'message' => 'No tienes permiso para eliminar este comentario.'], 403);
-    }
-      // Eliminar el comentario
-    $deleted = $commentModel->delete($id);
+    {
+        $commentModel = new Comment();
+        $postModel = new Post();
+        $userId = $_SESSION['user']['id'];
+        // Verificar si el comentario existe y pertenece al usuario
+        $comment = $commentModel->find($id);
+        if (!$comment) {
+            return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
+        }
 
-    if ($deleted) {
-        return $this->json(['success' => true, 'message' => 'Comentario eliminado correctamente.']);
-    } else {
-        return $this->json(['success' => false, 'message' => 'Error al eliminar el comentario.'], 500);
-    }
+        $post = $postModel->find($comment['post_id']);
+        if (!$post) {
+            return $this->json(['success' => false, 'message' => 'Post no encontrado.'], 404);
+        }
+        // Verificar si el usuario tiene permiso para eliminar el comentario
+        if ($comment['user_id'] !== $userId && $post['user_id'] !== $userId) {
+            return $this->json(['success' => false, 'message' => 'No tienes permiso para eliminar este comentario.'], 403);
+        }
+        // Eliminar el comentario
+        $deleted = $commentModel->delete($id);
 
-}
+        if ($deleted) {
+            return $this->json(['success' => true, 'message' => 'Comentario eliminado correctamente.']);
+        } else {
+            return $this->json(['success' => false, 'message' => 'Error al eliminar el comentario.'], 500);
+        }
+    }
 
     public function updateComment($id)
-{
-    $commentModel = new Comment();
-    $userId = $_SESSION['user']['id'];
-    $comment = $commentModel->find($id);
+    {
+        $commentModel = new Comment();
+        $userId = $_SESSION['user']['id'];
+        $comment = $commentModel->find($id);
 
-    if (!$comment) {
-        return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
-    }
+        if (!$comment) {
+            return $this->json(['success' => false, 'message' => 'Comentario no encontrado.'], 404);
+        }
 
-    if ($comment['user_id'] !== $userId && $comment['post_user_id'] !== $userId) {
-        return $this->json(['success' => false, 'message' => 'No tienes permiso para editar este comentario.'], 403);
-    }
+        if ($comment['user_id'] !== $userId && $comment['post_user_id'] !== $userId) {
+            return $this->json(['success' => false, 'message' => 'No tienes permiso para editar este comentario.'], 403);
+        }
 
-    $data = json_decode(file_get_contents('php://input'), true);
-    $updatedComment = htmlspecialchars($data['comment'], ENT_QUOTES, 'UTF-8');
+        $data = json_decode(file_get_contents('php://input'), true);
+        $updatedComment = htmlspecialchars($data['comment'], ENT_QUOTES, 'UTF-8');
 
-    if (empty($updatedComment)) {
-        return $this->json(['success' => false, 'message' => 'El comentario no puede estar vacío.'], 400);
-    }
+        if (empty($updatedComment)) {
+            return $this->json(['success' => false, 'message' => 'El comentario no puede estar vacío.'], 400);
+        }
 
-    $updated = $commentModel->update($id, ['comment' => $updatedComment]);
+        $updated = $commentModel->update($id, ['comment' => $updatedComment]);
 
-    if ($updated) {
-        // return $this->json(['success' => true, 'message' => 'Comentario actualizado correctamente.']);
-        $userModel = new User();
-        $user = $userModel->find($comment['user_id']);
+        if ($updated) {
+            // return $this->json(['success' => true, 'message' => 'Comentario actualizado correctamente.']);
+            $userModel = new User();
+            $user = $userModel->find($comment['user_id']);
 
-        return $this->json([
-            'success' => true,
-            'comment' => [
-                'id' => $id,
-                'comment' => $updatedComment,
-                'created_at' => $comment['created_at'],
-                'can_delete' => true,
-                'can_edit' => true,
-                'user' => [
-                    'id' => $user['id'],
-                    'fullname' => $user['fullname'],
-                    'profile_photo_type' => $user['profile_photo_type']
+            return $this->json([
+                'success' => true,
+                'comment' => [
+                    'id' => $id,
+                    'comment' => $updatedComment,
+                    'created_at' => $comment['created_at'],
+                    'can_delete' => true,
+                    'can_edit' => true,
+                    'user' => [
+                        'id' => $user['id'],
+                        'fullname' => $user['fullname'],
+                        'profile_photo_type' => $user['profile_photo_type']
+                    ]
                 ]
-            ]
-        ]);
-    } else {
-        return $this->json(['success' => false, 'message' => 'Error al actualizar el comentario.'], 500);
+            ]);
+        } else {
+            return $this->json(['success' => false, 'message' => 'Error al actualizar el comentario.'], 500);
+        }
     }
-}
 
-    public function deletePost($id){
+    public function deletePost($id)
+    {
 
         $postModel = new Post();
         $userId = $_SESSION['user']['id'];
@@ -303,7 +304,8 @@ class PostController extends Controller
         }
     }
 
-    public function toggleBlur($id){
+    public function toggleBlur($id)
+    {
         $postModel = new Post();
         $userId = $_SESSION['user']['id'];
         // Verificar si el post existe y pertenece al usuario
@@ -317,11 +319,9 @@ class PostController extends Controller
             return $this->json(['success' => false, 'message' => 'No tienes permiso para ocultar este post.'], 403);
         }
 
-        // $newBlurredState = json_decode(file_get_contents('php://input'), true)['is_blurred'] ?? false;
-
         $isBlurred = (bool)$post['is_blurred'];
         $newBlurredState = !$isBlurred;
-        
+
         $updated = $postModel->update($id, ['is_blurred' => $newBlurredState]);
 
         if ($updated) {
@@ -330,6 +330,4 @@ class PostController extends Controller
             return $this->json(['success' => false, 'message' => 'Error al actualizar el blur del post.'], 500);
         }
     }
-
-
 }

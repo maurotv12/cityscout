@@ -4,16 +4,16 @@ const profilePhotos = document.querySelectorAll('.profile-photo');
 const bioText = document.getElementById('bio-text');
 
 
-if(editButton) editButton.addEventListener('click', () => {
+if (editButton) editButton.addEventListener('click', () => {
 
-    if (editProfileForm.classList.contains('d-none')){
+    if (editProfileForm.classList.contains('d-none')) {
         editProfileForm.classList.remove('d-none');
     } else {
         editProfileForm.classList.add('d-none');
     }
 });
 
-if(editProfileForm) editProfileForm.addEventListener('submit', (e) => {
+if (editProfileForm) editProfileForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const formData = new FormData(editProfileForm);
@@ -25,18 +25,32 @@ if(editProfileForm) editProfileForm.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((data) => {
             if (data.success) {
-                alert(data.message);
-                editProfileForm.classList.add('d-none');
-                 
-                location.reload();
-                
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Perfil actualizado!',
+                    text: data.message || 'Los cambios se guardaron correctamente.',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    editProfileForm.classList.add('d-none');
+                    location.reload();
+                });
             } else {
-                alert(data.error || 'Error al actualizar el perfil');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'Error al actualizar el perfil',
+                    confirmButtonText: 'Aceptar'
+                });
             }
         })
         .catch((error) => {
             console.error('Error:', error);
-            alert('Error al actualizar el perfil');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al actualizar el perfil',
+                confirmButtonText: 'Aceptar'
+            });
         });
 });
 
@@ -77,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Evento para verificar el nombre de usuario en tiempo real
-    if(usernameInput) usernameInput.addEventListener('input', function () {
+    if (usernameInput) usernameInput.addEventListener('input', function () {
         validateInput(usernameInput, 'username', (isValid) => usernameValid = isValid);
     });
     // Deshabilitar el botón al cargar la página si el nombre de usuario no es válido
-    if(saveButton) saveButton.disabled = !usernameValid;
+    if (saveButton) saveButton.disabled = !usernameValid;
 });
