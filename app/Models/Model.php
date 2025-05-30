@@ -18,6 +18,9 @@ class Model {
     public $hidden = [];
 
     protected $wheres = [];
+    protected $orderBy = '';
+    protected $limit = '';
+
 
     public function __construct(){
         $this->connection();
@@ -58,17 +61,30 @@ class Model {
     // public function get(){
     //     return $this->query->fetch_all(MYSQLI_ASSOC);
     // }
-
+    public function orderBy($column, $direction = 'ASC')
+{
+    $direction = strtoupper($direction) === 'DESC' ? 'DESC' : 'ASC';
+    $this->orderBy = "ORDER BY {$column} {$direction}";
+    return $this;
+}
+public function limit($number)
+{
+    $this->limit = "LIMIT " . intval($number);
+    return $this;
+}
     public function get()
     {
         if (!empty($this->wheres)) {
             list($whereSql, $values) = $this->buildWhereQuery();
-            $sql = "SELECT * FROM {$this->table} {$whereSql}";
+            $sql = "SELECT * FROM {$this->table} {$whereSql} {$this->orderBy} {$this->limit}";
             $result = $this->query($sql, $values)->query->fetch_all(MYSQLI_ASSOC);
             $this->wheres = [];
         } else {
+            $sql = "SELECT * FROM {$this->table} {$this->orderBy} {$this->limit}";
             $result = $this->query->fetch_all(MYSQLI_ASSOC);
         }
+        $this->orderBy = '';
+        $this->limit = '';
         // Ocultar campos privados
         if (!empty($this->hidden)) {
             foreach ($result as &$row) {
@@ -227,6 +243,7 @@ class Model {
     // Si no hay ID ni condiciones, no hace nada
     return false;
 }
+
 
 //     public function delete($id){
 //         //DELETE FROM users WHERE id = 1

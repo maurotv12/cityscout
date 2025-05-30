@@ -48,13 +48,13 @@ Route::post('/post/:id/update-caption', [PostController::class, 'updateCaption']
 
     
 
-//user profile
-Route::get('/@:username', [UserController::class, 'show'])
-    ->middleware([AuthMiddleware::class]);
+//user profile routes
+Route::get('/@:username', [UserController::class, 'show']);
 Route::get('/profile/:id/edit', [UserController::class, 'edit'])
     ->middleware([AuthMiddleware::class]);
 Route::post('/user/update-profile/:id', [UserController::class, 'update'])
     ->middleware([AuthMiddleware::class]);
+
 
 //Follow and Unfollow
 Route::post('/profile/:id/follow', [UserController::class, 'toggleFollow'])

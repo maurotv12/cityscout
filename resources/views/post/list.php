@@ -36,37 +36,49 @@
                 <p class="card-text" card-post-caption="<?= $post['id'] ?>"><?= htmlspecialchars($post['caption']) ?></p>
                 <div class="card-text d-flex">
                     <div class="d-flex align-items-center gap-3">
-                        <!-- Botón para dar like al post -->
-                        <span class="like-count d-flex align-items-center">
-                            <strong><?= count($post['likes']) ?></strong>
-                            <span class="like-btn ms-1"
-                                onclick="toggleLike(this, <?= $post['id'] ?>)"
-                                data-post-id="<?= $post['id'] ?>"
-                                data-post-liked-by-logged="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'true' : 'false' ?>">
-                                <i class="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up' ?>"></i>
+                        <?php if (isset($_SESSION['user'])) { ?>
+                            <span class="text-muted"></span>
+                            <!-- Botón para dar like al post -->
+                            <span class="like-count d-flex align-items-center">
+                                <strong><?= count($post['likes']) ?></strong>
+                                <span class="like-btn ms-1"
+                                    onclick="toggleLike(this, <?= $post['id'] ?>)"
+                                    data-post-id="<?= $post['id'] ?>"
+                                    data-post-liked-by-logged="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'true' : 'false' ?>">
+                                    <i class="<?= in_array($_SESSION['user']['id'], array_column($post['likes'], 'user_id')) ? 'bi bi-hand-thumbs-up-fill' : 'bi bi-hand-thumbs-up' ?>"></i>
+                                </span>
                             </span>
-                        </span>
-                        <!-- Botón para abrir el modal de comentarios -->
-                        <span class="card-text d-flex align-items-center">
-                            <strong><?= $post['comment_count'] ?></strong>
-                            <a href="#"
-                                class="comment-btn ms-1"
-                                data-bs-toggle="modal"
-                                data-bs-target="#commentsModal"
-                                data-post-id="<?= $post['id'] ?>"
-                                data-post-username="<?= htmlspecialchars($post['user']['username']) ?>"
-                                data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
-                                data-post-route="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>"
-                                data-post-caption="<?= htmlspecialchars($post['caption']) ?>"
-                                data-post-type="<?= $post['type'] ?>"
-                                data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
-                                <i class="bi bi-chat-heart-fill"></i>
-                            </a>
-                        </span>
+                            <!-- Botón para abrir el modal de comentarios -->
+                            <span class="card-text d-flex align-items-center">
+                                <strong><?= $post['comment_count'] ?></strong>
+                                <a href="#"
+                                    class="comment-btn ms-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#commentsModal"
+                                    data-post-id="<?= $post['id'] ?>"
+                                    data-post-username="<?= htmlspecialchars($post['user']['username']) ?>"
+                                    data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
+                                    data-post-route="/assets/images/posts/<?= $post['file_name'] . '.' . $post['type'] ?>"
+                                    data-post-caption="<?= htmlspecialchars($post['caption']) ?>"
+                                    data-post-type="<?= $post['type'] ?>"
+                                    data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
+                                    <i class="bi bi-chat-heart-fill"></i>
+                                </a>
+                            </span>
+                        <?php } else { ?>
+                            <span class="card-text text-dark ms-1 like-btn gap-1">
+                                <strong><?= count($post['likes']) ?></strong>
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </span>
+                            <span class="card-text text-dark ms-1 comment-btn gap-1">
+                                <strong><?= $post['comment_count'] ?></strong>
+                                <i class="bi bi-chat-heart"></i>
+                            </span>
+                        <?php } ?>
                     </div>
                 </div>
 
-                <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $post['user']['id']) { ?>
                     <div class="dropdown text-end">
                         <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots"></i>

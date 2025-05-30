@@ -13,37 +13,37 @@ use App\Models\UserInterest;
 class UserController extends Controller
 {
 
-      // Nueva función para formatear números al estilo followers.js
- private function formatNumber($number)
-{
-    if ($number < 10000) {
-        return number_format($number, 0, '', '.');
-    } else if ($number < 1000000) {
-        // Miles, sin decimales si es exacto, con uno si no es exacto
-        $miles = floor($number / 1000);
-        $resto = $number % 1000;
-        if ($resto === 0) {
-            return $miles . ' mil';
+    // Nueva función para formatear números al estilo followers.js
+    private function formatNumber($number)
+    {
+        if ($number < 10000) {
+            return number_format($number, 0, '', '.');
+        } else if ($number < 1000000) {
+            // Miles, sin decimales si es exacto, con uno si no es exacto
+            $miles = floor($number / 1000);
+            $resto = $number % 1000;
+            if ($resto === 0) {
+                return $miles . ' mil';
+            } else {
+                $dec = floor(($number % 1000) / 100); // Un decimal, truncado
+                return $miles . ($dec > 0 ? ',' . $dec : '') . ' mil';
+            }
+        } else if ($number < 100000000) {
+            // Millones, con un decimal si no es exacto
+            $millones = floor($number / 1000000);
+            $resto = $number % 1000000;
+            if ($resto === 0) {
+                return $millones . ' mill';
+            } else {
+                $dec = floor(($number % 1000000) / 100000); // Un decimal, truncado
+                return $millones . ($dec > 0 ? ',' . $dec : '') . ' mill';
+            }
         } else {
-            $dec = floor(($number % 1000) / 100); // Un decimal, truncado
-            return $miles . ($dec > 0 ? ',' . $dec : '') . ' mil';
-        }
-    } else if ($number < 100000000) {
-        // Millones, con un decimal si no es exacto
-        $millones = floor($number / 1000000);
-        $resto = $number % 1000000;
-        if ($resto === 0) {
+            // 100 millones o más, sin decimales
+            $millones = floor($number / 1000000);
             return $millones . ' mill';
-        } else {
-            $dec = floor(($number % 1000000) / 100000); // Un decimal, truncado
-            return $millones . ($dec > 0 ? ',' . $dec : '') . ' mill';
         }
-    } else {
-        // 100 millones o más, sin decimales
-        $millones = floor($number / 1000000);
-        return $millones . ' mill';
     }
-}
 
     public function show($username)
     {
@@ -52,15 +52,27 @@ class UserController extends Controller
         $postModel = new Post();
         $followerModel = new Follower();
 
-       
+
         $user = $userModel->where('username', $username)->first();
-        
+
         if (!$user) {
             http_response_code(404);
             return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
         }
         $id = $user['id'];
         $posts = $postModel->getPostsByUser($id);
+
+        session_start();
+        if(!isset($_SESSION['user'])) {
+            //filtrar el objeto posts para que solo muestre las primeras 3 publicaciones
+            $posts = array_slice($posts, 0, 3);
+            // Marcar todas las publicaciones como "blurred"
+            foreach ($posts as &$post) {
+                $post['is_blurred'] = true;
+            }
+        }
+       
+
         // Contar publicaciones
         $postCount = $postModel->where('user_id', $id)->get();
         $postCount = count($postCount);
@@ -74,14 +86,16 @@ class UserController extends Controller
         $followingCount = count($followingCount);
 
         // Verificar si el usuario actual sigue al perfil que está viendo
-
         $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
-        $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id])->first();
-        $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
+        
+        
+        if(!isset($_SESSION['user'])) {
+            $isFollowing = false; // Si no hay sesión, no puede seguir
+        }else {
+            $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id])->first();
+            $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
+        }
 
-
-        // $isFollowing = $followerModel->where('user_follower_id', $_SESSION['user']['id'])->where('user_followed_id', $id)->first();
-        // $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
 
         // var_dump($this->getUsersWithSimilarInterests());
 
@@ -90,7 +104,7 @@ class UserController extends Controller
             'posts' => $posts,
             'user' => $user,
             'postCount' => $postCount,
-            'followersCount' => $this->formatNumber( $followersCount),
+            'followersCount' => $this->formatNumber($followersCount),
             'followingCount' => $this->formatNumber($followingCount),
             'isFollowing' => $isFollowing,
 
@@ -322,65 +336,6 @@ class UserController extends Controller
         return $this->json(['success' => true]);
     }
 
-    // public function getUsersWithSimilarInterests()
-    // {
-    //     $userModel = new User();
-    //     $interestModel = new Interest();
-    //     $userInterestsModel = new UserInterest();
-    //     $followerModel = new Follower();
-    //     $userId = $_SESSION['user']['id'];
-
-
-    //     // Obtener todos los intereses
-    //     $interests = $interestModel->all();
-
-    //     // Obtiener los usuarios que sigue el usuario
-    //     $followedUsers = $followerModel->where('user_follower_id', $userId)->get();
-    //     $followedUsersIds = array_column($followedUsers, 'user_followed_id');
-
-        
-    //     // Obtener los intereses del usuario
-    //     $userInterests = $userInterestsModel->where('user_id', $userId)->get();
-    //     $userInterestsIds = array_column($userInterests, 'interest_id');
-
-    //     // Obtener el id de los usuarios con intereses similares (excluyendo el $userId asi mismo y los ya seguidos)
-    //     $usersInterests = $userInterestsModel->where('interest_id', 'IN',  $userInterestsIds)
-    //         ->where('user_id', '!=', $userId)
-    //         ->where('user_id', 'NOT IN', $followedUsersIds)
-    //         ->get();
-
-    //     $usersInterests = array_map(function ($userInterest) use ($interests) {
-    //         $userInterest['interest'] = array_filter($interests, function ($i) use ($userInterest) {
-    //             return $i['id'] == $userInterest['interest_id'];
-    //         });
-    //         return $userInterest;
-    //     }, $usersInterests);
-        
-    //     $usersIdInterests = array_column($usersInterests, 'user_id');
-    //     $usersWithSimilarInterests = $userModel->where('id', 'IN',  $usersIdInterests)->get();
-
-
-    //     $usersWithSimilarInterests = array_map(function ($user) use ($followerModel, $usersInterests) {
-    //         $followersCount = $followerModel->where('user_followed_id', $user['id'])->get();
-    //         $user['followersCount'] = count($followersCount);
-    //         // Obtener los nombres de los intereses del usuario
-    //         $userInterestsForUser = array_filter($usersInterests, function ($interest) use ($user) {
-    //             return $interest['user_id'] == $user['id'];
-    //         });
-    //         $user['interests'] = array_values(array_map(function ($interest) {
-    //             // $interest['interest'] es un array filtrado, tomamos el primero
-    //             $interestData = reset($interest['interest']);
-    //             return $interestData['name'] ?? null;
-    //         }, $userInterestsForUser));
-    //         return $user;
-    //     }, $usersWithSimilarInterests);
-
-    //     return $this->json([
-    //         'success' => true,
-    //         'usersWithSimilarInterests' => $usersWithSimilarInterests
-    //     ]);
-    // }
-
 
     public function getUsersWithSimilarInterests()
     {
@@ -454,4 +409,5 @@ class UserController extends Controller
             'usersWithSimilarInterests' => $result
         ]);
     }
+
 }

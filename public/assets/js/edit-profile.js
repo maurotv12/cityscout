@@ -4,7 +4,7 @@ const profilePhotos = document.querySelectorAll('.profile-photo');
 const bioText = document.getElementById('bio-text');
 
 
-editButton.addEventListener('click', () => {
+if(editButton) editButton.addEventListener('click', () => {
 
     if (editProfileForm.classList.contains('d-none')){
         editProfileForm.classList.remove('d-none');
@@ -13,7 +13,7 @@ editButton.addEventListener('click', () => {
     }
 });
 
-editProfileForm.addEventListener('submit', (e) => {
+if(editProfileForm) editProfileForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const formData = new FormData(editProfileForm);
@@ -77,9 +77,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Evento para verificar el nombre de usuario en tiempo real
-    usernameInput.addEventListener('input', function () {
+    if(usernameInput) usernameInput.addEventListener('input', function () {
         validateInput(usernameInput, 'username', (isValid) => usernameValid = isValid);
     });
     // Deshabilitar el botón al cargar la página si el nombre de usuario no es válido
-    saveButton.disabled = !usernameValid;
+    if(saveButton) saveButton.disabled = !usernameValid;
 });

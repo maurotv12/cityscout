@@ -1,4 +1,3 @@
-<!-- layout/main.php -->
 
 <!DOCTYPE html>
 <html lang="es">
@@ -16,6 +15,8 @@
     <link rel="stylesheet" href="/assets/css/like.css">
     <link rel="stylesheet" href="/assets/css/chat.css">
     <link rel="stylesheet" href="/assets/css/createPost.css">
+    <link rel="stylesheet" href="/assets/css/login-register.css">
+
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

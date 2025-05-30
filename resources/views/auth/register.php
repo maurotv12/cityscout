@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/assets/css/login-register.css">
 <?php
 ob_start();
 $error = $_SESSION['error'] ?? null;
