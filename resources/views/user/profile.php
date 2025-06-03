@@ -46,11 +46,11 @@ $messages = [];
           <button id="follow-btn"
             class="btn btn-sm me-2 <?= $isFollowing ? 'btn-primary' : 'btn-outline-primary' ?>"
             data-user-id="<?= $user['id'] ?>"
-            <?php if ($publicView): ?>disabled<?php else: ?>onclick="toggleFollow(<?= $user['id'] ?>)" <?php endif; ?>>
+            onclick="toggleFollow(<?= $user['id'] ?>)">
             <?= $isFollowing ? 'Dejar de seguir' : 'Seguir' ?>
           </button>
           <!-- Botón de Mensaje -->
-          <button id="message-btn" class="btn btn-primary btn-sm" data-user-id="<?= $user['id'] ?>" <?php if ($publicView): ?>disabled<?php endif; ?>>Mensaje</button>
+          <button id="message-btn" class="btn btn-primary btn-sm" data-user-id="<?= $user['id'] ?>">Mensaje</button>
         </div>
       <?php endif; ?>
 
