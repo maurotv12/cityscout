@@ -40,7 +40,7 @@ class Model
         }
     }
 
-    public function query($sql, $data = [], $params = null)
+    public function query($sql, $data = [])
     {
         if ($data) {
             $stmt = $this->connection->prepare($sql);
@@ -78,6 +78,8 @@ class Model
         }
         $this->orderBy = '';
         $this->limit = '';
+        if ($result === false) $result = [];
+
         // Ocultar campos privados
         if (!empty($this->hidden)) {
             foreach ($result as &$row) {
@@ -99,6 +101,7 @@ class Model
         } else {
             $result = $this->query->fetch();
         }
+        if ($result === false) $result = null;
         // Ocultar campos privados
         if (!empty($this->hidden) && is_array($result)) {
             foreach ($this->hidden as $field) {
@@ -197,6 +200,7 @@ class Model
         $sql = "UPDATE {$this->table} SET {$setSql} WHERE id = ?";
         $params = array_values($data);
         $params[] = $id;
+
 
         return $this->query($sql, $params);
     }
