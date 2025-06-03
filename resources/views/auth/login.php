@@ -1,4 +1,3 @@
-
 <?php
 ob_start();
 $error = $_SESSION['error'] ?? null;
@@ -25,11 +24,11 @@ unset($_SESSION['error']);
                                     <label class="form-label" for="floatingInput">Nombre de Usuario</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" id="inputPassword" class="form-control login-input" required name="password" placeholder="Contraseña"/>
+                                    <input type="password" id="inputPassword" class="form-control login-input" required name="password" placeholder="Contraseña" />
                                     <label class="form-label" for="inputPassword">Contraseña</label>
                                 </div>
                                 <div class="text-center pt-1 mb-4 pb-1">
-                                    <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-2 w-100">Ingresar</button>
+                                    <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 ">Ingresar</button>
                                     <a class="text-muted" href="#!">Olvidaste tu contraseña?</a>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center">
