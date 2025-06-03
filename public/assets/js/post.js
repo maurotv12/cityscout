@@ -210,16 +210,7 @@ function toggleBlur(postId, isBlurred) {
           blurButton.setAttribute("onclick", `toggleBlur(${postId}, false)`);
           modalTriggerButton.setAttribute("data-is-blurred", "false"); // Actualizar el estado del blur en el botón del modal
         }
-        // Actualizar el estado del blur en el modal de comentarios
-        // const commentsModal = document.getElementById('commentsModal');
-        // if (commentsModal.getAttribute('data-post-id') === String(postId)) {
-        //     const modalMedia = commentsModal.querySelector('.modal-media img, .modal-media video');
-        //     if (data.is_blurred) {
-        //         modalMedia.classList.add('blurred');
-        //     } else {
-        //         modalMedia.classList.remove('blurred');
-        //     }
-        // }
+
       } else {
         alert("Error al actualizar el estado del blur.");
       }
@@ -431,29 +422,52 @@ document.addEventListener("DOMContentLoaded", function () {
         `[data-comment-id="${commentId}"]`
       );
 
-      if (confirm("¿Estás seguro de que deseas eliminar este comentario?")) {
-        //Enviar Solicitud al backend para eliminar el comentario
-        fetch(`/comment/${commentId}/delete`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.success) {
-              //Eliminar el comentario del DOM
-              commentElement.remove();
-              alert("Comentario eliminado correctamente.");
-            } else {
-              alert("Error al eliminar el comentario.");
-            }
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción eliminará el comentario permanentemente.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //Enviar Solicitud al backend para eliminar el comentario
+          fetch(`/comment/${commentId}/delete`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
           })
-          .catch((error) => {
-            console.error("Error al eliminar el comentario:", error);
-            alert("Error al eliminar el comentario.");
-          });
-      }
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                //Eliminar el comentario del DOM
+                commentElement.remove();
+                Swal.fire(
+                  "¡Eliminado!",
+                  "El comentario ha sido eliminado correctamente.",
+                  "success"
+                );
+              } else {
+                Swal.fire(
+                  "Error",
+                  "Error al eliminar el comentario.",
+                  "error"
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("Error al eliminar el comentario:", error);
+              Swal.fire(
+                "Error",
+                "Error al eliminar el comentario.",
+                "error"
+              );
+            });
+        }
+      });
     }
   });
 });
