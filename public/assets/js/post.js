@@ -11,16 +11,18 @@ function commentHtml(comment) {
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-start align-items-center">
-                  <img class="rounded-circle shadow-1-strong me-3"
-                    src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
-                    onerror="this.src='/assets/images/user-default.png';" 
-                    alt="avatar" width="40" height="40" /> 
-                  <div>
-                    <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
-                    <p class="text-muted small mb-0">
-                      ${comment.created_at}
-                    </p>
-                  </div>
+                  <a href="/@${comment.user.username}" class="d-flex align-items-center text-decoration-none">
+                    <img class="rounded-circle shadow-1-strong me-3"
+                      src="/assets/images/profiles/${comment.user.id}.${comment.user.profile_photo_type}" 
+                      onerror="this.src='/assets/images/user-default.png';" 
+                      alt="avatar" width="40" height="40" /> 
+                    <div>
+                      <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
+                      <p class="text-muted small mb-0">
+                        ${comment.created_at}
+                      </p>
+                    </div>
+                  </a>
                 </div>
                   ${comment.can_delete || comment.can_edit
       ? `
