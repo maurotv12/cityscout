@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Model;
 use App\Models\Comment;
-use App\Models\User;
-use App\Models\Like;
 use App\Models\Follower;
+use App\Models\Like;
+use App\Models\Model;
+use App\Models\User;
 
 class Post extends Model
 {
@@ -76,9 +76,17 @@ class Post extends Model
 
   public function toggleBlur($post_id, $is_blurred)
   {
-    //TODO 
-    $sql = "UPDATE posts SET is_blurred = ? WHERE id = ?";
-    $this->query($sql, [$is_blurred, $post_id]);
+    // Usar where y update del modelo base
+    $this->where('id', $post_id)->update($post_id, [
+      'is_blurred' => $is_blurred
+    ]);
   }
+
+  // public function toggleBlur($post_id, $is_blurred)
+  // {
+  //  
+  //   $sql = "UPDATE posts SET is_blurred = ? WHERE id = ?";
+  //   $this->query($sql, [$is_blurred, $post_id]);
+  // }
 
 }

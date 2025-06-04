@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\Interest;
-use App\Models\User;
-use App\Models\Post;
-use App\Models\Follower;
-
 use App\Models\Comment;
+use App\Models\Follower;
+use App\Models\Interest;
+use App\Models\Post;
+
+use App\Models\User;
 use App\Models\UserInterest;
 
 class UserController extends Controller
@@ -47,11 +47,9 @@ class UserController extends Controller
 
     public function show($username)
     {
-
         $userModel = new User();
         $postModel = new Post();
         $followerModel = new Follower();
-
 
         $user = $userModel->where('username', $username)->first();
 
@@ -63,7 +61,7 @@ class UserController extends Controller
         $posts = $postModel->getPostsByUser($id);
 
         session_start();
-        if(!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user'])) {
             //filtrar el objeto posts para que solo muestre las primeras 3 publicaciones
             $posts = array_slice($posts, 0, 3);
             // Marcar todas las publicaciones como "blurred"
@@ -71,8 +69,6 @@ class UserController extends Controller
                 $post['is_blurred'] = true;
             }
         }
-       
-
         // Contar publicaciones
         $postCount = $postModel->where('user_id', $id)->get();
         $postCount = count($postCount);
@@ -85,20 +81,16 @@ class UserController extends Controller
         $followingCount = $followerModel->where('user_follower_id', $id)->get();
         $followingCount = count($followingCount);
 
-        // TODO: Verificar si el usuario actual sigue al perfil que está viendo
-        $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
-        
-        
-        if(!isset($_SESSION['user'])) {
+        // Verificar si el usuario actual sigue al perfil que está viendo usando solo modelos
+        if (!isset($_SESSION['user'])) {
             $isFollowing = false; // Si no hay sesión, no puede seguir
-        }else {
-            $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id]);
-            $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
+        } else {
+            $isFollowing = $followerModel
+                ->where('user_follower_id', $_SESSION['user']['id'])
+                ->where('user_followed_id', $id)
+                ->first();
+            $isFollowing = $isFollowing ? true : false; // Fuerza a booleano
         }
-
-
-        // var_dump($this->getUsersWithSimilarInterests());
-
 
         return $this->view('user.profile', [
             'posts' => $posts,
@@ -107,7 +99,6 @@ class UserController extends Controller
             'followersCount' => $this->formatNumber($followersCount),
             'followingCount' => $this->formatNumber($followingCount),
             'isFollowing' => $isFollowing,
-
         ]);
     }
 
@@ -213,11 +204,11 @@ class UserController extends Controller
         $followerModel = new Follower();
         $userId = $_SESSION['user']['id'];
 
-        //TODO: Verificar si ya sigue al usuario
-        $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
-        $existingFollow = $followerModel->query($sql, [$userId, $id])->first();
-
-        // $existingFollow = $followerModel->where('user_follower_id', $userId)->where('user_followed_id', $id)->first();
+        // Verificar si ya sigue al usuario usando where y first del modelo base
+        $existingFollow = $followerModel
+            ->where('user_follower_id', $userId)
+            ->where('user_followed_id', $id)
+            ->first();
 
         if ($existingFollow) {
             // Dejar de seguir
@@ -260,15 +251,16 @@ class UserController extends Controller
         }
 
         $userModel = new User();
-        //TODO
-        $users = $userModel->query(
-            "SELECT id, username, fullname, profile_photo_type FROM users WHERE username LIKE ? OR fullname LIKE ? LIMIT 10",
-            ['%' . $query . '%', '%' . $query . '%']
-        )->get();
+
+        // Usar where y orWhere del modelo base
+        $users = $userModel
+            ->where('username', 'LIKE', '%' . $query . '%')
+            ->orWhere('fullname', 'LIKE', '%' . $query . '%')
+            ->limit(10)
+            ->get();
 
         return $this->json(['success' => true, 'users' => $users]);
     }
-
     public function checkAvailability()
     {
         $field = $_GET['field'] ?? null;
@@ -410,5 +402,4 @@ class UserController extends Controller
             'usersWithSimilarInterests' => $result
         ]);
     }
-
 }
