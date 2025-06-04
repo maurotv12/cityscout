@@ -31,17 +31,7 @@ class Post extends Model
       return []; // Si no sigue a nadie, devolver un array vacío
     }
 
-    // Obtener los posts de los usuarios seguidos
-    $placeholders = implode(',', array_fill(0, count($followedUserIds), '?'));
-    $sql = "
-        SELECT posts.*
-        FROM posts
-        JOIN users ON posts.user_id = users.id
-        WHERE posts.user_id IN ($placeholders)
-        ORDER BY posts.created_at DESC
-    ";
-
-    $posts = $this->query($sql, $followedUserIds)->get();
+    $posts = $this->where('user_id', 'IN', $followedUserIds)->orderBy('created_at', 'DESC')->get();
 
     // Agregar información adicional a cada post
     $posts = array_map(function ($post) use ($commentModel, $likeModel, $userModel) {
@@ -86,6 +76,7 @@ class Post extends Model
 
   public function toggleBlur($post_id, $is_blurred)
   {
+    //TODO 
     $sql = "UPDATE posts SET is_blurred = ? WHERE id = ?";
     $this->query($sql, [$is_blurred, $post_id]);
   }

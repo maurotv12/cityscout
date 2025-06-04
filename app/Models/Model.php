@@ -1,9 +1,9 @@
 <?php
 
-
 namespace App\Models;
 
-use mysqli;
+use PDO;
+use PDOException;
 
 class Model
 {
@@ -22,7 +22,6 @@ class Model
     protected $orderBy = '';
     protected $limit = '';
 
-
     public function __construct()
     {
         $this->connection();
@@ -30,27 +29,23 @@ class Model
 
     public function connection()
     {
-
-        $this->connection = new mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
-
-        if ($this->connection->connect_error) {
-            die('Error de conexión: ' . $this->connection->connect_error);
+        $dsn = "mysql:host={$this->db_host};dbname={$this->db_name};charset=utf8mb4";
+        try {
+            $this->connection = new PDO($dsn, $this->db_user, $this->db_pass, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]);
+        } catch (PDOException $e) {
+            die('Error de conexión: ' . $e->getMessage());
         }
     }
 
-    public function query($sql, $data = [], $params = null)
+    public function query($sql, $data = [])
     {
-
         if ($data) {
-
-            if ($params == null) {
-                $params = str_repeat('s', count($data)); //consultas preparadas
-            }
-
             $stmt = $this->connection->prepare($sql);
-            $stmt->bind_param($params, ...$data);
-            $stmt->execute();
-            $this->query = $stmt->get_result();
+            $stmt->execute($data);
+            $this->query = $stmt;
         } else {
             $this->query = $this->connection->query($sql);
         }
@@ -63,24 +58,28 @@ class Model
         $this->orderBy = "ORDER BY {$column} {$direction}";
         return $this;
     }
+
     public function limit($number)
     {
         $this->limit = "LIMIT " . intval($number);
         return $this;
     }
+
     public function get()
     {
         if (!empty($this->wheres)) {
             list($whereSql, $values) = $this->buildWhereQuery();
             $sql = "SELECT * FROM {$this->table} {$whereSql} {$this->orderBy} {$this->limit}";
-            $result = $this->query($sql, $values)->query->fetch_all(MYSQLI_ASSOC);
+            $result = $this->query($sql, $values)->query->fetchAll();
             $this->wheres = [];
         } else {
             $sql = "SELECT * FROM {$this->table} {$this->orderBy} {$this->limit}";
-            $result = $this->query->fetch_all(MYSQLI_ASSOC);
+            $result = $this->query($sql)->query->fetchAll();
         }
         $this->orderBy = '';
         $this->limit = '';
+        if ($result === false) $result = [];
+
         // Ocultar campos privados
         if (!empty($this->hidden)) {
             foreach ($result as &$row) {
@@ -97,11 +96,12 @@ class Model
         if (!empty($this->wheres)) {
             list($whereSql, $values) = $this->buildWhereQuery();
             $sql = "SELECT * FROM {$this->table} {$whereSql} LIMIT 1";
-            $result = $this->query($sql, $values)->query->fetch_assoc();
+            $result = $this->query($sql, $values)->query->fetch();
             $this->wheres = [];
         } else {
-            $result = $this->query->fetch_assoc();
+            $result = $this->query->fetch();
         }
+        if ($result === false) $result = null;
         // Ocultar campos privados
         if (!empty($this->hidden) && is_array($result)) {
             foreach ($this->hidden as $field) {
@@ -114,16 +114,14 @@ class Model
     //Consultas
     public function all()
     {
-
         $sql = "SELECT * FROM {$this->table}";
         return $this->query($sql)->get();
     }
 
     public function find($id)
     {
-        //SELECT FROM users WHERE id = 1
         $sql = "SELECT * FROM {$this->table} WHERE id = ?";
-        return $this->query($sql, [$id], 'i')->first();
+        return $this->query($sql, [$id])->first();
     }
 
     public function where($column, $operator, $value = null)
@@ -153,6 +151,34 @@ class Model
         return $this;
     }
 
+    public function orWhere($column, $operator = null, $value = null)
+    {
+        // Permitir sintaxis orWhere('columna', valor)
+        if ($value === null) {
+            $value = $operator;
+            $operator = '=';
+        }
+
+        // Soporte para IN y NOT IN
+        if (in_array(strtoupper($operator), ['IN', 'NOT IN']) && is_array($value)) {
+            if (empty($value)) {
+                // Si el array está vacío, forzamos una condición falsa
+                $this->wheres[] = ["1", "=", "0", 'OR'];
+            } else {
+                $placeholders = implode(', ', array_fill(0, count($value), '?'));
+                $this->wheres[] = [
+                    "{$column} {$operator} ($placeholders)",
+                    'IN',
+                    $value,
+                    'OR'
+                ];
+            }
+        } else {
+            $this->wheres[] = [$column, $operator, $value, 'OR'];
+        }
+        return $this;
+    }
+
     protected function buildWhereQuery()
     {
         if (empty($this->wheres)) {
@@ -160,55 +186,60 @@ class Model
         }
         $clauses = [];
         $values = [];
-        foreach ($this->wheres as $where) {
+        foreach ($this->wheres as $i => $where) {
+            $type = isset($where[3]) && $where[3] === 'OR' ? 'OR' : 'AND';
             if ($where[1] === 'IN') {
-                $clauses[] = $where[0];
-                $values = array_merge($values, $where[2]);
+                $clause = $where[0];
+                $vals = $where[2];
             } else {
-                $clauses[] = "{$where[0]} {$where[1]} ?";
-                $values[] = $where[2];
+                $clause = "{$where[0]} {$where[1]} ?";
+                $vals = [$where[2]];
             }
+            // El primer where nunca lleva AND/OR delante
+            if ($i === 0) {
+                $clauses[] = $clause;
+            } else {
+                $clauses[] = "$type $clause";
+            }
+            $values = array_merge($values, $vals);
         }
-        $whereSql = 'WHERE ' . implode(' AND ', $clauses);
+        $whereSql = 'WHERE ' . implode(' ', $clauses);
         return [$whereSql, $values];
     }
 
     //Create
-
     public function create($data)
     {
-        //INSERT INTO users (name, email) VALUES ('Mauricio','Mauricio@gmail.com')
         $columns = array_keys($data);
-        $columns = implode(", ", $columns);
+        $columnsSql = implode(", ", $columns);
 
         $values = array_values($data);
-        //Sentencias preparadas
-        $sql = "INSERT INTO {$this->table} ({$columns}) VALUES (" . str_repeat('?, ', count($values) - 1) . "?)";
+        $placeholders = implode(', ', array_fill(0, count($values), '?'));
+        $sql = "INSERT INTO {$this->table} ({$columnsSql}) VALUES ({$placeholders})";
 
         $this->query($sql, $values);
 
-        $insert_id = $this->connection->insert_id;
+        $insert_id = $this->connection->lastInsertId();
 
         return $this->find($insert_id);
     }
 
     //Update
-
     public function update($id, $data)
     {
         $set = [];
         foreach ($data as $column => $value) {
             $set[] = "{$column} = ?";
         }
-        $set = implode(', ', $set);
+        $setSql = implode(', ', $set);
 
-        $sql = "UPDATE {$this->table} SET {$set} WHERE id = ?";
+        $sql = "UPDATE {$this->table} SET {$setSql} WHERE id = ?";
         $params = array_values($data);
         $params[] = $id;
 
+
         return $this->query($sql, $params);
     }
-
 
     //Delete
     public function delete($id = null)
@@ -216,7 +247,7 @@ class Model
         if ($id !== null) {
             // Eliminar por ID
             $sql = "DELETE FROM {$this->table} WHERE id = ?";
-            $this->query($sql, [$id], 'i');
+            $this->query($sql, [$id]);
             return $this;
         } elseif (!empty($this->wheres)) {
             // Eliminar por condiciones (deleteWhere)

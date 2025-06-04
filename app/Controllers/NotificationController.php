@@ -16,15 +16,12 @@ class NotificationController extends Controller
         $userModel = new User();
         
 
-        // Obtener notificaciones del usuario autenticado con query
-        $sql = "
-            SELECT * FROM notifications
-            WHERE user_id = ? 
-            AND sender_id != ?
-            ORDER BY `created_at` DESC
-        ";
-
-        $notifications = $notificationModel->query($sql, [$userId, $userId])->get();
+        // Obtener notificaciones del usuario autenticado usando where
+        $notifications = $notificationModel
+            ->where('user_id', $userId)
+            ->where('sender_id', '!=', $userId)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         $notifications = array_map(function($notification) use ($userModel) {
             $sender = $userModel->find($notification['sender_id']);

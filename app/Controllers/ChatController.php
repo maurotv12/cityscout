@@ -2,22 +2,17 @@
 
 namespace App\Controllers;
 
-
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Comment; 
 use App\Controllers\NotificationController;
 
-
 class ChatController extends Controller
 {
     public function index()
     {
-
         $model = new Message;
-
         $messages = $model->all();
-
         return $this->view('chat.chatList', compact('messages'));
     }
 
@@ -32,31 +27,51 @@ class ChatController extends Controller
         $userModel = new User();
         $userId = $_SESSION['user']['id'];
 
-        // Obtener los usuarios con los que el usuario ha chateado
-        $sql = "
-                SELECT 
-                    u.id AS user_id, 
-                    u.fullname, 
-                    u.username, 
-                    u.profile_photo_type,
-                    COUNT(CASE WHEN m.is_read = 0 AND m.receiver_id = ? THEN 1 END) AS unread_count,
-                    MAX(m.created_at) AS last_message_time
-                FROM messages m
-                INNER JOIN users u ON (u.id = m.sender_id OR u.id = m.receiver_id)
-                WHERE (m.sender_id = ? OR m.receiver_id = ?)
-                  AND u.id != ?
-                GROUP BY u.id
-                ORDER BY last_message_time DESC
-            ";
+        // Obtener todos los mensajes donde el usuario es sender o receiver
+        $messages = $messageModel
+            ->where('sender_id', $userId)
+            ->orWhere('receiver_id', $userId)
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
-        $chats = $messageModel->query($sql, [$userId, $userId, $userId, $userId])->get();
+        // Agrupar por el otro usuario y obtener datos
+        $userChats = [];
+        foreach ($messages as $msg) {
+            $otherUserId = ($msg['sender_id'] == $userId) ? $msg['receiver_id'] : $msg['sender_id'];
+            if (!isset($userChats[$otherUserId])) {
+                $userChats[$otherUserId] = [
+                    'user_id' => $otherUserId,
+                    'last_message_time' => $msg['created_at'],
+                    'unread_count' => 0,
+                ];
+            }
+            // Contar no leídos
+            if ($msg['is_read'] == 0 && $msg['receiver_id'] == $userId) {
+                $userChats[$otherUserId]['unread_count']++;
+            }
+            // Actualizar última fecha
+            if (strtotime($msg['created_at']) > strtotime($userChats[$otherUserId]['last_message_time'])) {
+                $userChats[$otherUserId]['last_message_time'] = $msg['created_at'];
+            }
+        }
 
-        // Formatear los datos
-        foreach ($chats as &$chat) {
+        // Obtener datos del usuario
+        $chats = [];
+        foreach ($userChats as $chat) {
+            $user = $userModel->find($chat['user_id']);
+            $chat['fullname'] = $user['fullname'] ?? '';
+            $chat['username'] = $user['username'] ?? '';
+            $chat['profile_photo_type'] = $user['profile_photo_type'] ?? '';
             $chat['profile_photo'] = file_exists(__DIR__ . "/../../public/assets/images/profiles/{$chat['user_id']}.{$chat['profile_photo_type']}")
                 ? "/assets/images/profiles/{$chat['user_id']}.{$chat['profile_photo_type']}"
                 : "/assets/images/user-default.png";
+            $chats[] = $chat;
         }
+
+        // Ordenar por last_message_time DESC
+        usort($chats, function($a, $b) {
+            return strtotime($b['last_message_time']) - strtotime($a['last_message_time']);
+        });
 
         return $this->json(['success' => true, 'chats' => $chats]);
     }
@@ -64,30 +79,23 @@ class ChatController extends Controller
     public function getMessages($chatWithId)
     {
         $messageModel = new Message();
+        $userModel = new User();
         $userId = $_SESSION['user']['id'];
 
         // Obtener el historial de mensajes entre los dos usuarios
-        $sql = "
-                SELECT 
-                    m.id, 
-                    m.sender_id, 
-                    m.receiver_id, 
-                    m.message, 
-                    m.is_read, 
-                    m.created_at,
-                    su.fullname AS sender_fullname,
-                    su.profile_photo_type AS sender_profile_photo_type,
-                    su.username AS sender_username
-                FROM messages m
-                INNER JOIN users su on (su.id = m.sender_id)
-                WHERE (m.sender_id = ? OR m.receiver_id = ? )
-                   AND (m.sender_id = ? OR m.receiver_id = ? )
-                ORDER BY m.created_at ASC
-            ";
-
-        $messages = $messageModel->query($sql, [$userId, $userId, $chatWithId, $chatWithId])->get();
+        $messages = $messageModel
+            ->where('sender_id', $userId)
+            ->where('receiver_id', $chatWithId)
+            ->orWhere('sender_id', $chatWithId)
+            ->where('receiver_id', $userId)
+            ->orderBy('created_at', 'ASC')
+            ->get();
 
         foreach ($messages as &$message) {
+            $sender = $userModel->find($message['sender_id']);
+            $message['sender_fullname'] = $sender['fullname'] ?? '';
+            $message['sender_profile_photo_type'] = $sender['profile_photo_type'] ?? '';
+            $message['sender_username'] = $sender['username'] ?? '';
             $message['sender_profile_photo'] = file_exists(__DIR__ . "/../../public/assets/images/profiles/{$message['sender_id']}.{$message['sender_profile_photo_type']}")
                 ? "/assets/images/profiles/{$message['sender_id']}.{$message['sender_profile_photo_type']}"
                 : "/assets/images/user-default.png";
@@ -128,17 +136,11 @@ class ChatController extends Controller
         $userId = $_SESSION['user']['id'];
 
         // Marcar como leídos los mensajes recibidos del otro usuario
-        $sql = "
-                UPDATE messages 
-                SET is_read = 1 
-                WHERE receiver_id = ? AND sender_id = ?
-            ";
-
-        $messageModel->query($sql, [$userId, $chatWithId]);
+        $messageModel
+            ->where('receiver_id', $userId)
+            ->where('sender_id', $chatWithId)
+            ->update(null, ['is_read' => 1]);
 
         return $this->json(['success' => true, 'message' => 'Mensajes marcados como leídos.']);
     }
-
- 
-   
 }

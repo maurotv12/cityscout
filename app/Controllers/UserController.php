@@ -85,14 +85,14 @@ class UserController extends Controller
         $followingCount = $followerModel->where('user_follower_id', $id)->get();
         $followingCount = count($followingCount);
 
-        // Verificar si el usuario actual sigue al perfil que está viendo
+        // TODO: Verificar si el usuario actual sigue al perfil que está viendo
         $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
         
         
         if(!isset($_SESSION['user'])) {
             $isFollowing = false; // Si no hay sesión, no puede seguir
         }else {
-            $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id])->first();
+            $isFollowing = $followerModel->query($sql, [$_SESSION['user']['id'], $id]);
             $isFollowing = $isFollowing ? true : false; // <-- Fuerza a booleano
         }
 
@@ -213,7 +213,7 @@ class UserController extends Controller
         $followerModel = new Follower();
         $userId = $_SESSION['user']['id'];
 
-        // Verificar si ya sigue al usuario
+        //TODO: Verificar si ya sigue al usuario
         $sql = "SELECT * FROM followers WHERE user_follower_id = ? AND user_followed_id = ?"; //TODO
         $existingFollow = $followerModel->query($sql, [$userId, $id])->first();
 
@@ -260,6 +260,7 @@ class UserController extends Controller
         }
 
         $userModel = new User();
+        //TODO
         $users = $userModel->query(
             "SELECT id, username, fullname, profile_photo_type FROM users WHERE username LIKE ? OR fullname LIKE ? LIMIT 10",
             ['%' . $query . '%', '%' . $query . '%']
