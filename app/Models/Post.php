@@ -74,6 +74,29 @@ class Post extends Model
     return $posts;
   }
 
+  public function getPost($post_id)
+  {
+    $post = $this->find($post_id);
+
+    if (!$post) {
+      return null; // Si no se encuentra el post, devolver null
+    }
+
+    $commentModel = new Comment();
+    $likeModel = new Like();
+    $userModel = new User();
+
+    // Agregar información adicional al post
+    $post['comments'] = $commentModel->getComments($post_id);
+    $post['comment_count'] = count($post['comments']);
+    $post['likes'] = $likeModel->getLikes($post_id);
+    $post['like_count'] = count($post['likes']);
+    $post['user'] = $userModel->getUser($post['user_id']);
+    $post['is_blurred'] = (bool) $post['is_blurred'];
+
+    return $post;
+  }
+
   public function toggleBlur($post_id, $is_blurred)
   {
     // Usar where y update del modelo base
