@@ -298,7 +298,7 @@ class UserController extends Controller
         $userInterestModel = new UserInterest();
         $interests = $userInterestModel->where('user_id', $id)->get();
         return array_map(function ($interest) {
-            return strval($interest['interest_id']);
+            return $interest['interest_id'];
         }, $interests);
     }
 
