@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Post;
 
 class NotificationController extends Controller
 {
@@ -14,6 +15,7 @@ class NotificationController extends Controller
         $userId = $_SESSION['user']['id'];
         $notificationModel = new Notification();
         $userModel = new User();
+        $postModel = new Post();
         
 
         // Obtener notificaciones del usuario autenticado usando where
@@ -23,7 +25,7 @@ class NotificationController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        $notifications = array_map(function($notification) use ($userModel) {
+        $notifications = array_map(function($notification) use ($userModel, $postModel) {
             $sender = $userModel->find($notification['sender_id']);
             $notification['sender'] = [
                 'id' => $sender['id'],
@@ -31,6 +33,8 @@ class NotificationController extends Controller
                 'username' => $sender['username'],
                 'profile_photo_type' => $sender['profile_photo_type'],
             ];
+
+            $notification['post'] = $postModel->getPost($notification['reference_id']);
             return $notification;
         }, $notifications);
 
