@@ -102,9 +102,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Marcar mensajes como leídos
                     fetch(`/chats/${chatWithId}/read`, { method: 'POST' });
+
+                    const chatMessagesContainer = document.querySelector('.chat-messages');
+                    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
                 }
             });
     }
+
+    window.loadMessages = loadMessages;
 
     function addMesaggeToChat(message, chatWithId) {
         const messageItem = document.createElement('li');

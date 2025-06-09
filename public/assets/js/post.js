@@ -244,18 +244,45 @@ document.addEventListener("DOMContentLoaded", function () {
   blurButton = document.getElementById("blur-btn");
 
   commentsModal.addEventListener("show.bs.modal", function (event) {
-    const button = event.relatedTarget; // Botón que activó el modal
-    const postId = button.getAttribute("data-post-id"); // Obtener el ID del post
+    // Si el modal fue abierto desde notifications.js, se setea una bandera temporal en el modal
+    if (commentsModal._fromNotification) {
+      // Usar los datos almacenados temporalmente en el modal
+      loadModalComments(
+        commentsModal._notif_postId,
+        commentsModal._notif_isBlurred,
+        commentsModal._notif_postCaption,
+        commentsModal._notif_postUsername,
+        commentsModal._notif_postUserId,
+        commentsModal._notif_postRoute,
+        commentsModal._notif_postType
+      );
+      // Limpiar la bandera para futuros shows
+      delete commentsModal._fromNotification;
+      delete commentsModal._notif_postId;
+      delete commentsModal._notif_isBlurred;
+      delete commentsModal._notif_postCaption;
+      delete commentsModal._notif_postUsername;
+      delete commentsModal._notif_postUserId;
+      delete commentsModal._notif_postRoute;
+      delete commentsModal._notif_postType;
+      return;
+    }
+
+    // --- Lógica original para apertura desde botón ---
+    const button = event.relatedTarget;
+    const postId = button.getAttribute("data-post-id");
+    const isBlurred = button.getAttribute("data-is-blurred") === "true";
+    const postCaption = button.getAttribute("data-post-caption");
+    const postUsername = button.getAttribute("data-post-username");
+    const postUserId = button.getAttribute("data-post-userId");
+    const postRoute = button.getAttribute("data-post-route");
+    const postType = button.getAttribute("data-post-type");
+
+    loadModalComments(postId, isBlurred, postCaption, postUsername, postUserId, postRoute, postType);
+  });
+
+  function loadModalComments(postId, isBlurred, postCaption, postUsername, postUserId, postRoute, postType) {
     commentsModal.setAttribute("data-post-id", postId);
-    const isBlurred = button.getAttribute("data-is-blurred") === "true"; // Verificar si el post está bloqueado
-
-    const postCaption = button.getAttribute("data-post-caption"); // Obtener la caption del post
-
-    const postUsername = button.getAttribute("data-post-username"); // Obtener el username del post
-    const postUserId = button.getAttribute("data-post-userId"); // Obtener el username del post
-    const postRoute = button.getAttribute("data-post-route"); // Obtener la ruta del post
-    const postType = button.getAttribute("data-post-type"); // Obtener el tipo del post
-
     const modalMedia = commentsModal.querySelector(".modal-media"); // Obtener la media del contenedor modal-media
     const modalPostUsername = commentsModal.querySelector(
       ".modal-post-username"
@@ -327,7 +354,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error al cargar los comentarios:", error);
         modalBody.innerHTML = "<p>Error al cargar los comentarios.</p>";
       });
-  });
+  };
+
+  window.loadModalComments = loadModalComments;
 
 
   // Cancelar la edición
