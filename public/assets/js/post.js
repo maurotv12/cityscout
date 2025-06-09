@@ -243,6 +243,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const deleteCommentBtn = commentsModal.querySelector(".delete-comment-btn");
   blurButton = document.getElementById("blur-btn");
 
+  document.querySelectorAll('[card-post-id]').forEach(card => {
+    card.addEventListener('click', function (e) {
+      // Evitar conflicto si se hace click en botones, enlaces o dropdowns dentro de la tarjeta
+      if (
+        e.target.closest('.dropdown-menu') ||
+        e.target.closest('.dropdown-toggle') ||
+        e.target.closest('.like-btn') ||
+        e.target.closest('.comment-btn') ||
+        e.target.tagName === 'BUTTON' ||
+        e.target.tagName === 'A'
+      ) {
+        return;
+      }
+      // Buscar el botón comment-btn dentro de la tarjeta y simular click
+      const commentBtn = card.querySelector('.comment-btn[data-bs-toggle="modal"]');
+      if (commentBtn) {
+        commentBtn.click();
+      }
+    });
+  });
+
   commentsModal.addEventListener("show.bs.modal", function (event) {
     // Si el modal fue abierto desde notifications.js, se setea una bandera temporal en el modal
     if (commentsModal._fromNotification) {
@@ -278,7 +299,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const postRoute = button.getAttribute("data-post-route");
     const postType = button.getAttribute("data-post-type");
 
+
     loadModalComments(postId, isBlurred, postCaption, postUsername, postUserId, postRoute, postType);
+
+    // Delegación de eventos para abrir el modal al hacer click en la tarjeta del post
   });
 
   function loadModalComments(postId, isBlurred, postCaption, postUsername, postUserId, postRoute, postType) {
