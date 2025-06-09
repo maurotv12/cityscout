@@ -23,12 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     URL.revokeObjectURL(url);
                     // Validar duración
                     if (video.duration > 600) {
-                        alert(`El video "${file.name}" supera los 10 minutos.`);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Duración excedida',
+                            text: `El video "${file.name}" supera los 10 minutos.`,
+                        });
                         invalid = true;
                     }
                     // Validar resolución
                     if (video.videoWidth > 1920 || video.videoHeight > 1080) {
-                        alert(`El video "${file.name}" supera la resolución Full HD (1920x1080).`);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Resolución excedida',
+                            text: `El video "${file.name}" supera la resolución Full HD (1920x1080).`,
+                        });
                         invalid = true;
                     }
                     pendingVideos--;
@@ -37,7 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 };
                 video.onerror = function () {
-                    alert(`No se pudo leer el video "${file.name}".`);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: `No se pudo leer el video "${file.name}".`,
+                    });
                     invalid = true;
                     pendingVideos--;
                     if (pendingVideos === 0 && !invalid) {
@@ -61,50 +73,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert(data.message);
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Publicación creada!',
+                            text: data.message,
+                        });
                         createPostForm.reset();
                         const modal = bootstrap.Modal.getInstance(document.getElementById('createPostModal'));
                         modal.hide();
                         // Opcional: Recargar la página o actualizar el feed dinámicamente
                     } else {
-                        alert(data.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                        });
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error al crear la publicación.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al crear la publicación.',
+                    });
                 });
         }
     });
 });
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     const createPostForm = document.getElementById('createPostForm');
-
-//     createPostForm.addEventListener('submit', function (event) {
-//         event.preventDefault();
-
-//         const formData = new FormData(createPostForm);
-
-//         fetch('/post/store', {
-//             method: 'POST',
-//             body: formData,
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 if (data.success) {
-//                     alert(data.message);
-//                     createPostForm.reset();
-//                     const modal = bootstrap.Modal.getInstance(document.getElementById('createPostModal'));
-//                     modal.hide();
-//                     // Opcional: Recargar la página o actualizar el feed dinámicamente
-//                 } else {
-//                     alert(data.message);
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//                 alert('Error al crear la publicación.');
-//             });
-//     });
-// });
