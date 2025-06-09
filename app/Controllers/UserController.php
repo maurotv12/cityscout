@@ -402,4 +402,46 @@ class UserController extends Controller
             'usersWithSimilarInterests' => $result
         ]);
     }
+
+    public function followersList($username)
+    {
+        $userModel = new User();
+        $followerModel = new Follower();
+
+        // Buscar el usuario por username
+        $user = $userModel->where('username', $username)->first();
+        if (!$user) {
+            http_response_code(404);
+            return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
+        }
+
+        // Obtener seguidores (usuarios que siguen a este usuario)
+        $followers = $followerModel
+            ->where('user_followed_id', $user['id'])
+            ->get();
+
+        // Obtener seguidos (usuarios a los que este usuario sigue)
+        $following = $followerModel
+            ->where('user_follower_id', $user['id'])
+            ->get();
+
+        // Obtener datos completos de los usuarios seguidores y seguidos
+        $userModel = new User();
+        $followersData = [];
+        foreach ($followers as $f) {
+            $followerUser = $userModel->find($f['user_follower_id']);
+            if ($followerUser) $followersData[] = $followerUser;
+        }
+        $followingData = [];
+        foreach ($following as $f) {
+            $followedUser = $userModel->find($f['user_followed_id']);
+            if ($followedUser) $followingData[] = $followedUser;
+        }
+
+        return $this->view('user.followers', [
+            'user' => $user,
+            'followers' => $followersData,
+            'following' => $followingData
+        ]);
+    }
 }

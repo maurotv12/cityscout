@@ -2,12 +2,12 @@
 
 use App\Controllers\AuthController;
 use App\Controllers\ChatController;
-use Lib\Route;
+use App\Controllers\NotificationController;
 use App\Controllers\PostController;
 use App\Controllers\UserController;
 use App\Middleware\AuthMiddleware;
-use App\Controllers\NotificationController;
 use App\Models\User;
+use Lib\Route;
 
 Route::get('/', [PostController::class, 'index'])
     ->middleware([AuthMiddleware::class]);
@@ -46,7 +46,7 @@ Route::delete('/post/:id/delete', [PostController::class, 'deletePost'])
 Route::post('/post/:id/update-caption', [PostController::class, 'updateCaption'])
     ->middleware([AuthMiddleware::class]);
 
-    
+
 
 //user profile routes
 Route::get('/@:username', [UserController::class, 'show']);
@@ -108,6 +108,10 @@ Route::post('/user/interests', [UserController::class, 'saveUserInterests'])
     ->middleware([AuthMiddleware::class]);
 // Seguir/Dejar de seguir usuario
 Route::post('/profile/:id/follow', [UserController::class, 'toggleFollow'])
+    ->middleware([AuthMiddleware::class]);
+
+// Mostrar seguidores y seguidos de un usuario
+Route::get('/@:username/followers-list', [UserController::class, 'followersList'])
     ->middleware([AuthMiddleware::class]);
 
 Lib\Route::dispatch();

@@ -39,6 +39,18 @@ $messages = [];
         <div class="d-inline-block text-start me-4">
           <strong id="followed-count" class="d-block"><?= $followingCount ?></strong> seguidos</span>
         </div>
+        <div class="" id="followers-btn">
+          <a
+            class="nav-link p-0 align-items-center btn btn-sm btn-outline-secondary ms-3"
+            href="/user/<?= urlencode($user['username']) ?>/followers-list?tab=followers">
+            <i class="bi bi-people-fill"></i> Ver seguidores
+          </a>
+          <!-- <a
+            class="nav-link p-0 align-items-center btn btn-sm btn-outline-secondary ms-3"
+            href="/@{id}/followers?>">
+            <i class="bi bi-people-fill"></i> Ver seguidores
+          </a> -->
+        </div>
 
       </div>
       <span id="bio-text"><?php echo nl2br(htmlspecialchars($user['bio'] ?? '')); ?></span>
