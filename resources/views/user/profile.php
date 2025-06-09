@@ -13,7 +13,10 @@ $messages = [];
                 : '/assets/images/user-default.png' ?>"
         alt="Perfil"
         class="rounded-circle img-fluid profile-photo main-profile-photo"
-        style="max-width: 200px; height: auto; aspect-ratio: 1 / 1; object-fit: cover;">
+        style="max-width: 200px; height: auto; aspect-ratio: 1 / 1; object-fit: cover; cursor:pointer;"
+        id="profile-photo-clickable"
+        data-bs-toggle="modal"
+        data-bs-target="#profilePhotoModal">
     </div>
 
     <div class="col-md-8">
@@ -77,6 +80,23 @@ $messages = [];
           <button type="submit" id="save-changes-btn" class="btn btn-primary mt-3">Guardar cambios</button>
         </form>
       <?php endif; ?>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar la foto de perfil en grande -->
+<div class="modal fade" id="profilePhotoModal" tabindex="-1" aria-labelledby="profilePhotoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-body text-center p-0">
+        <img
+          src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type'])
+                  ? '/assets/images/profiles/' . $user['id'] . '.' . $user['profile_photo_type']
+                  : '/assets/images/user-default.png' ?>"
+          alt="Foto de perfil grande"
+          class="img-fluid rounded"
+          style="max-width: 100%; max-height: 80vh; object-fit: contain;">
+      </div>
     </div>
   </div>
 </div>
