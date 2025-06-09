@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2025 a las 01:57:10
+-- Tiempo de generación: 09-06-2025 a las 03:35:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -57,7 +57,10 @@ INSERT INTO `comments` (`id`, `user_id`, `post_id`, `comment`, `created_at`) VAL
 (21, 1, 15, 'asdasd', '2025-05-05 22:50:30'),
 (22, 1, 15, 'Los objetivos son muy importantes', '2025-05-06 22:50:50'),
 (23, 1, 15, 'si', '2025-05-06 22:51:41'),
-(25, 1, 24, 'yeyeyteytr', '2025-05-13 18:54:52');
+(25, 1, 24, 'yeyeyteytr', '2025-05-13 18:54:52'),
+(26, 1, 14, 'df', '2025-05-28 22:51:11'),
+(27, 1, 27, 'hi', '2025-06-09 02:54:02'),
+(28, 1, 26, 'hi', '2025-06-09 02:54:22');
 
 -- --------------------------------------------------------
 
@@ -134,12 +137,13 @@ INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
 (120, 7, 27, '2025-05-10 19:12:57'),
 (121, 7, 26, '2025-05-10 19:12:58'),
 (122, 7, 25, '2025-05-10 19:12:59'),
-(123, 1, 26, '2025-05-10 20:20:14'),
 (124, 1, 27, '2025-05-10 20:20:16'),
-(126, 1, 14, '2025-05-10 20:20:21'),
 (130, 1, 22, '2025-05-13 18:43:24'),
 (131, 1, 24, '2025-05-13 18:43:25'),
-(132, 1, 21, '2025-05-13 18:43:26');
+(132, 1, 21, '2025-05-13 18:43:26'),
+(133, 1, 17, '2025-05-28 22:29:08'),
+(134, 1, 15, '2025-05-28 22:51:17'),
+(138, 1, 14, '2025-06-04 02:44:44');
 
 -- --------------------------------------------------------
 
@@ -303,7 +307,16 @@ INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `reference_id
 (99, 9, 7, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:06:29'),
 (100, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:20'),
 (101, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:21'),
-(102, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:23');
+(102, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-05-22 01:15:23'),
+(103, 1, 1, 'like', 17, 'Le dio like a tu publicación.', 1, '2025-05-28 22:29:08'),
+(104, 7, 1, 'comment', 14, 'Comentó tu publicación.', 0, '2025-05-28 22:51:11'),
+(105, 7, 1, 'like', 15, 'Le dio like a tu publicación.', 0, '2025-05-28 22:51:17'),
+(106, 1, 1, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-30 03:36:06'),
+(107, 1, 1, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-30 03:36:07'),
+(108, 1, 1, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-30 03:39:49'),
+(109, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 0, '2025-06-04 02:44:44'),
+(110, 1, 1, 'comment', 27, 'Comentó tu publicación.', 1, '2025-06-09 02:54:02'),
+(111, 1, 1, 'comment', 26, 'Comentó tu publicación.', 1, '2025-06-09 02:54:22');
 
 -- --------------------------------------------------------
 
@@ -353,7 +366,12 @@ INSERT INTO `posts` (`id`, `user_id`, `image`, `file_name`, `type`, `caption`, `
 (24, 1, '', '1746623974_681b5de67edbe', 'jpg', 'mujer', 0, '2025-05-07 15:19:34'),
 (25, 1, '', '1746624008_681b5e0830f24', 'jpg', 'hombre\r\n', 0, '2025-05-07 15:20:08'),
 (26, 1, '', '1746624067_681b5e43383ec', 'jpg', 'mujer cuerpo completo', 0, '2025-05-07 15:21:07'),
-(27, 1, '', '1746627266_681b6ac2cdd1e', 'mp4', 'Video Reel\r\n', 0, '2025-05-07 16:14:26');
+(27, 1, '', '1746627266_681b6ac2cdd1e', 'mp4', 'Video Reel\r\n', 1, '2025-05-07 16:14:26'),
+(28, 1, '', '1749260307_6843981331138', 'jpg', 'Mapa', 0, '2025-06-07 03:38:27'),
+(29, 1, '', '1749431362_68463442cde12', 'png', 'cultura fisica', 0, '2025-06-09 03:09:22'),
+(30, 1, '', '1749432618_6846392a8659b', 'jpeg', 'a', 0, '2025-06-09 03:30:18'),
+(31, 1, '', '1749432679_68463967c3459', 'mp4', 'a', 0, '2025-06-09 03:31:19'),
+(32, 1, '', '1749432823_684639f766248', 'mp4', 'v', 0, '2025-06-09 03:33:43');
 
 -- --------------------------------------------------------
 
@@ -379,7 +397,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `username`, `email`, `password`, `profile_photo_type`, `bio`, `birth_date`, `created_at`, `updated_at`) VALUES
-(1, 'Mauricio Andres Muñoz Sanchezz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola\r\nEste es mi perfil de Focuz que utilizo para subir y reproducir videos', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
+(1, 'Mauricio Andres Muñoz Sanchezz', 'mauoz', 'mauricio@gmail.com', '$2y$10$pnylrutmifOawwvYycp0weFzOVKl9WAVB9XqWlsp2IC92WN/pe1QG', 'jpeg', 'Hola\r\nEste es mi perfil de Focuz que utilizo para subir y reproducir videoss', '2025-04-08', '2025-04-15 20:02:01', '2025-04-15 20:02:01'),
 (2, 'Carlos Sanchez', 'carlitos2', 'carlitos@gmail.com', '66847374', '', 'hi', '2015-04-07', '2025-04-15 23:58:48', '2025-04-15 23:58:48'),
 (3, 'Mauricio 24', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'Mauricio', '', 'Mauricio@gmail.com', '', '', NULL, '0000-00-00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -419,13 +437,12 @@ INSERT INTO `user_interests` (`id`, `user_id`, `interest_id`) VALUES
 (723, 9, 8),
 (724, 9, 3),
 (737, 9, 5),
-(820, 1, 1),
-(821, 1, 2),
-(822, 1, 3),
-(823, 1, 4),
-(824, 1, 7),
-(825, 1, 9),
-(826, 1, 5);
+(1060, 1, 1),
+(1061, 1, 2),
+(1062, 1, 3),
+(1063, 1, 4),
+(1064, 1, 5),
+(1065, 1, 6);
 
 --
 -- Índices para tablas volcadas
@@ -513,7 +530,7 @@ ALTER TABLE `user_interests`
 -- AUTO_INCREMENT de la tabla `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `followers`
@@ -531,7 +548,7 @@ ALTER TABLE `interests`
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
@@ -543,7 +560,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT de la tabla `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT de la tabla `password_resets`
@@ -555,7 +572,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT de la tabla `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
@@ -567,7 +584,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `user_interests`
 --
 ALTER TABLE `user_interests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=827;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1066;
 
 --
 -- Restricciones para tablas volcadas
