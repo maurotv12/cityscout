@@ -34,22 +34,13 @@ $messages = [];
         </div>
         <div class="d-inline-block text-start me-4">
           <strong id="followers-count" class="d-block"> <?= $followersCount ?></strong>
-          <span>seguidores</span>
+          <span class="followers-link" style="cursor:pointer;">seguidores</span>
         </div>
         <div class="d-inline-block text-start me-4">
-          <strong id="followed-count" class="d-block"><?= $followingCount ?></strong> seguidos</span>
+          <strong id="followed-count" class="d-block"><?= $followingCount ?></strong> 
+          <span class="following-link" style="cursor:pointer;">seguidos</span>
         </div>
         <div class="" id="followers-btn">
-          <a
-            class="nav-link p-0 align-items-center btn btn-sm btn-outline-secondary ms-3"
-            href="/user/<?= urlencode($user['username']) ?>/followers-list?tab=followers">
-            <i class="bi bi-people-fill"></i> Ver seguidores
-          </a>
-          <!-- <a
-            class="nav-link p-0 align-items-center btn btn-sm btn-outline-secondary ms-3"
-            href="/@{id}/followers?>">
-            <i class="bi bi-people-fill"></i> Ver seguidores
-          </a> -->
         </div>
 
       </div>
@@ -116,6 +107,7 @@ $messages = [];
 
 
 <?php include __DIR__ . '/../post/list.php'; ?>
+<?php include __DIR__ . '/followersList.php'; ?>
 
 <?php
 // Guardar el contenido generado en $content

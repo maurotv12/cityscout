@@ -438,7 +438,7 @@ class UserController extends Controller
             if ($followedUser) $followingData[] = $followedUser;
         }
 
-        return $this->view('user.followers', [
+        return $this->view('user.followersList', [
             'user' => $user,
             'followers' => $followersData,
             'following' => $followingData

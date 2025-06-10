@@ -29,7 +29,6 @@
     include __DIR__ . '/../post/create.php';
     include __DIR__ . '/../chat/chatList.php';
     include __DIR__ . '/../user/interests.php';
-    include __DIR__ . '/../user/followers.php';
     ?>
 
     <main class="container mt-4">
