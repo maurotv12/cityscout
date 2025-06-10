@@ -1,33 +1,55 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Selecciona los spans y strongs de seguidores/seguidos
     const followersLinks = document.querySelectorAll('.followers-link');
     const followingLinks = document.querySelectorAll('.following-link');
     const modal = new bootstrap.Modal(document.getElementById('followersModal'));
     const modalTitle = document.getElementById('followersModalLabel');
     const listContainer = document.getElementById('followers-list-container');
 
-    const followers = window.followersData || [];
-    const following = window.followingData || [];
-    const currentUserId = window.currentUserId || null;
+    // Obtén el username del usuario actual mostrado en la página
+    const username = window.profileUsername; // Debes definir esto en tu vista PHP
+
+    let followers = [];
+    let following = [];
+    let currentUserId = window.currentUserId || null;
+
+    // Función para cargar los datos desde el backend
+    function loadFollowersList(callback) {
+        fetch(`/@${username}/followers-list`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    followers = data.followers || [];
+                    following = data.following || [];
+                    currentUserId = data.user && data.user.id ? data.user.id : null;
+                    if (typeof callback === 'function') callback();
+                }
+            });
+    }
 
     followersLinks.forEach(el => {
         el.addEventListener('click', function () {
-            modalTitle.textContent = 'Seguidores';
-            renderUsers(followers);
-            modal.show();
+            loadFollowersList(function () {
+                modalTitle.textContent = 'Seguidores';
+                renderUsers(followers);
+                modal.show();
+            });
         });
     });
 
     followingLinks.forEach(el => {
         el.addEventListener('click', function () {
-            modalTitle.textContent = 'Seguidos';
-            renderUsers(following);
-            modal.show();
+            loadFollowersList(function () {
+                modalTitle.textContent = 'Seguidos';
+                renderUsers(following);
+                modal.show();
+            });
         });
     });
-    
-    
-    
+
+
+
     function renderUsers(users) {
         listContainer.innerHTML = '';
         if (!users.length) {
@@ -82,14 +104,14 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                btn.classList.toggle('btn-primary', data.following);
-                btn.classList.toggle('btn-outline-primary', !data.following);
-                btn.textContent = data.following ? 'Dejar de seguir' : 'Seguir';
-                btn.dataset.following = data.following;
-            }
-        });
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    btn.classList.toggle('btn-primary', data.following);
+                    btn.classList.toggle('btn-outline-primary', !data.following);
+                    btn.textContent = data.following ? 'Dejar de seguir' : 'Seguir';
+                    btn.dataset.following = data.following;
+                }
+            });
     }
 });

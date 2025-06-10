@@ -415,17 +415,10 @@ class UserController extends Controller
             return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
         }
 
-        // Obtener seguidores (usuarios que siguen a este usuario)
-        $followers = $followerModel
-            ->where('user_followed_id', $user['id'])
-            ->get();
+        // Obtener seguidores y seguidos
+        $followers = $followerModel->where('user_followed_id', $user['id'])->get();
+        $following = $followerModel->where('user_follower_id', $user['id'])->get();
 
-        // Obtener seguidos (usuarios a los que este usuario sigue)
-        $following = $followerModel
-            ->where('user_follower_id', $user['id'])
-            ->get();
-
-        // Obtener datos completos de los usuarios seguidores y seguidos
         $userModel = new User();
         $followersData = [];
         foreach ($followers as $f) {
@@ -438,10 +431,11 @@ class UserController extends Controller
             if ($followedUser) $followingData[] = $followedUser;
         }
 
-        return $this->view('user.followersList', [
-            'user' => $user,
+        return $this->json([
+            'success' => true,
             'followers' => $followersData,
-            'following' => $followingData
+            'following' => $followingData,
+            'user' => $user
         ]);
     }
 }
