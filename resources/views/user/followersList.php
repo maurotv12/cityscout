@@ -18,9 +18,8 @@
     </div>
 </div>
 
-
 <script>
-    window.profileUsername = "<?= htmlspecialchars($user['username']) ?>";
+    window.profileId = "<?= htmlspecialchars($user['id']) ?>";
     window.followersData = <?= json_encode($followers ?? []) ?>;
     window.followingData = <?= json_encode($following ?? []) ?>;
     window.currentUserId = <?= isset($_SESSION['user']['id']) ? (int)$_SESSION['user']['id'] : 'null' ?>;

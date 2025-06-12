@@ -403,39 +403,41 @@ class UserController extends Controller
         ]);
     }
 
-    public function followersList($username)
+    public function followersList($id)
     {
         $userModel = new User();
         $followerModel = new Follower();
-
-        // Buscar el usuario por username
-        $user = $userModel->where('username', $username)->first();
-        if (!$user) {
-            http_response_code(404);
-            return $this->view('errors.404', ['message' => 'Usuario no encontrado']);
-        }
+        $userId = $_SESSION['user']['id'];
 
         // Obtener seguidores y seguidos
-        $followers = $followerModel->where('user_followed_id', $user['id'])->get();
-        $following = $followerModel->where('user_follower_id', $user['id'])->get();
+        $followers = $followerModel->where('user_followed_id', $id)->get();
+        $following = $followerModel->where('user_follower_id', $id)->get();
 
-        $userModel = new User();
         $followersData = [];
         foreach ($followers as $f) {
             $followerUser = $userModel->find($f['user_follower_id']);
+            $existingFollow = !!$followerModel
+            ->where('user_follower_id', $userId)
+            ->where('user_followed_id', $f['user_followed_id'])
+            ->first();
+            $followerUser['is_following'] = $existingFollow; // true si el usuario actual sigue al seguidor, false si no
             if ($followerUser) $followersData[] = $followerUser;
         }
         $followingData = [];
         foreach ($following as $f) {
             $followedUser = $userModel->find($f['user_followed_id']);
+            $existingFollow = !!$followerModel
+            ->where('user_follower_id', $userId)
+            ->where('user_followed_id', $f['user_followed_id'])
+            ->first();
+            $followedUser['is_following'] = $existingFollow;
             if ($followedUser) $followingData[] = $followedUser;
         }
 
         return $this->json([
             'success' => true,
             'followers' => $followersData,
-            'following' => $followingData,
-            'user' => $user
+            'following' => $followingData
         ]);
     }
 }

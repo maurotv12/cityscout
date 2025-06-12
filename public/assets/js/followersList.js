@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const listContainer = document.getElementById('followers-list-container');
 
     // Obtén el username del usuario actual mostrado en la página
-    const username = window.profileUsername; // Debes definir esto en tu vista PHP
+    const userId = window.profileId; // Debes definir esto en tu vista PHP
 
     let followers = [];
     let following = [];
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función para cargar los datos desde el backend
     function loadFollowersList(callback) {
-        fetch(`/@${username}/followers-list`, {
+        fetch(`/${userId}/followers-list`, {
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
             .then(res => res.json())
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         users.forEach(user => {
-            const isFollowing = !!user.isFollowing;
+            const isFollowing = !!user.is_following;
             const followBtnClass = isFollowing ? 'btn-primary' : 'btn-outline-primary';
             const followBtnText = isFollowing ? 'Dejar de seguir' : 'Seguir';
 
@@ -96,7 +96,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     toggleFollow(this, user.id);
                 });
             }
+
+            
         });
+
     }
 
     function toggleFollow(btn, userId) {

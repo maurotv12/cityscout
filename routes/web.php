@@ -111,7 +111,7 @@ Route::post('/profile/:id/follow', [UserController::class, 'toggleFollow'])
     ->middleware([AuthMiddleware::class]);
 
 // Mostrar seguidores y seguidos de un usuario
-Route::get('/@:username/followers-list', [UserController::class, 'followersList'])
+Route::get('/:id/followers-list', [UserController::class, 'followersList'])
     ->middleware([AuthMiddleware::class]);
 
 Lib\Route::dispatch();
