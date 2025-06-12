@@ -25,35 +25,35 @@ unset($_SESSION['error']);
                     alt="logo">
                   <h3 class="mt-1 mb-4 pb-1">FOCUZ</h3>
                 </div>
-                <form method="POST" action="/register" enctype="multipart/form-data" class="w-100">
-                  <div class="form-floating mb-3">
-                    <input type="text" id="fullname" class="form-control register-input" required name="fullname" placeholder="Nombre completo"/>
-                    <label class="form-label" for="floatingInput">Nombre completo *</label>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input type="text" id="username" class="form-control register-input" required name="username" placeholder="Nombre de usuario"/>
-                    <label class="form-label" for="floatingInput">Nombre de usuario *</label>
-                    <small class="form-text text-danger" style="display:none;"></small>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input type="email" id="email" class="form-control register-input" required name="email" placeholder="Correo" />
-                    <label class="form-label" for="email">Correo *</label>
-                    <small class="form-text text-danger" style="display:none;"></small>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input type="password" id="password" class="form-control register-input" required name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Contraseña"/>
-                    <label class="form-label" for="password">Contraseña *</label>
-                    <p><small class="mt-1 mb-2 pb-1">La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.</small></p>
-                  </div>
-                  <div class="form-floating mb-3">
-                    <input type="date" id="birth_date" class="form-control register-input" required name="birth_date" min="<?php echo date('Y-m-d', strtotime('-100 years')); ?>" max="<?php echo date('Y-m-d', strtotime('-18 years')); ?>" />
-                    <label class="form-label" for="birth">Fecha de nacimiento *</label>
-                  </div>
-                  <div class="d-flex align-items-center justify-content-center">
-                    <p class="mb-0 me-2">¡Estas a solo un paso de crear tu cuenta!</p>
-                    <button type="submit" id="register-button" class="btn btn-primary btn-block gradient-custom-2 ms-2">Registrarme</button>
-                  </div>
-                </form>
+
+                <div class="form-floating mb-3">
+                  <input type="text" id="fullname" class="form-control register-input" required name="fullname" placeholder="Nombre completo" />
+                  <label class="form-label" for="floatingInput">Nombre completo *</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" id="username" class="form-control register-input" required name="username" placeholder="Nombre de usuario" />
+                  <label class="form-label" for="floatingInput">Nombre de usuario *</label>
+                  <small class="form-text text-danger" style="display:none;"></small>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="email" id="email" class="form-control register-input" required name="email" placeholder="Correo" />
+                  <label class="form-label" for="email">Correo *</label>
+                  <small class="form-text text-danger" style="display:none;"></small>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" id="password" class="form-control register-input" required name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Contraseña" />
+                  <label class="form-label" for="password">Contraseña *</label>
+                  <p><small class="mt-1 mb-2 pb-1">La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.</small></p>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="date" id="birth_date" class="form-control register-input" required name="birth_date" min="<?php echo date('Y-m-d', strtotime('-100 years')); ?>" max="<?php echo date('Y-m-d', strtotime('-18 years')); ?>" />
+                  <label class="form-label" for="birth">Fecha de nacimiento *</label>
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                  <p class="mb-0 me-2">¡Estas a solo un paso de crear tu cuenta!</p>
+                  <button type="submit" id="register-button" class="btn btn-primary btn-block gradient-custom-2 ms-2">Registrarme</button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -68,9 +68,9 @@ unset($_SESSION['error']);
 
 <?php if ($error): ?>
   <div class="alert alert-danger mt-3"><?= htmlspecialchars($error) ?></div>
-  <?php endif; ?>
-  
-  <?php
+<?php endif; ?>
+
+<?php
 $content = ob_get_clean();
 include __DIR__ . '/../layout/main.php';
 ?>

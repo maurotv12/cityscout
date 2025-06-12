@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const emailInput = document.getElementById('email');
     const registerButton = document.getElementById('register-button');
 
-    const usernameFeedback = document.querySelector('#username + small');
-    const emailFeedback = document.querySelector('#email + small');
+    const usernameFeedback = document.querySelector('#username').parentElement.querySelector('small');
+    const emailFeedback = document.querySelector('#email').parentElement.querySelector('small');
 
     let usernameValid = false;
     let emailValid = false;
+
 
     function checkAvailability(field, value) {
         return fetch(`/check-availability?field=${field}&value=${encodeURIComponent(value)}`)
