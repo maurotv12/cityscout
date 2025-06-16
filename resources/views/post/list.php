@@ -87,7 +87,7 @@
                             <!-- Botón para eliminar el post -->
                             <li>
                                 <button
-                                    class="dropdown-item  delete-post-btn"
+                                    class="btn dropdown-item  delete-post-btn"
                                     data-post-id="<?= $post['id'] ?>"
                                     data-post-userId="<?= htmlspecialchars($post['user']['id']) ?>"
                                     onclick="deletePost(<?= $post['id'] ?>)">
@@ -98,7 +98,7 @@
                             <li>
                                 <button
                                     id="blur-btn"
-                                    class="dropdown-item  toggle-blur-btn"
+                                    class="btn dropdown-item  toggle-blur-btn"
                                     onclick="toggleBlur(<?= $post['id'] ?>, <?= $post['is_blurred'] ? 'true' : 'false' ?>)"
                                     data-post-id="<?= $post['id'] ?>"
                                     data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">

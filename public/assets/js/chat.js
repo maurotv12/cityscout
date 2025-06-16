@@ -43,14 +43,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     chatMessages.innerHTML = '';
                     data.chats.forEach(chat => {
                         const chatItem = document.createElement('li');
-                        chatItem.classList.add('p-2', 'border-bottom', 'bg-body-tertiary');
+                        chatItem.classList.add('p-2', 'border-bottom', 'chat-item');
                         chatItem.innerHTML = `
                             <a href="#!" class="d-flex justify-content-between" data-chat-with-id="${chat.user_id}">
                                 <div class="d-flex flex-row">
-                                    <img src="${chat.profile_photo}" alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60">
+                                    <img src="${chat.profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60">
                                     <div class="pt-1">
-                                        <p class="fw-bold mb-0">${chat.fullname}</p>
-                                        <p class="small text-muted">${chat.last_message_time}</p>
+                                        <p class="chat-name fw-bold mb-0">${chat.fullname}</p>
+                                        <p class="chat-time small text-muted">${chat.last_message_time}</p>
                                     </div>
                                 </div>
                                 <div class="pt-1">
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             });
                         });
 
-                        
+
                     });
                 }
             });
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Marcar mensajes como leídos
                     fetch(`/chats/${chatWithId}/read`, { method: 'POST' });
 
-                    const chatMessagesContainer = document.querySelector('.chat-messages');
+                    const chatMessagesContainer = document.querySelector('.chat-messages');/*TODO*/
                     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
                 }
             });
@@ -113,17 +113,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addMesaggeToChat(message, chatWithId) {
         const messageItem = document.createElement('li');
-        messageItem.classList.add('d-flex', 'justify-content-between', 'mb-4');
+        messageItem.classList.add('d-flex', 'justify-content-between', 'mb-4', 'chat-message');
         const messageTime = new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const messageDate = new Date(message.created_at).toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
         const receivedMessageHTML = `
-            <img src="${message.sender_profile_photo}" alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+            <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
             <div class="card w-100">
                 <div class="card-header d-flex justify-content-between p-3">
                     <p class="fw-bold mb-0">${message.sender_username}</p>
-                    <p class="text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
+                    <p class="message-time text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
                 </div>
-                <div class="card-body">
+                <div class="card-body chat-message sent message-bubble">
                     <p class="mb-0">${message.message}</p>
                 </div>
             </div>
@@ -133,13 +133,13 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="card w-100">
                 <div class="card-header d-flex justify-content-between p-3">
                     <p class="fw-bold mb-0">${message.sender_username}</p>
-                    <p class="text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
+                    <p class="message-time text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
                 </div>
-                <div class="card-body">
+                <div class="card-body message-bubble">
                     <p class="mb-0">${message.message}</p>
                 </div>
             </div>
-            <img src="${message.sender_profile_photo}" alt="avatar" class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+            <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
         `;
 
         if (message.sender_id == chatWithId) {
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-        // --- NUEVO: Soporte para botón Mensaje en el perfil ---
+    //  botón Mensaje en el perfil ---
     const messageBtn = document.getElementById('message-btn');
     if (messageBtn) {
         messageBtn.addEventListener('click', function () {

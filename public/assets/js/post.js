@@ -248,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Evitar conflicto si se hace click en botones, enlaces o dropdowns dentro de la tarjeta
       if (
         e.target.closest('.dropdown-menu') ||
+        e.target.closest('.dropdown') ||
         e.target.closest('.dropdown-toggle') ||
         e.target.closest('.like-btn') ||
         e.target.closest('.comment-btn') ||
