@@ -3,12 +3,14 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 
-class AuthController extends Controller{
+class AuthController extends Controller
+{
 
-    public function login(){
+    public function login()
+    {
         return $this->view('auth.login');
     }
 
@@ -50,27 +52,27 @@ class AuthController extends Controller{
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
             $birth_date = $_POST['birth_date'] ?? '';
-        
+
             // Validación básica
             if (!$fullname || !$username || !$email || !$password || !$birth_date) {
                 $_SESSION['error'] = 'Todos los campos obligatorios deben ser completados.';
                 return header('Location: /register');
             }
-        
+
             // Encriptar la contraseña
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        
+
             // Procesar imagen como BLOB
             $profile_photo = null;
             if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
                 $profile_photo = file_get_contents($_FILES['profile_photo']['tmp_name']);
             }
-        
+
             $userModel = new User();
-        
+
             $created_at = date('Y-m-d H:i:s');
             $updated_at = $created_at;
-        
+
             $user = $userModel->create([
                 'fullname' => $fullname,
                 'username' => strtolower($username),
@@ -80,7 +82,7 @@ class AuthController extends Controller{
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ]);
-        
+
             // Crear sesión y redirigir
             $_SESSION['user'] = $user;
             header('Location: /');
@@ -105,7 +107,7 @@ class AuthController extends Controller{
         }
 
         $userModel = new User;
-        $user = $userModel->where('email', $email)->first();
+        $user = $userModel->where('email', '=', $email)->first();
 
         if (!$user) {
             $_SESSION['error'] = 'No existe una cuenta con ese correo.';
@@ -127,12 +129,14 @@ class AuthController extends Controller{
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
-            $mail->Host = 'live.smtp.mailtrap.io'; // Cambia esto
+            $mail->Host = 'live.smtp.mailtrap.io'; // Cambiar en producción
             $mail->SMTPAuth = true;
-            $mail->Username = 'smtp@mailtrap.io'; // Cambia esto
-            $mail->Password = 'ea18c831f393f693543cfc92926e3e67'; // Cambia esto
+            $mail->Username = 'smtp@mailtrap.io'; // Cambiar en producción
+            $mail->Password = 'ea18c831f393f693543cfc92926e3e67'; // Cambiar en producción
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
+
+            $mail->CharSet = 'UTF-8';
 
             $mail->setFrom('hello@demomailtrap.co', 'Focuz');
             $mail->addAddress($user['email'], $user['fullname']);
@@ -140,7 +144,8 @@ class AuthController extends Controller{
             $mail->Subject = 'Restablece tu contraseña en Focuz';
             $resetLink = "http://{$_SERVER['HTTP_HOST']}/reset-password?token=$token";
             $mail->Body = "Hola {$user['fullname']},<br><br>
-                Haz clic en el siguiente enlace para restablecer tu contraseña:<br>
+                Hemos recibido una solicitud de restablecimiento de contraseña. <br>
+                Si fuiste tu, haz clic en el siguiente enlace para completar el proceso:<br>
                 <a href='$resetLink'>$resetLink</a><br><br>
                 Si no solicitaste este cambio, ignora este correo.<br><br>
                 El enlace expirará en 1 hora.";
@@ -148,7 +153,7 @@ class AuthController extends Controller{
             $mail->send();
             $_SESSION['success'] = 'Se ha enviado un correo para restablecer tu contraseña.';
         } catch (Exception $e) {
-            $_SESSION['error'] = 'No se pudo enviar el correo. Intenta más tarde. Detalle: '. $mail->ErrorInfo;
+            $_SESSION['error'] = 'No se pudo enviar el correo. Intenta más tarde. Detalle: ' . $mail->ErrorInfo;
         }
         header('Location: /forgot-password');
         exit;
@@ -215,5 +220,4 @@ class AuthController extends Controller{
         header('Location: /login');
         exit;
     }
-    
 }
