@@ -1,11 +1,11 @@
 <?php
 ob_start();
-session_start();
 $error = $_SESSION['error'] ?? null;
 unset($_SESSION['error']);
 ?>
 <div class="container mt-5">
     <h3>Restablecer contraseña</h3>
+    <span class="mb-1"> Una contraseña segura contribuye a evitar el acceso no autorizado a tu cuenta.</span>
     <form method="POST" action="/reset-password">
         <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
         <div class="mb-3">
