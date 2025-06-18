@@ -19,6 +19,14 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'register']);
 
+// Solicitud de restablecimiento
+Route::get('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPasswordPost']);
+
+// Restablecer contraseña
+Route::get('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPasswordPost']);
+
 //comments
 Route::get('/post/:id/comments', [PostController::class, 'getComments'])
     ->middleware([AuthMiddleware::class]);

@@ -29,7 +29,7 @@ unset($_SESSION['error']);
                                 </div>
                                 <div class="text-center pt-1 mb-4 pb-1">
                                     <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 ">Ingresar</button>
-                                    <a class="text-muted" href="#!">Olvidaste tu contraseña?</a>
+                                    <a class="text-muted" href="forgot-password">Olvidaste tu contraseña?</a>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center">
                                     <p class="mb-0 me-2">No tienes una cuenta?</p>
