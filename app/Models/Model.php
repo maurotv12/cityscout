@@ -40,6 +40,10 @@ class Model
         }
     }
 
+    public function getConnection() {
+        return $this->connection;
+    }
+
     public function query($sql, $data = [])
     {
         if ($data) {

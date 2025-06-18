@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class AuthController extends Controller{
 
@@ -86,6 +88,132 @@ class AuthController extends Controller{
         }
 
         return $this->view('auth.register');
+    }
+
+    public function forgotPassword()
+    {
+        return $this->view('auth.forgotPassword');
+    }
+
+    public function forgotPasswordPost()
+    {
+        session_start();
+        $email = $_POST['email'] ?? '';
+        if (!$email) {
+            $_SESSION['error'] = 'Debes ingresar tu correo.';
+            return header('Location: /forgot-password');
+        }
+
+        $userModel = new User;
+        $user = $userModel->where('email', $email)->first();
+
+        if (!$user) {
+            $_SESSION['error'] = 'No existe una cuenta con ese correo.';
+            return header('Location: /forgot-password');
+        }
+
+        // Generar token seguro
+        $token = bin2hex(random_bytes(32));
+        $hashedToken = password_hash($token, PASSWORD_DEFAULT);
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        // Guardar en password_resets (PDO)
+        $pdo = $userModel->getConnection();
+        $stmt = $pdo->prepare("INSERT INTO password_resets (user_id, tokeen, expires_at, used, created_at) VALUES (?, ?, ?, 0, NOW())");
+        $stmt->execute([$user['id'], $hashedToken, $expiresAt]);
+
+        // Enviar correo con PHPMailer
+        require_once __DIR__ . '/../../vendor/autoload.php';
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'live.smtp.mailtrap.io'; // Cambia esto
+            $mail->SMTPAuth = true;
+            $mail->Username = 'smtp@mailtrap.io'; // Cambia esto
+            $mail->Password = 'ea18c831f393f693543cfc92926e3e67'; // Cambia esto
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('hello@demomailtrap.co', 'Focuz');
+            $mail->addAddress($user['email'], $user['fullname']);
+            $mail->isHTML(true);
+            $mail->Subject = 'Restablece tu contraseña en Focuz';
+            $resetLink = "http://{$_SERVER['HTTP_HOST']}/reset-password?token=$token";
+            $mail->Body = "Hola {$user['fullname']},<br><br>
+                Haz clic en el siguiente enlace para restablecer tu contraseña:<br>
+                <a href='$resetLink'>$resetLink</a><br><br>
+                Si no solicitaste este cambio, ignora este correo.<br><br>
+                El enlace expirará en 1 hora.";
+
+            $mail->send();
+            $_SESSION['success'] = 'Se ha enviado un correo para restablecer tu contraseña.';
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'No se pudo enviar el correo. Intenta más tarde. Detalle: '. $mail->ErrorInfo;
+        }
+        header('Location: /forgot-password');
+        exit;
+    }
+
+    public function resetPassword()
+    {
+        session_start();
+        $token = $_GET['token'] ?? '';
+        if (!$token) {
+            $_SESSION['error'] = 'Token inválido.';
+            return header('Location: /login');
+        }
+        return $this->view('auth.resetPassword', ['token' => $token]);
+    }
+
+    public function resetPasswordPost()
+    {
+        session_start();
+        $token = $_POST['token'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $password2 = $_POST['password2'] ?? '';
+
+        if (!$token || !$password || !$password2) {
+            $_SESSION['error'] = 'Completa todos los campos.';
+            return header("Location: /reset-password?token=$token");
+        }
+        if ($password !== $password2) {
+            $_SESSION['error'] = 'Las contraseñas no coinciden.';
+            return header("Location: /reset-password?token=$token");
+        }
+        if (!preg_match('/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/', $password)) {
+            $_SESSION['error'] = 'La contraseña no cumple los requisitos.';
+            return header("Location: /reset-password?token=$token");
+        }
+
+        // Buscar token en la base de datos (PDO)
+        $userModel = new User;
+        $pdo = $userModel->getConnection();
+        $stmt = $pdo->prepare("SELECT * FROM password_resets WHERE used = 0 AND expires_at > NOW()");
+        $stmt->execute();
+        $resetRows = $stmt->fetchAll();
+        $resetRow = null;
+        foreach ($resetRows as $row) {
+            if (password_verify($token, $row['tokeen'])) {
+                $resetRow = $row;
+                break;
+            }
+        }
+        if (!$resetRow) {
+            $_SESSION['error'] = 'El enlace es inválido o ha expirado.';
+            return header('Location: /login');
+        }
+
+        // Actualizar contraseña
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $userModel->update($resetRow['user_id'], ['password' => $hashedPassword]);
+
+        // Marcar token como usado
+        $stmt = $pdo->prepare("UPDATE password_resets SET used = 1 WHERE id = ?");
+        $stmt->execute([$resetRow['id']]);
+
+        $_SESSION['success'] = 'Contraseña restablecida correctamente. Ahora puedes iniciar sesión.';
+        header('Location: /login');
+        exit;
     }
     
 }

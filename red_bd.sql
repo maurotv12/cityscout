@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-06-2025 a las 03:35:09
+-- Tiempo de generación: 17-06-2025 a las 23:29:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -83,9 +83,9 @@ INSERT INTO `followers` (`id`, `user_follower_id`, `user_followed_id`, `created_
 (19, 7, 4, '2025-05-07 15:32:16'),
 (26, 1, 12, '2025-05-20 01:12:37'),
 (31, 7, 1, '2025-05-22 00:16:29'),
-(38, 1, 7, '2025-05-22 00:53:13'),
 (42, 7, 3, '2025-05-22 01:05:54'),
-(43, 7, 9, '2025-05-22 01:06:29');
+(43, 7, 9, '2025-05-22 01:06:29'),
+(47, 1, 7, '2025-06-11 17:23:16');
 
 -- --------------------------------------------------------
 
@@ -143,7 +143,10 @@ INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`) VALUES
 (132, 1, 21, '2025-05-13 18:43:26'),
 (133, 1, 17, '2025-05-28 22:29:08'),
 (134, 1, 15, '2025-05-28 22:51:17'),
-(138, 1, 14, '2025-06-04 02:44:44');
+(138, 1, 14, '2025-06-04 02:44:44'),
+(139, 1, 30, '2025-06-09 03:39:11'),
+(141, 1, 32, '2025-06-09 03:39:13'),
+(142, 1, 31, '2025-06-17 04:28:44');
 
 -- --------------------------------------------------------
 
@@ -316,7 +319,14 @@ INSERT INTO `notifications` (`id`, `user_id`, `sender_id`, `type`, `reference_id
 (108, 1, 1, 'like', 26, 'Le dio like a tu publicación.', 1, '2025-05-30 03:39:49'),
 (109, 7, 1, 'like', 14, 'Le dio like a tu publicación.', 0, '2025-06-04 02:44:44'),
 (110, 1, 1, 'comment', 27, 'Comentó tu publicación.', 1, '2025-06-09 02:54:02'),
-(111, 1, 1, 'comment', 26, 'Comentó tu publicación.', 1, '2025-06-09 02:54:22');
+(111, 1, 1, 'comment', 26, 'Comentó tu publicación.', 1, '2025-06-09 02:54:22'),
+(112, 1, 1, 'like', 30, 'Le dio like a tu publicación.', 1, '2025-06-09 03:39:11'),
+(113, 1, 1, 'like', 31, 'Le dio like a tu publicación.', 1, '2025-06-09 03:39:12'),
+(114, 1, 1, 'like', 32, 'Le dio like a tu publicación.', 1, '2025-06-09 03:39:13'),
+(115, 7, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-06-11 17:23:16'),
+(116, 3, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-06-11 18:10:09'),
+(117, 9, 1, 'follower', NULL, 'Te ha seguido.', 0, '2025-06-11 18:10:55'),
+(118, 1, 1, 'like', 31, 'Le dio like a tu publicación.', 0, '2025-06-17 04:28:44');
 
 -- --------------------------------------------------------
 
@@ -329,7 +339,8 @@ CREATE TABLE `password_resets` (
   `user_id` int(11) NOT NULL,
   `tokeen` varchar(100) NOT NULL,
   `expires_at` datetime NOT NULL,
-  `used` tinyint(1) NOT NULL
+  `used` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -437,12 +448,12 @@ INSERT INTO `user_interests` (`id`, `user_id`, `interest_id`) VALUES
 (723, 9, 8),
 (724, 9, 3),
 (737, 9, 5),
-(1060, 1, 1),
-(1061, 1, 2),
-(1062, 1, 3),
-(1063, 1, 4),
-(1064, 1, 5),
-(1065, 1, 6);
+(1072, 1, 1),
+(1073, 1, 2),
+(1074, 1, 3),
+(1075, 1, 4),
+(1076, 1, 5),
+(1077, 1, 6);
 
 --
 -- Índices para tablas volcadas
@@ -536,7 +547,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT de la tabla `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `interests`
@@ -548,7 +559,7 @@ ALTER TABLE `interests`
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT de la tabla `messages`
@@ -560,7 +571,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT de la tabla `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT de la tabla `password_resets`
@@ -584,7 +595,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `user_interests`
 --
 ALTER TABLE `user_interests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1066;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1078;
 
 --
 -- Restricciones para tablas volcadas
