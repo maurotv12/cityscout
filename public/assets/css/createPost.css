@@ -1,7 +1,8 @@
 #createPostModal .modal-content {
     border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(60,60,60,0.12);
+    box-shadow: 0 8px 32px rgba(60, 60, 60, 0.12);
     border: none;
+    background: #eef3ff;
 }
 
 #createPostModal .modal-header {

@@ -12,7 +12,7 @@ unset($_SESSION['error'], $_SESSION['success']);
             <label for="email" class="form-label">Correo electrónico</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
-        <button type="submit" class="btn btn-primary">Enviar enlace</button>
+        <button type="submit" class="btn btn1 btn-primary">Enviar enlace</button>
     </form>
     <?php if ($error): ?>
         <div class="alert alert-danger mt-3"><?= htmlspecialchars($error) ?></div>

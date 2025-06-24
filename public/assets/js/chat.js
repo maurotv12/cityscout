@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             containerChatList.classList.add('d-none');
                             containerChatMessages.classList.remove('d-none');
                             chatBackBtn.classList.remove('d-none');
-                            let messageInterval = setInterval(() => loadMessages(currentChatWithId), 3000);
+                            // let messageInterval = setInterval(() => loadMessages(currentChatWithId), 3000);
 
                             // Detener la actualización de mensajes al cerrar el modal o volver a la lista de chats
                             chatModal.addEventListener('hidden.bs.modal', function () {
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const messageDate = new Date(message.created_at).toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
         const receivedMessageHTML = `
             <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
-            <div class="card w-100">
+            <div class="card card-mss w-100">
                 <div class="card-header d-flex justify-content-between p-3">
                     <p class="fw-bold mb-0">${message.sender_username}</p>
                     <p class="message-time text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
@@ -130,8 +130,8 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
 
         const sentMessageHTML = `
-            <div class="card w-100">
-                <div class="card-header d-flex justify-content-between p-3">
+            <div class="card w-100 card-mss">
+                <div class=" card-header  d-flex justify-content-between p-3">
                     <p class="fw-bold mb-0">${message.sender_username}</p>
                     <p class="message-time text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
                 </div>

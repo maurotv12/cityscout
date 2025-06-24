@@ -1,3 +1,7 @@
+.modal-content {
+  background: #eef3ff !important;
+}
+
 .fixed-height-modal {
   height: 490px;
   /* Ajusta según lo que necesites */
@@ -10,6 +14,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 0.5rem 0;
+  background: #eef3ff !important;
 }
 
 .chat-list .list-unstyled {
@@ -130,4 +135,8 @@
   border-bottom: none;
   border-radius: 12px 12px 0 0;
   padding: 1rem;
+}
+
+.card-mss {
+  background: none !important;
 }

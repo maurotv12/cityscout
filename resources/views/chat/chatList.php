@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                                 <div class="col-2">
-                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-rounded float-end"><i class="bi bi-send"></i></button>
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn1 btn-info btn-rounded float-end"><i class="bi bi-send"></i></button>
                                 </div>
                             </div>
                         </div>

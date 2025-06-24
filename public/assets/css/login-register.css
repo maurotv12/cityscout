@@ -3,15 +3,15 @@
   background: #2805f0;
 
   /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to right, #ad5504, #0d089b, #0b0458);
+  background: -webkit-linear-gradient(to right, #586AC8, #677df0, #6077ec);
 
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, #ad5504, #0d089b, #0b0458);
+  background: linear-gradient(to right, #586AC8, #677df0, #6077ec);
 }
 
 .login-logo {
-  width: 120px;
-  height: auto;
+  width: auto !important;
+  height: 100% !important;
   margin-bottom: 10px;
 }
 

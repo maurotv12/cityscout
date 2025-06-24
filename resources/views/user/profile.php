@@ -24,7 +24,7 @@ $messages = [];
         <h2 class="mb-0 me-3" style="font-size: clamp(1.2rem, 2.5vw, 2rem);"><?= $user['fullname'] ?></h2>
         <span class="username me-3">@<?php echo $user['username'] ?></span>
         <?php if (isset($_SESSION['user']) && $user['id'] == $_SESSION['user']['id'] ?? null): ?>
-          <button id="edit-profile-btn" class="btn btn-outline-secondary btn-sm me-2">Editar perfil</button>
+          <button id="edit-profile-btn" class="btn btn1 btn-outline-secondary btn-sm me-2">Editar perfil</button>
         <?php endif; ?>
       </div>
       <div class="mb-3">
@@ -37,7 +37,7 @@ $messages = [];
           <span class="followers-link" style="cursor:pointer;">seguidores</span>
         </div>
         <div class="d-inline-block text-start me-4">
-          <strong id="followed-count" class="d-block"><?= $followingCount ?></strong> 
+          <strong id="followed-count" class="d-block"><?= $followingCount ?></strong>
           <span class="following-link" style="cursor:pointer;">seguidos</span>
         </div>
         <div class="" id="followers-btn">
@@ -50,13 +50,13 @@ $messages = [];
         <div class="mt-3">
           <!-- Botón Seguir/Dejar de seguir -->
           <button id="follow-btn"
-            class="btn btn-sm me-2 <?= $isFollowing ? 'btn-primary' : 'btn-outline-primary' ?>"
+            class="btn btn1 btn-sm me-2 <?= $isFollowing ? 'btn-primary' : 'btn-outline-primary' ?>"
             data-user-id="<?= $user['id'] ?>"
             onclick="toggleFollow(<?= $user['id'] ?>)">
             <?= $isFollowing ? 'Dejar de seguir' : 'Seguir' ?>
           </button>
           <!-- Botón de Mensaje -->
-          <button id="message-btn" class="btn btn-primary btn-sm" data-user-id="<?= $user['id'] ?>">Mensaje</button>
+          <button id="message-btn" class="btn btn1 btn-primary btn-sm" data-user-id="<?= $user['id'] ?>">Mensaje</button>
         </div>
       <?php endif; ?>
 
@@ -80,7 +80,7 @@ $messages = [];
             <label for="bio-textarea">Biografía</label>
             <textarea id="bio-textarea" name="bio" class="form-control"><?= htmlspecialchars($user['bio'] ?? '') ?></textarea>
           </div>
-          <button type="submit" id="save-changes-btn" class="btn btn-primary mt-3">Guardar cambios</button>
+          <button type="submit" id="save-changes-btn" class="btn btn1 btn-primary mt-3">Guardar cambios</button>
         </form>
       <?php endif; ?>
     </div>

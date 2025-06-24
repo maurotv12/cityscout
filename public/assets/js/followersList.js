@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                     </div>
                     ${user.id !== currentUserId ? `
-                    <button class="btn btn-sm ${followBtnClass} follow-btn" 
+                    <button class="btn btn1 btn-sm ${followBtnClass} follow-btn" 
                         data-user-id="${user.id}" 
                         data-following="${isFollowing}">
                         ${followBtnText}
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
-            
+
         });
 
     }

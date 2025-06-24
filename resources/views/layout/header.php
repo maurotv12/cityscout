@@ -12,18 +12,18 @@
 
     <?php if (!isset($_SESSION['user']) && $isProfileUrl): ?>
       <div>
-        <a href="/login" class="btn btn-outline-primary me-2">Iniciar sesión</a>
-        <a href="/register" class="btn btn-primary">Registrarse</a>
+        <a href="/login" class="btn btn1 btn-outline-primary me-2">Iniciar sesión</a>
+        <a href="/register" class="btn btn1 btn-primary">Registrarse</a>
       </div>
     <?php else: ?>
 
       <!-- Botón del Side Panel  y logo-->
       <?php if (isset($_SESSION['user'])): ?>
         <div class="d-flex align-items-center flex-shrink-0">
-          <button class="btn  me-3 d-none d-lg-flex align-items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+          <button class="btn btn1 me-3 d-none d-lg-flex align-items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
             ☰ <span class="ms-2">Menú</span>
           </button>
-          <button class="btn  me-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+          <button class="btn btn1 me-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
             ☰
           </button>
           <a class="navbar-brand d-flex align-items-center" href="/">
@@ -52,7 +52,7 @@
         <div class="d-flex align-items-center flex-shrink-0">
           <!-- Notificaciones -->
           <div class="dropdown me-3">
-            <button class="btn position-relative" style="width: 40px; height: 40px; object-fit: cover;" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn1 position-relative" style="width: 40px; height: 40px; object-fit: cover;" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-bell"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notificationCount">
                 0

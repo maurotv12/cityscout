@@ -13,12 +13,12 @@
             <div class="modal-body fixed-height-modal">
                 <div class="container h-100">
                     <div class="row h-100">
-                        
+
                         <div class="col-md-12 mb-4 mb-md-0 scrollable-col ">
                             <!-- Opciones de intereses -->
                             <div class="interests-container ">
                                 <small>¡Selecciona al menos tres de tus intereses para conectar con más personas!</small>
-                                 
+
                                 <div class="interests-btns d-flex flex-wrap justify-content-center mt-3 gap-2">
                                     <!-- Interests Renderizado con JS -->
                                 </div>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" id="continue-btn" class="btn btn-primary btn-continue">Continuar</button>
+                <button type="submit" id="continue-btn" class="btn btn1 btn-primary btn-continue">Continuar</button>
             </div>
         </div>
     </div>

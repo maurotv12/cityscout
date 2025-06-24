@@ -51,7 +51,7 @@ unset($_SESSION['error']);
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                   <p class="mb-0 me-2">¡Estas a solo un paso de crear tu cuenta!</p>
-                  <button type="submit" id="register-button" class="btn btn-primary btn-block gradient-custom-2 ms-2">Registrarme</button>
+                  <button type="submit" id="register-button" class="btn btn1 btn-primary btn-block gradient-custom-2 ms-2">Registrarme</button>
                 </div>
 
               </div>

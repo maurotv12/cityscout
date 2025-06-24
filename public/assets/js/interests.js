@@ -15,7 +15,7 @@ function renderInterests(data) {
     data.interests.forEach(interest => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'btn rounded-pill interest-btn mb-2' + (data.userInterests.includes(interest.id) ? ' btn-dark' : ' btn-light');
+        btn.className = 'btn rounded-pill interest-btn mb-2' + (data.userInterests.includes(interest.id) ? ' interest-selected' : ' interest-unselected');
         btn.textContent = interest.name;
         btn.dataset.id = interest.id;
         btn.onclick = () => toggleInterest(btn, interest.id);
@@ -29,12 +29,12 @@ function toggleInterest(btn, interestId) {
     const idx = selectedInterests.indexOf(interestId);
     if (idx === -1) {
         selectedInterests.push(interestId);
-        btn.classList.remove('btn-light');
-        btn.classList.add('btn-dark');
+        btn.classList.remove('interest-unselected');
+        btn.classList.add('interest-selected');
     } else {
         selectedInterests.splice(idx, 1);
-        btn.classList.remove('btn-dark');
-        btn.classList.add('btn-light');
+        btn.classList.remove('interest-selected');
+        btn.classList.add('interest-unselected');
     }
     updateContinueBtn();
 }
@@ -62,11 +62,11 @@ function showSuggestionsContainer() {
     // Cambiar botón a "Terminar" y funcionalidad para cerrar el modal
     const continueBtn = document.querySelector('#interestsModal #continue-btn');
     continueBtn.textContent = 'Terminar';
-    continueBtn.onclick = function() {
+    continueBtn.onclick = function () {
         // Cerrar modal Bootstrap 5
         const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('interestsModal'));
         modal.hide();
-         // Espera a que el modal termine de ocultarse antes de recargar
+        // Espera a que el modal termine de ocultarse antes de recargar
         document.getElementById('interestsModal').addEventListener('hidden.bs.modal', function handler() {
             location.reload();
             // Remueve el listener para evitar recargas múltiples
@@ -112,7 +112,7 @@ function renderSuggestions(users) {
                     </div>
                 </div>
             </div>
-            <button class="btn btn-sm ${followBtnClass} follow-btn" 
+            <button class="btn btn1 btn-sm ${followBtnClass} follow-btn" 
                 data-user-id="${user.id}" 
                 data-following="${isFollowing}">
                 ${followBtnText}
@@ -123,7 +123,7 @@ function renderSuggestions(users) {
 
     // Asignar eventos a los botones de seguir
     container.querySelectorAll('.follow-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const userId = this.dataset.userId;
             toggleFollowSuggestion(this, userId);
         });
@@ -136,15 +136,15 @@ function toggleFollowSuggestion(btn, userId) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            btn.classList.toggle('btn-primary', data.following);
-            btn.classList.toggle('btn-outline-primary', !data.following);
-            btn.textContent = data.following ? 'Dejar de seguir' : 'Seguir';
-            btn.dataset.following = data.following;
-        }
-    });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                btn.classList.toggle('btn-primary', data.following);
+                btn.classList.toggle('btn-outline-primary', !data.following);
+                btn.textContent = data.following ? 'Dejar de seguir' : 'Seguir';
+                btn.dataset.following = data.following;
+            }
+        });
 }
 
 // Al hacer clic en continuar, cargar sugerencias
@@ -155,24 +155,24 @@ function onContinue() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ interests: selectedInterests })
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            showSuggestionsContainer();
-            // Obtener usuarios recomendados
-            fetch(`/user/recommendations`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        // Ordenar por cantidad de intereses en común (mayor a menor)
-                        const users = data.usersWithSimilarInterests.sort((a, b) => b.interests.length - a.interests.length);
-                        renderSuggestions(users);
-                    }
-                });
-        } else {
-            alert(data.message || 'Error al guardar intereses');
-        }
-    });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showSuggestionsContainer();
+                // Obtener usuarios recomendados
+                fetch(`/user/recommendations`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Ordenar por cantidad de intereses en común (mayor a menor)
+                            const users = data.usersWithSimilarInterests.sort((a, b) => b.interests.length - a.interests.length);
+                            renderSuggestions(users);
+                        }
+                    });
+            } else {
+                alert(data.message || 'Error al guardar intereses');
+            }
+        });
 }
 
 // Inicialización al abrir el modal

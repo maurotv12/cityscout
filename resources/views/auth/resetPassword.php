@@ -20,7 +20,7 @@ unset($_SESSION['error']);
             <label for="password2" class="form-label">Repite la nueva contraseña</label>
             <input type="password" class="form-control" id="password2" name="password2" required>
         </div>
-        <button type="submit" class="btn btn-primary">Restablecer</button>
+        <button type="submit" class="btn btn1 btn-primary">Restablecer</button>
     </form>
     <?php if ($error): ?>
         <div class="alert alert-danger mt-3"><?= htmlspecialchars($error) ?></div>

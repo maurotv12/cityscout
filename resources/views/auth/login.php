@@ -15,7 +15,7 @@ unset($_SESSION['error']);
                                 <img src="/assets/images/logo.png"
                                     class="login-logo"
                                     alt="logo">
-                                <h3 class="mt-1 mb-4 pb-1">FOCUZ</h3>
+                                <h3 class="mt-1 mb-4 pb-1"></h3>
                             </div>
                             <form action="/login" method="POST" class="w-100">
                                 <p class="mb-3">Por favor ingresa a tu cuenta</p>
@@ -28,12 +28,12 @@ unset($_SESSION['error']);
                                     <label class="form-label" for="inputPassword">Contraseña</label>
                                 </div>
                                 <div class="text-center pt-1 mb-4 pb-1">
-                                    <button type="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2 ">Ingresar</button>
+                                    <button type="submit" class="btn btn1 btn-primary btn-block fa-lg gradient-custom-2 ">Ingresar</button>
                                     <a class="text-muted" href="forgot-password">Olvidaste tu contraseña?</a>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center">
                                     <p class="mb-0 me-2">No tienes una cuenta?</p>
-                                    <a href="register" class="btn btn-primary btn-block gradient-custom-2 ms-2">Regístrate</a>
+                                    <a href="register" class="btn btn1 btn-primary btn-block gradient-custom-2 ms-2">Regístrate</a>
                                 </div>
                             </form>
                         </div>

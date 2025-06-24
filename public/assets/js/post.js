@@ -8,7 +8,7 @@ function commentHtml(comment) {
       <div class="row d-flex justify-content-center mb-2">
         <div class="col-12">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body body-comments">
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-start align-items-center">
                   <a href="/@${comment.user.username}" class="d-flex align-items-center text-decoration-none">
@@ -17,7 +17,7 @@ function commentHtml(comment) {
                       onerror="this.src='/assets/images/user-default.png';" 
                       alt="avatar" width="40" height="40" /> 
                     <div>
-                      <h6 class="fw-bold text-primary mb-1">${comment.user.fullname}</h6>
+                      <h6 class="fw-bold text-primary mb-1 body-comments">${comment.user.fullname}</h6>
                       <p class="text-muted small mb-0">
                         ${comment.created_at}
                       </p>
@@ -27,14 +27,14 @@ function commentHtml(comment) {
                   ${comment.can_delete || comment.can_edit
       ? `
                       <div class="dropdown text-end">
-                        <button class="btn btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn1 btn-light btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
                           ${comment.can_delete
         ? `
                                 <li>
-                                  <button class="dropdown-item text-danger delete-comment-btn" data-comment-id="${comment.id}">
+                                  <button class=" dropdown-item delete-comment-btn" data-comment-id="${comment.id}">
                                     <i class="bi bi-trash3"></i> Eliminar
                                   </button>
                                 </li>
@@ -44,7 +44,7 @@ function commentHtml(comment) {
                           ${comment.can_edit
         ? `
                                 <li>
-                                  <button class="dropdown-item edit-comment-btn" onclick='editComment(${comment.id}, ${JSON.stringify(comment)})'>
+                                  <button class=" dropdown-item edit-comment-btn" onclick='editComment(${comment.id}, ${JSON.stringify(comment)})'>
                                     <i class="bi bi-pencil-square"></i> Editar
                                   </button>
                                 </li>
@@ -58,7 +58,7 @@ function commentHtml(comment) {
     }
 
               </div>
-              <p class="mt-3 comment-text" data-comment-id="${comment.id}">${comment.comment}</p>
+              <p class="mt-3 comment-text body-comments" data-comment-id="${comment.id}">${comment.comment}</p>
             </div>
           </div>
         </div>
@@ -74,8 +74,8 @@ function editComment(commentId, currentComment) {
   const editFormHtml = `
     <form class="edit-comment-form" onsubmit="submitEditComment(event, ${commentId})">
       <textarea class="form-control mb-2" rows="2">${currentComment.comment}</textarea>
-      <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
-      <button type="button" class="btn btn-secondary btn-sm" onclick='cancelEditComment(${commentId}, ${JSON.stringify(currentComment)})'>Cancelar</button>
+      <button type="submit" class="btn btn1 btn-primary btn-sm">Guardar</button>
+      <button type="button" class="btn btn1 btn-secondary btn-sm" onclick='cancelEditComment(${commentId}, ${JSON.stringify(currentComment)})'>Cancelar</button>
     </form>
   `;
 

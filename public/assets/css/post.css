@@ -1,32 +1,41 @@
-
 .post-image {
-  width: 100%; /* la imagen ocupe todo el ancho del contenedor */
-  height: 300px; /*  altura fija para todas las imágenes */
-  object-fit: cover; /* Ajusta la imagen para que llene el contenedor sin deformarse */
-  object-position: center; /* Centra la imagen si el ancho es menor que el contenedor */
-  display: block; /* Elimina el espacio extra debajo de las imágenes */
+  width: 100%;
+  /* la imagen ocupe todo el ancho del contenedor */
+  height: 300px;
+  /*  altura fija para todas las imágenes */
+  object-fit: cover;
+  /* Ajusta la imagen para que llene el contenedor sin deformarse */
+  object-position: center;
+  /* Centra la imagen si el ancho es menor que el contenedor */
+  display: block;
+  /* Elimina el espacio extra debajo de las imágenes */
   transition: transform 0.3s ease;
 }
 
 .post-image:hover,
-.post-image:focus
-{
-  transform: scale(1.1); /* Aumentar el tamaño al pasar el mouse */
+.post-image:focus {
+  transform: scale(1.1);
+  /* Aumentar el tamaño al pasar el mouse */
 }
 
-.post-video
-{
-  width: 100%; /* la imagen ocupe todo el ancho del contenedor */
-  height: 300px; /*  altura fija para todas las imágenes */
-  object-fit: cover; /* Ajusta la imagen para que llene el contenedor sin deformarse */
-  object-position: center; /* Centra la imagen si el ancho es menor que el contenedor */
-  display: block; /* Elimina el espacio extra debajo de las imágenes */
+.post-video {
+  width: 100%;
+  /* la imagen ocupe todo el ancho del contenedor */
+  height: 300px;
+  /*  altura fija para todas las imágenes */
+  object-fit: cover;
+  /* Ajusta la imagen para que llene el contenedor sin deformarse */
+  object-position: center;
+  /* Centra la imagen si el ancho es menor que el contenedor */
+  display: block;
+  /* Elimina el espacio extra debajo de las imágenes */
   transition: transform 0.3s ease;
 }
+
 .post-video:hover,
-.post-video:focus
- {
-  transform: scale(1.1); /* Aumentar el tamaño al pasar el mouse */
+.post-video:focus {
+  transform: scale(1.1);
+  /* Aumentar el tamaño al pasar el mouse */
 }
 
 
@@ -35,4 +44,14 @@
 .blurred {
   filter: blur(15px);
   pointer-events: none;
+}
+
+.comment-textarea1 {
+  background: none;
+}
+
+.card .card-body.body-comments,
+.card {
+  background: none !important;
+  box-shadow: none !important;
 }

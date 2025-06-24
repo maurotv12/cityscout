@@ -136,12 +136,12 @@
                                     <p class="card-text modal-post-caption"></p>
                                     <!-- Botón para editar el caption -->
                                     <?php if ($_SESSION['user']['id'] === $post['user']['id']) { ?>
-                                        <button id="edit-caption-btn" class="btn btn-sm btn-outline-primary mt-2" onclick="showEditCaptionForm()">Editar descripción</button>
+                                        <button id="edit-caption-btn" class="btn btn1 btn-sm btn-outline-primary mt-2" onclick="showEditCaptionForm()">Editar descripción</button>
                                     <?php } ?>
                                     <!-- Formulario para editar el caption -->
                                     <form id="edit-caption-form" class="d-none mt-2" method="POST" action="/post/update-caption">
                                         <textarea class="form-control" id="new-caption" rows="2"></textarea>
-                                        <button type="submit" class="btn btn-primary btn-sm mt-2">Guardar</button>
+                                        <button type="submit" class="btn btn1 btn-primary btn-sm mt-2">Guardar</button>
                                         <button type="button" id="cancel-edit-caption" class="btn btn-secondary btn-sm mt-2">Cancelar</button>
                                     </form>
                                     <p class="card-text"><small class="text-muted"><?= date('d/m/Y H:i', strtotime($post['created_at'])) ?></small></p> <!-- Fecha de creación del post -->
@@ -154,8 +154,8 @@
                         <div class="col-lg-6 col-md-12">
                             <!-- Campo para nuevo comentario -->
                             <div class="modal-body">
-                                <form class="row g-3" id="add-comment-form">
-                                    <div class="card-footer border-0 col-12" style="background-color: #f8f9fa;">
+                                <form class="row g-3 " id="add-comment-form">
+                                    <div class="card-footer border-0 col-12 comment-textarea1">
                                         <div class="d-flex flex-start w-100">
                                             <img class="rounded-circle shadow-1-strong me-3 profile-photo"
                                                 src="<?= file_exists(__DIR__ . '/../../../public/assets/images/profiles/' . $_SESSION['user']['id'] . '.' . $_SESSION['user']['profile_photo_type'])
@@ -168,8 +168,8 @@
                                             </div>
                                         </div>
                                         <div class="float-end mt-2 pt-1">
-                                            <button type="submit" class="btn btn-primary btn-sm">Agregar comentario</button>
-                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn1 btn-primary btn-sm">Agregar comentario</button>
+                                            <button type="button" class="btn btn1 btn-outline-primary btn-sm" data-bs-dismiss="modal">Cerrar</button>
                                         </div>
                                     </div>
                                 </form>

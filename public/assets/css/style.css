@@ -1,10 +1,42 @@
-
-.card{
-  border:none;
+.card {
+  border: none;
 }
 
 .body {
-  padding-top: 40px; 
+  padding-top: 40px;
 }
 
+.btn1 {
+  color: #94B0FF;
+}
 
+.btn1 {
+  color: #000000 !important;
+  background: linear-gradient(90deg, #94B0FF 60%, #6c8cf5 100%) !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(148, 176, 255, 0.15);
+  transition: background 0.2s, color 0.2s;
+}
+
+.navbar {
+  background: linear-gradient(90deg, #94B0FF 40%, #7294f1 60%, #586AC8 100%) !important;
+}
+
+.bi {
+  color: #586AC8;
+}
+
+.interest-selected {
+  color: #fff !important;
+  background: linear-gradient(90deg, #94B0FF 60%, #6c8cf5 100%) !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(148, 176, 255, 0.15);
+  transition: background 0.2s, color 0.2s;
+}
+
+.interest-unselected {
+  color: #94B0FF !important;
+  background: #fff !important;
+  border: 1.5px solid #94B0FF !important;
+  transition: background 0.2s, color 0.2s;
+}
