@@ -62,7 +62,7 @@
                                     data-post-caption="<?= htmlspecialchars($post['caption']) ?>"
                                     data-post-type="<?= $post['type'] ?>"
                                     data-is-blurred="<?= $post['is_blurred'] ? 'true' : 'false' ?>">
-                                    <i class="bi bi-chat-heart-fill"></i>
+                                    <i class="bi bi-chat-heart"></i>
                                 </a>
                             </span>
                         <?php } else { ?>

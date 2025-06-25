@@ -6,7 +6,7 @@
   <div class="offcanvas-header">
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
       <a href="/" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
-        <img src="/assets/images/logo.png" alt="Logo" style="height: 30px; ">
+        <img src="/assets/images/logo3.png" alt="Logo" style="height: 30px; ">
         <h5 class="offcanvas-title" id="sidebarMenuLabel"></h5>
       </a>
     </div>

@@ -7,20 +7,19 @@
 }
 
 .btn1 {
-  color: #94B0FF;
+  color: #2A2E4D;
+  background: #94B0FF !important;
+  border: none !important;
+
 }
 
-.btn1 {
+/* .btn1 {
   color: #000000 !important;
   background: linear-gradient(90deg, #94B0FF 60%, #6c8cf5 100%) !important;
   border: none !important;
   box-shadow: 0 2px 8px rgba(148, 176, 255, 0.15);
   transition: background 0.2s, color 0.2s;
-}
-
-.navbar {
-  background: linear-gradient(90deg, #94B0FF 40%, #7294f1 60%, #586AC8 100%) !important;
-}
+} */
 
 .bi {
   color: #586AC8;
@@ -28,7 +27,7 @@
 
 .interest-selected {
   color: #fff !important;
-  background: linear-gradient(90deg, #94B0FF 60%, #6c8cf5 100%) !important;
+  background: #94B0FF !important;
   border: none !important;
   box-shadow: 0 2px 8px rgba(148, 176, 255, 0.15);
   transition: background 0.2s, color 0.2s;

@@ -26,7 +26,7 @@
                         </label>
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" id="caption" name="caption" rows="3" placeholder="Escribe una descripción..." required></textarea>
+                        <textarea class="form-control" id="caption" name="caption" rows="3" placeholder="Escribe una descripción..."></textarea>
                     </div>
                     <div class="float-end mt-2 pt-1">
                         <button type="submit" class="btn btn1 btn-primary btn-sm">Publicar</button>

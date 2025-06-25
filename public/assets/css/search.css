@@ -1,35 +1,42 @@
-
 /* Centrar el buscador */
 form[role="search"] {
-    max-width: 200px;
-    position: relative;
+  max-width: 200px;
+  position: relative;
 }
 
 .search-result-item {
-  padding: 0.01rem 0.1rem !important; /* Ejemplo de padding modificado */
-  border: none !important; /* Ejemplo de borde modificado */
+  padding: 0.01rem 0.1rem !important;
+  /* Ejemplo de padding modificado */
+  border: none !important;
+  /* Ejemplo de borde modificado */
 }
 
 #search-results {
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    width: auto;       /* Aseguramos que el ancho coincida con el input */
-    min-width: 220px;      /* Mínimo igual al input */
-    max-width: 350px;      /* Máximo igual al input */
-    margin-top: 5px;   /* Añadimos un pequeño margen para separarlo visualmente */
-    top: 100%;         /* Colocamos la parte superior del ul justo debajo del elemento relativo (el form) */
-    z-index: 1050; /* Aseguramos que el ul esté por encima de otros elementos */
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  width: auto;
+  /* Aseguramos que el ancho coincida con el input */
+  min-width: 220px;
+  /* Mínimo igual al input */
+  max-width: 350px;
+  /* Máximo igual al input */
+  margin-top: 5px;
+  /* Añadimos un pequeño margen para separarlo visualmente */
+  top: 100%;
+  /* Colocamos la parte superior del ul justo debajo del elemento relativo (el form) */
+  z-index: 1050;
+  /* Aseguramos que el ul esté por encima de otros elementos */
 }
 
 #search-results .list-group-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #search-results .list-group-item:hover {
-    background-color: #f8f9fa;
+  background-color: #EEF3FF;
 }
 
 /* Centrar y limitar el ancho del buscador en el navbar */
@@ -37,6 +44,7 @@ form[role="search"] {
   .navbar .flex-grow-1 {
     max-width: 220px !important;
   }
+
   #search-input {
     font-size: 0.95rem;
     padding-left: 0.75rem;
@@ -51,6 +59,7 @@ form[role="search"] {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+
   #search-input {
     font-size: 0.92rem;
     padding-left: 0.75rem;
@@ -65,7 +74,8 @@ form[role="search"] {
     right: 0 !important;
     width: 100vw !important;
     max-width: 100vw !important;
-    top: 56px !important; /* Altura típica del navbar Bootstrap, ajusta si tu navbar es más alto */
+    top: 56px !important;
+    /* Altura típica del navbar Bootstrap, ajusta si tu navbar es más alto */
     border-radius: 0 0 0.5rem 0.5rem;
     margin-top: 0 !important;
     z-index: 2000 !important;
