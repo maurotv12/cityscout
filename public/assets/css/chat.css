@@ -140,3 +140,9 @@
 .card-mss {
   background: none !important;
 }
+
+/* Cambia el color del nombre de usuario en los mensajes del chat */
+.card-header a,
+.card-header a p {
+  color: #2A2E4D !important;
+}

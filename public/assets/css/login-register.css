@@ -1,16 +1,16 @@
 .gradient-custom-2 {
   /* fallback for old browsers */
-  background: #2805f0;
+  background: #586AC8;
 
   /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to right, #586AC8, #677df0, #6077ec);
+  background: -webkit-linear-gradient(to right, #586AC8, #677df0);
 
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, #586AC8, #677df0, #6077ec);
+  background: linear-gradient(to right, #586AC8, #677df0);
 }
 
 .login-logo {
-  width: auto !important;
+  width: 50% !important;
   height: 100% !important;
   margin-bottom: 10px;
 }
@@ -21,7 +21,6 @@
     border-top-right-radius: .3rem;
     border-bottom-right-radius: .3rem;
   }
-
 
   .login-logo {
     width: 90px;
@@ -45,7 +44,7 @@
     font-size: 0.9rem !important;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    color: #424040;
+    color: #2A2E4D;
     margin-bottom: 0.5rem;
     transition: border-color 0.2s;
   }
@@ -79,7 +78,7 @@
     padding: 0.5rem 1rem;
     height: 15px !important;
     border-radius: 20px;
-    color: #424040;
+    color: #2A2E4D;
     margin-bottom: 0.5rem;
     transition: border-color 0.2s;
   }
@@ -110,14 +109,13 @@
     padding: 0 !important;
   }
 
-
   .login-input,
   .register-input {
     font-size: 0.9rem !important;
     padding: 0.5rem 1rem;
     height: 30px;
     border-radius: 20px;
-    color: #000000;
+    color: #2A2E4D;
     margin-bottom: 0.5rem;
     transition: border-color 0.2s;
   }
@@ -128,6 +126,6 @@
 .login-input:focus,
 .register-input:focus {
   background: #fff;
-  color: #262626;
+  color: #2A2E4D;
 
 }

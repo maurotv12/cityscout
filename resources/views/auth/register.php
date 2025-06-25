@@ -23,7 +23,6 @@ unset($_SESSION['error']);
                   <img src="/assets/images/logo.png"
                     class="login-logo"
                     alt="logo">
-                  <h3 class="mt-1 mb-4 pb-1">FOCUZ</h3>
                 </div>
 
                 <div class="form-floating mb-3">

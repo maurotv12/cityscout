@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const chatItem = document.createElement('li');
                         chatItem.classList.add('p-2', 'border-bottom', 'chat-item');
                         chatItem.innerHTML = `
-                            <a href="#!" class="d-flex justify-content-between" data-chat-with-id="${chat.user_id}">
+                            <a href="#!" class="d-flex justify-content-between text-decoration-none" data-chat-with-id="${chat.user_id}">
                                 <div class="d-flex flex-row">
                                     <img src="${chat.profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60">
                                     <div class="pt-1">
@@ -116,11 +116,18 @@ document.addEventListener('DOMContentLoaded', function () {
         messageItem.classList.add('d-flex', 'justify-content-between', 'mb-4', 'chat-message');
         const messageTime = new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const messageDate = new Date(message.created_at).toLocaleDateString([], { year: 'numeric', month: '2-digit', day: '2-digit' });
+        const userProfileLink = `/@${message.sender_username}`;
+
+        // Crear el HTML del mensaje dependiendo de si es recibido o enviado
         const receivedMessageHTML = `
-            <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+            <a href="${userProfileLink}" class="d-flex align-items-center text-decoration-none ms-2" target="_blank">
+                <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+            </a>
             <div class="card card-mss w-100">
                 <div class="card-header d-flex justify-content-between p-3">
-                    <p class="fw-bold mb-0">${message.sender_username}</p>
+                    <a href="${userProfileLink}" class="d-flex align-items-center text-decoration-none ms-2" target="_blank">
+                        <p class="fw-bold mb-0">${message.sender_username}</p>
+                    </a>
                     <p class="message-time text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
                 </div>
                 <div class="card-body chat-message sent message-bubble">
@@ -132,14 +139,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const sentMessageHTML = `
             <div class="card w-100 card-mss">
                 <div class=" card-header  d-flex justify-content-between p-3">
-                    <p class="fw-bold mb-0">${message.sender_username}</p>
                     <p class="message-time text-muted small mb-0"><i class="far fa-clock"></i>${messageDate} - ${messageTime}</p>
+
+                <a href="${userProfileLink}" class=" text-decoration-none " target="_blank">
+                    <p class="fw-bold mb-0">${message.sender_username}</p>
+                </a>
                 </div>
                 <div class="card-body message-bubble">
                     <p class="mb-0">${message.message}</p>
                 </div>
             </div>
-            <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+            <a href="${userProfileLink}" class="d-flex align-items-center text-decoration-none ms-2" target="_blank">
+                <img src="${message.sender_profile_photo}" alt="avatar" class="chat-avatar rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+            </a>
         `;
 
         if (message.sender_id == chatWithId) {
