@@ -28,7 +28,9 @@
       </li>
       <li class="nav-item">
         <!-- Botón de logout -->
-        <a href="/logout" class="btn btn1 align-items-center btn-sm  mt-5 rounded-pill ">Cerrar sesión</a>
+        <a href="/logout" class="btn btn1 align-items-center btn-sm icon-md mt-5 rounded-pill">
+          <i class="bi bi-box-arrow-left" style="font-size: 1.5rem;"></i>
+        </a>
       </li>
     </ul>
   </div>

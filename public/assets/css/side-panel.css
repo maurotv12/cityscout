@@ -20,6 +20,10 @@
 
 
 .sidebar-custom .nav-link {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  margin: 12px 0;
   padding: 20px 0;
   font-weight: 500;
   color: #000000;
@@ -28,6 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 50%;
 }
 
 .sidebar-custom .nav-link .bi {
@@ -41,13 +46,13 @@
 }
 
 .sidebar-custom .nav-link:hover {
-  background-color: #e9ecef;
+  background-color: #efe9e9;
   color: #000;
   border-radius: 50%;
+
 }
 
 .sidebar-custom .nav-link.active {
-
   font-weight: bold;
 }
 
