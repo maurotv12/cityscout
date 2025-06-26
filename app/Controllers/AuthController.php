@@ -138,10 +138,10 @@ class AuthController extends Controller
 
             $mail->CharSet = 'UTF-8';
 
-            $mail->setFrom('hello@demomailtrap.co', 'Focuz');
+            $mail->setFrom('hello@demomailtrap.co', 'CityScout');
             $mail->addAddress($user['email'], $user['fullname']);
             $mail->isHTML(true);
-            $mail->Subject = 'Restablece tu contraseña en Focuz';
+            $mail->Subject = 'Restablece tu contraseña en CityScout';
             $resetLink = "http://{$_SERVER['HTTP_HOST']}/reset-password?token=$token";
             $mail->Body = "Hola {$user['fullname']},<br><br>
                 Hemos recibido una solicitud de restablecimiento de contraseña. <br>
