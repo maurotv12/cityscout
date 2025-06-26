@@ -417,14 +417,26 @@ document.addEventListener("DOMContentLoaded", function () {
           postCaptionElement.textContent = newCaption;
           editCaptionForm.classList.add("d-none");
           editCaptionBtn.classList.remove("d-none");
-          alert("Descripción actualizada correctamente.");
+          Swal.fire(
+            "¡Éxito!",
+            "Descripción actualizada correctamente.",
+            "success"
+          );
         } else {
-          alert("Error al actualizar la descripción.");
+          Swal.fire(
+            "Error",
+            "Error al actualizar la descripción.",
+            "error"
+          );
         }
       })
       .catch((error) => {
         console.error("Error al actualizar la descripción:", error);
-        alert("Error al actualizar la descripción.");
+        Swal.fire(
+          "Error",
+          "Error al actualizar la descripción.",
+          "error"
+        );
       });
   });
 
